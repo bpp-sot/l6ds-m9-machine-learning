@@ -223,91 +223,34 @@
 }
 
 /* ==========================================================================
-   JYPTER NOTEBOOK CODE BLOCK STYLING
+   CODE BLOCK STYLING (SAFE)
    ========================================================================== */
 
-/* The outer container for code blocks (similar to Jupyter cell) */
+/* ---- Code blocks ---- */
 .md-typeset pre {
-  background-color: #F5F5F5 !important;
-  /* Classic Jupyter light grey */
-  border: 1px solid #E0E0E0 !important;
-  border-radius: 4px !important;
-  box-shadow: none !important;
-  margin: 1em 0;
+  background-color: #F8F8F8;
+  border: 1px solid #E2E8F0;
+  border-radius: 6px;
 }
 
-/* The actual code text inside the block */
-.md-typeset pre > code,
 .md-typeset code {
-  background-color: transparent !important;
-  color: #333333;
-  /* Dark grey text */
-  font-family: inherit;
   font-size: 0.85em;
 }
 
-/* Inline code ticks (e.g. `pd.DataFrame`) */
-.md-typeset p code,
-.md-typeset li code {
-  background-color: #F8F9FA !important;
-  color: #E83E8C !important;
-  /* Classic Jupyter pink inline */
-  padding: 0.2em 0.4em;
+/* ---- Inline code ---- */
+.md-typeset :not(pre) > code {
+  background-color: #F3EDF6;
+  color: #6E368A;
+  padding: 0.15em 0.4em;
   border-radius: 3px;
-  border: 1px solid #EAECEA;
 }
 
-/* Syntax Highlighting overrides for Jupyter feel (Python default) */
-.highlight .kn {
-  color: #008000;
-  font-weight: bold;
+/* ---- Code block copy button ---- */
+.md-clipboard {
+  color: #7A7A7A;
 }
 
-/* Keywords: import, from */
-.highlight .nn {
-  color: #0000FF;
-  font-weight: bold;
+/* ---- Code block scrolling (SAFE — only affects the inner scroll, not layout) ---- */
+.md-typeset pre > code {
+  overflow-x: auto;
 }
-
-/* Namespaces: pandas, numpy */
-.highlight .nc {
-  color: #0000FF;
-  font-weight: bold;
-}
-
-/* Classes */
-.highlight .nf {
-  color: #0000FF;
-}
-
-/* Functions */
-.highlight .s2,
-.highlight .s1 {
-  color: #BA2121;
-}
-
-/* Strings: classic dark red */
-.highlight .mi,
-.highlight .mf {
-  color: #008000;
-}
-
-/* Numbers */
-.highlight .o {
-  color: #AA22FF;
-  font-weight: bold;
-}
-
-/* Operators: =, +, - */
-.highlight .c1,
-.highlight .c {
-  color: #408080;
-  font-style: italic;
-}
-
-/* Comments: Teal-ish */
-.highlight .bp {
-  color: #008000;
-}
-
-/* Built-ins: print, len */
