@@ -3,3 +3,10 @@ site/
 __pycache__/
 *.pyc
 .DS_Store
+
+# Virtual Environment
+venv/
+
+# Sensitive
+gemini-agent-prompt.md
+build_pages.py
