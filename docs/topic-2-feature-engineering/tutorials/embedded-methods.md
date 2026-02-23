@@ -1,75 +1,116 @@
-# Embedded Methods
+# Embedded Selection Methods
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> "Why build a separate feature selection layer when the algorithm can just do it natively?"
 
 ## What You Will Learn
-- Understand the core concepts of embedded methods
-- Apply embedded methods techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+
+- Utilize algorithms with built-in feature selection (Lasso, Decision Trees, RandomForest)
+- Extract `.coef_` to build Feature Importance logic
+- Apply `SelectFromModel` meta-transformers
 
 ## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
 
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
+- [Wrapper Selection Methods](wrapper-methods.md)
+
+## Step 1: L1 Regularisation (Lasso)
+
+Standard linear regression algorithms will assign a weight (coefficient) to *every single feature* no matter how useless it is. 
+
+**Lasso Regression** (Least Absolute Shrinkage and Selection Operator) utilizes a mathematical penalty called `L1 Regularization`. This penalty forces the coefficients of weak features directly to **0.0**, permanently eliminating them during natural training!
+
+\\[
+Loss = \\text{MSE} + \\alpha \\sum_{i=1}^{n} |\\beta_i|
+\\]
 
 ```python
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
+from sklearn.datasets import fetch_california_housing
+from sklearn.linear_model import Lasso, LinearRegression
+from sklearn.preprocessing import StandardScaler
 
-# Set visual style
-sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
+# Load Housing Data
+data = fetch_california_housing(as_frame=True)
+X, y = data.data, data.target
+
+# ALL Linear Models must be scaled before using L1/L2 penalties!
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# 1. Standard Linear Regression
+lr = LinearRegression()
+lr.fit(X_scaled, y)
+print("Standard Regression MedInc Coef:", round(lr.coef_[0], 4))
+
+# 2. Lasso Regression (The Embedded Selector)
+# Alpha dictates the strength of the penalty. 
+lasso = Lasso(alpha=0.1, random_state=42)
+lasso.fit(X_scaled, y)
+
+print(f"\\nLasso Coefficients (Alpha={lasso.alpha}):")
+for feature, coef in zip(data.feature_names, lasso.coef_):
+    print(f"{feature}: {round(coef, 4)}")
 ```
 
-## Step 2: Applying the Core Technique
-Here is how you apply embedded methods in a standard workflow:
+If you ran the script above, you would notice Lasso zeroed out multiple columns natively. The data was filtered without building an external `RFE` pipeline.
+
+## Step 2: Tree-Based Importances
+
+Decision Trees, Random Forests, and Gradient Boosting machines inherently select features by choosing the most optimal splits (Information Gain / Gini Impurity) to build their nodes. We can extract these choices automatically.
 
 ```python
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+import seaborn as sns
 
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+rf = RandomForestRegressor(n_estimators=100, max_depth=5, random_state=42)
+rf.fit(X, y) # Trees do not require scaling!
 
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
+# Extract importances
+importances = pd.DataFrame({
+    'Feature': data.feature_names,
+    'Importance': rf.feature_importances_
+}).sort_values('Importance', ascending=False)
+
+# Visualizing Importances
+plt.figure(figsize=(10, 6))
+sns.barplot(x='Importance', y='Feature', data=importances, palette='mako')
+plt.title('Random Forest Embedded Feature Importances')
 plt.show()
 ```
 
 !!! tip "Workplace Tip"
-    When applying embedded methods to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
+    The chart above is the single most common visualization presented to corporate stakeholders during an ML sprint. It answers the fundamental business question: *"What is driving the predictions?"*
 
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
+## Step 3: Sklearn's `SelectFromModel`
+
+To functionally integrate Embedded methods into a multi-step `Pipeline`, we use `SelectFromModel`. It automatically wraps an estimator and drops columns whose coefficients or importances fall below a set threshold.
 
 ```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Embedded Methods')
-plt.show()
+from sklearn.feature_selection import SelectFromModel
+
+# We tell SelectFromModel to use the Random Forest logic from Step 2
+# and completely drop any feature less important than the median threshold
+selector = SelectFromModel(rf, threshold='median')
+
+X_pruned = pd.DataFrame(selector.fit_transform(X, y), 
+                        columns=X.columns[selector.get_support()])
+
+print(f"Original shape: {X.shape}")
+print(f"Embedded Pruned shape: {X_pruned.shape}")
 ```
 
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
-
 ## Summary
-You have now learned the fundamentals of embedded methods. Remember to always start simple and iterate.
+
+Embedded methods are the "Best of Both Worlds". They are faster than Wrapper methods because they only train the model once, and they are more accurate than Filter methods because they learn the interaction between features directly against the prediction target.
 
 ## Next Steps
-Continue to the next module to see how these features are used downstream.
+
+→ [PCA & Dimensionality Reduction](pca-dimensionality-reduction.md)
 
 ## KSB Mapping
+
 | KSB | Description | How This Tutorial Addresses It |
 |-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| S9 | Present findings | Translating mathematical weights into stakeholder impact visualisations |
+| S2 | Apply ML techniques | Implementing Lasso regularization and Gini Impurity weighting |

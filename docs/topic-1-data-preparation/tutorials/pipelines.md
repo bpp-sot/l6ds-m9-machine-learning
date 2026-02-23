@@ -1,75 +1,115 @@
-# Pipelines
+# Building Preprocessing Pipelines
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> "A machine learning model without a structured pipeline is just an academic experiment destined to fail in production."
 
 ## What You Will Learn
-- Understand the core concepts of pipelines
-- Apply pipelines techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+
+- Create automated transformation blocks via `Pipeline`
+- Combine disparate transformation types (categorical, numeric) using `ColumnTransformer`
+- Protect models from data leakage during cross-validation
 
 ## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
 
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
+- [Scaling & Normalisation](scaling-normalisation.md)
+- [Data Types & Encoding](data-types-encoding.md)
+- [Handling Missing Values](missing-values.md)
+
+## Step 1: Why Use Pipelines?
+
+A `Pipeline` forces your preprocessing logic and your estimator to execute sequentially. This is crucial:
+1. It creates reproducible, readable code
+2. It permanently stops **Data Leakage** (when information from your Test set bleeds into your Training parameters, like the Mean for Imputation).
+
+```mermaid
+graph LR
+    A[Raw Data] --> B[ColumnTransformer]
+    subgraph Pipeline
+    B --> C[Numeric Steps]
+    B --> D[Categorical Steps]
+    end
+    C --> E[Estimator]
+    D --> E
+    E --> F[Predictions]
+```
+
+## Step 2: Setting up `ColumnTransformer`
+
+Real datasets are a mix of strings, integers, and floats. We must treat them independently.
 
 ```python
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-# Set visual style
-sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
-```
-
-## Step 2: Applying the Core Technique
-Here is how you apply pipelines in a standard workflow:
-
-```python
-from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.ensemble import RandomForestRegressor
 
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Synthetic dataset
+df = pd.DataFrame({
+    'Age': [25, np.nan, 34, 45, 23],
+    'Salary': [50k, 60k, 120k, np.nan, 45k],
+    'City': ['London', 'York', 'London', 'Leeds', np.nan]
+})
 
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.show()
+numeric_features = ['Age', 'Salary']
+categorical_features = ['City']
+
+# Define the numeric sequence
+numeric_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='median')),
+    ('scaler', StandardScaler())
+])
+
+# Define the categorical sequence
+categorical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='constant', fill_value='missing')),
+    ('onehot', OneHotEncoder(handle_unknown='ignore', sparse_output=False))
+])
+
+# Combine them using ColumnTransformer
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', numeric_transformer, numeric_features),
+        ('cat', categorical_transformer, categorical_features)
+    ])
 ```
 
-!!! tip "Workplace Tip"
-    When applying pipelines to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
+## Step 3: Integrating the Estimator
 
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
+Finally, we map the entire preprocessing block directly into an algorithm.
 
 ```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Pipelines')
-plt.show()
+# Create the full modeling pipeline
+clf = Pipeline(steps=[('preprocessor', preprocessor),
+                      ('regressor', RandomForestRegressor(random_state=42))])
+
+# Train-Test Split
+X = df.drop('Target', axis=1) # Assume Target column exists
+y = df['Target']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+# Fit the entire sequence with ONE line of code
+clf.fit(X_train, y_train)
+
+# The test set is completely isolated and transformed exactly as the training set was
+predictions = clf.predict(X_test)
 ```
 
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
+!!! success "Assessment Checklist"
+    Using `sklearn.pipeline.Pipeline` in your final apprenticeship model submission strongly demonstrates structural engineering logic. Code chunks with dozens of isolated `.fit_transform()` calls are difficult for reviewers to trace.
 
 ## Summary
-You have now learned the fundamentals of pipelines. Remember to always start simple and iterate.
+
+Scikit-Learn's Pipeline functionality is the industry standard for bridging messy preprocessing logic seamlessly into an MLOps-ready model.
 
 ## Next Steps
-Continue to the next module to see how these features are used downstream.
+
+Explore the Application Guides to see how we clean completely broken datasets manually.
 
 ## KSB Mapping
+
 | KSB | Description | How This Tutorial Addresses It |
 |-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| S4 | Transform data | Implements ColumnTransformer for dual handling |
+| B2 | Logical approach | Creates highly structured architecture |

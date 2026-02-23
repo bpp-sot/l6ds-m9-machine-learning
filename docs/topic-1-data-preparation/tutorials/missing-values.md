@@ -1,75 +1,112 @@
-# Missing Values
+# Handling Missing Values
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> "A data scientist's most common phrase is 'it depends'. Their second is 'where's the missing data?'"
 
 ## What You Will Learn
-- Understand the core concepts of missing values
-- Apply missing values techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+
+- Identify different types of missing data mechanisms (MCAR, MAR, MNAR)
+- Use basic imputation strategies (`SimpleImputer`)
+- Implement advanced imputation methods (`KNNImputer`, `IterativeImputer`)
+- Evaluate the impact of imputation choices on data distribution
 
 ## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
 
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
+- [Loading & Exploring Data](loading-exploring.md)
+- Familiarity with the `scikit-learn` API structure
+
+## Step 1: Diagnosing Missingness
+
+Before choosing an imputation strategy, you must understand *why* the data is missing. Here we will synthesize a dataset with missing values to demonstrate.
 
 ```python
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.datasets import fetch_california_housing
 
-# Set visual style
+# Set consistent styling
 sns.set_style('whitegrid')
 plt.rcParams['figure.figsize'] = (10, 6)
+
+# Load sample data and inject missing values
+data = fetch_california_housing(as_frame=True).frame
+# Simulate Missing Completely At Random (MCAR)
+mask = np.random.rand(*data.shape) < 0.1
+missing_data = data.mask(mask)
+
+print(f"Missing Values Check:\\n{missing_data.isnull().sum()}")
 ```
 
-## Step 2: Applying the Core Technique
-Here is how you apply missing values in a standard workflow:
+## Step 2: Simple Imputation 
+
+The `SimpleImputer` replaces missing values with univariate statistics like mean, median, or constant values.
 
 ```python
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
+from sklearn.impute import SimpleImputer
 
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Separate features and target
+X = missing_data.drop('MedHouseVal', axis=1)
+y = missing_data['MedHouseVal']
 
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
+# Impute with median
+imputer = SimpleImputer(strategy='median')
+X_median_imputed = pd.DataFrame(imputer.fit_transform(X), columns=X.columns)
+
+# Visualizing the shift in distribution
+fig, ax = plt.subplots(1, 2, figsize=(14, 5))
+
+sns.kdeplot(X['AveRooms'], ax=ax[0], label='Original with Missing', color='blue')
+sns.kdeplot(X_median_imputed['AveRooms'], ax=ax[0], label='Median Imputed', color='red')
+ax[0].set_title('Kernel Density - AveRooms')
+ax[0].legend()
+
+sns.boxplot(data=[X['AveRooms'].dropna(), X_median_imputed['AveRooms']], ax=ax[1])
+ax[1].set_xticklabels(['Original (Drop NA)', 'Median Imputed'])
+ax[1].set_title('Boxplot Comparison')
+plt.tight_layout()
 plt.show()
+```
+
+!!! warning "Artifacts from Simple Imputation"
+    Notice that median imputation can cause sharp spikes in the distribution exactly at the median value, artificially reducing the variance of your dataset.
+
+## Step 3: Multivariate Imputation
+
+If your features are correlated, you can use other features to predict the missing values. 
+
+```python
+from sklearn.experimental import enable_iterative_imputer
+from sklearn.impute import IterativeImputer
+from sklearn.impute import KNNImputer
+
+# 1. K-Nearest Neighbors Imputation
+knn_imputer = KNNImputer(n_neighbors=5)
+X_knn = pd.DataFrame(knn_imputer.fit_transform(X), columns=X.columns)
+
+# 2. Iterative Imputation (MICE)
+iter_imputer = IterativeImputer(random_state=42, max_iter=10)
+X_iter = pd.DataFrame(iter_imputer.fit_transform(X), columns=X.columns)
 ```
 
 !!! tip "Workplace Tip"
-    When applying missing values to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
-
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
-
-```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Missing Values')
-plt.show()
-```
-
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
+    In industry, `IterativeImputer` often provides the most robust results for tabular data, but it is computationally expensive. If you need real-time inference in production, `SimpleImputer` is usually preferred for its speed.
 
 ## Summary
-You have now learned the fundamentals of missing values. Remember to always start simple and iterate.
+
+In this tutorial, you learned:
+- How to diagnose missing data patterns
+- Implementation of baseline univariate imputation
+- Implementation of advanced multivariate imputation combining `KNNImputer` and `IterativeImputer`.
 
 ## Next Steps
-Continue to the next module to see how these features are used downstream.
+
+→ [Data Types & Encoding](data-types-encoding.md) — now that missing values are handled, we must convert all text features to numeric representations.
 
 ## KSB Mapping
+
 | KSB | Description | How This Tutorial Addresses It |
 |-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| S4 | Import, cleanse, transform data | Demonstrates Scikit-Learn missing value handlers |
+| K2 | Machine learning algorithms | Applies KNN conceptually to dataset fixing |
+| B2 | Logical approach | Following a sequential pattern for data cleaning |

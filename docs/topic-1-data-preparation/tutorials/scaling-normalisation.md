@@ -1,75 +1,100 @@
-# Scaling Normalisation
+# Scaling & Normalisation
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> "Distance-based algorithms behave like real estate agents—they calculate distance based on whatever scale you give them. A difference of 100,000 in salary shouldn't outweigh a difference of 30 in age."
 
 ## What You Will Learn
-- Understand the core concepts of scaling normalisation
-- Apply scaling normalisation techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+
+- Understand why feature scaling is critical for certain algorithms
+- Implement `StandardScaler` (z-score normalization)
+- Implement `MinMaxScaler`
+- Use `RobustScaler` to handle datasets with significant outliers
 
 ## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
 
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
+- [Data Types & Encoding](data-types-encoding.md)
+
+## Step 1: Why Scale?
+
+Algorithms that compute distance (KNN, K-Means, SVM) or use Gradient Descent (Neural Networks, Linear Regression) require features to be on the same scale. The mathematical derivation relies on updating weights symmetrically.
+
+\\[
+z = \\frac{x - \\mu}{\\sigma}
+\\]
+*(The formula for Standardization)*
+
+## Step 2: Standardization (StandardScaler)
+
+Standardization centers your data around 0 with a standard deviation of 1.
 
 ```python
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.preprocessing import StandardScaler
 
-# Set visual style
-sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
-```
+# Generate dummy data: Age (small range) and Salary (large range)
+np.random.seed(42)
+ages = np.random.normal(35, 10, 1000)
+salaries = np.random.normal(60000, 15000, 1000)
+df = pd.DataFrame({'Age': ages, 'Salary': salaries})
 
-## Step 2: Applying the Core Technique
-Here is how you apply scaling normalisation in a standard workflow:
+scaler = StandardScaler()
+df_scaled = pd.DataFrame(scaler.fit_transform(df), columns=df.columns)
 
-```python
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+sns.scatterplot(x='Age', y='Salary', data=df, ax=ax1)
+ax1.set_title('Original Scale')
 
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
+sns.scatterplot(x='Age', y='Salary', data=df_scaled, ax=ax2)
+ax2.set_title('StandardScaler Applied')
 plt.show()
 ```
 
 !!! tip "Workplace Tip"
-    When applying scaling normalisation to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
+    `StandardScaler` is generally the default choice. If you don't know which scaler to use, start here.
 
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
+## Step 3: Normalization (MinMaxScaler)
+
+Min-Max Scaling squashes values into a fixed range, usually `[0, 1]`.
 
 ```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Scaling Normalisation')
-plt.show()
+from sklearn.preprocessing import MinMaxScaler
+
+min_max = MinMaxScaler()
+df_minmax = pd.DataFrame(min_max.fit_transform(df), columns=df.columns)
+
+print("MinMax Summary:")
+print(df_minmax.describe().round(2))
 ```
 
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
+This is heavily utilized in deep learning (image pixel data) and when you must strictly bound your variables.
+
+## Step 4: RobustScaler (Outlier Resistance)
+
+If your dataset is prone to extreme outliers, `StandardScaler` will severely deform your distribution because outliers pull the mean and standard deviation. The `RobustScaler` uses the **median** and the **Interquartile Range (IQR)** instead.
+
+```python
+from sklearn.preprocessing import RobustScaler
+
+# Inject severe outliers
+df.loc[0:10, 'Salary'] = df.loc[0:10, 'Salary'] * 10 
+
+robust = RobustScaler()
+df_robust = pd.DataFrame(robust.fit_transform(df), columns=df.columns)
+```
 
 ## Summary
-You have now learned the fundamentals of scaling normalisation. Remember to always start simple and iterate.
+
+Scaling techniques protect your model. Use `MinMaxScaler` for fixed bounds, `StandardScaler` for normally distributed features, and `RobustScaler` when anomalies corrupt your parameters.
 
 ## Next Steps
-Continue to the next module to see how these features are used downstream.
+
+→ [Detecting & Treating Outliers](outliers.md)
 
 ## KSB Mapping
+
 | KSB | Description | How This Tutorial Addresses It |
 |-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| S2 | Apply machine learning techniques | Prepares gradients for convergence |
+| K1 | Statistical Concepts | Implements standard deviation and IQR transformations |

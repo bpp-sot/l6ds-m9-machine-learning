@@ -1,75 +1,114 @@
-# Pca Dimensionality Reduction
+# PCA & Dimensionality Reduction
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> "When data lives in a hundred dimensions, human intuition completely breaks down. PCA is our mathematical flashlight into the dark."
 
 ## What You Will Learn
-- Understand the core concepts of pca dimensionality reduction
-- Apply pca dimensionality reduction techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+
+- Understand Principal Component Analysis (PCA) conceptually
+- Transform highly correlated features into independent Principal Components
+- Select `n_components` empirically using Scree Plots and Explained Variance Ratio
 
 ## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
 
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
+- [Scaling & Normalisation](../../topic-1-data-preparation/tutorials/scaling-normalisation.md)
+
+## Step 1: Concept Overview
+
+When you have hundreds of features (e.g., measuring house prices using `square_footage`, `number_of_bedrooms`, `number_of_bathrooms`, `lot_size`), many of those features say the *exact same thing*. 
+
+If you know a house is 5,000 square feet, you already know it probably has more than 1 bathroom. This redundancy is mathematically inefficient.
+
+**PCA** identifies the axes (directions) in your data that contain the most variance (information) and physically rotates the dataset onto those new axes, dropping the axes that contain nothing but noise.
+
+```mermaid
+graph LR
+    A[Original Features] -->|Scaling| B[Centered Data]
+    B -->|Calculate Eigenvectors| C[Principal Components]
+    C -->|Project Data| D[Reduced Feature Space]
+```
+
+## Step 2: Implementation
+
+> [!CAUTION]
+> PCA is exceptionally sensitive to scale! If you apply PCA before `StandardScaler`, PCA will simply identify your largest-scaled feature as the "First Principal Component" and fail catastrophically.
 
 ```python
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.datasets import load_breast_cancer
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
 
-# Set visual style
 sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
+
+# Load dataset (30 features!)
+data = load_breast_cancer(as_frame=True)
+X, y = data.data, data.target
+
+# 1. MUST SCALE FIRST
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# 2. Fit PCA (Let's see all components first)
+pca = PCA()
+pca.fit(X_scaled)
 ```
 
-## Step 2: Applying the Core Technique
-Here is how you apply pca dimensionality reduction in a standard workflow:
+## Step 3: Determining `n_components`
+
+How many components should you keep? We look at the **Explained Variance Ratio**.
 
 ```python
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
+# Calculate cumulative variance
+cumulative_variance = np.cumsum(pca.explained_variance_ratio_)
 
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
+# Plot the Scree Plot
+plt.figure(figsize=(10, 6))
+plt.plot(range(1, len(cumulative_variance) + 1), cumulative_variance, marker='o', linestyle='--')
+plt.axhline(y=0.90, color='r', linestyle='-')
+plt.text(15, 0.85, '90% Variance Threshold', color='red', fontsize=12)
+plt.title('PCA Scree Plot (Cumulative Explained Variance)')
+plt.xlabel('Number of Principal Components')
+plt.ylabel('Cumulative Explained Variance')
 plt.show()
+
+# Find exactly how many components we need to reach 90%
+n_components_90 = np.argmax(cumulative_variance >= 0.90) + 1
+print(f"We can reduce the dataset from {X.shape[1]} features down to {n_components_90} features while keeping 90% of the information!")
 ```
 
-!!! tip "Workplace Tip"
-    When applying pca dimensionality reduction to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
+## Step 4: The Final Transformation
 
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
+Once you determine the threshold, apply the transformation.
 
 ```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Pca Dimensionality Reduction')
+# Re-instantiate with target components
+final_pca = PCA(n_components=n_components_90)
+X_pca = final_pca.fit_transform(X_scaled)
+
+# Creating a 2D scatter plot using the first two principal components
+plt.figure(figsize=(8, 6))
+scatter = plt.scatter(X_pca[:, 0], X_pca[:, 1], c=y, cmap='viridis', alpha=0.7)
+plt.xlabel('First Principal Component (PC1)')
+plt.ylabel('Second Principal Component (PC2)')
+plt.title('2D PCA Projection of Breast Cancer Data')
+plt.legend(handles=scatter.legend_elements()[0], labels=['Malignant', 'Benign'])
 plt.show()
 ```
-
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
 
 ## Summary
-You have now learned the fundamentals of pca dimensionality reduction. Remember to always start simple and iterate.
+
+PCA compresses information. It solves the Curse of Dimensionality by dropping noise and highly collinear artifacts, resulting in faster and more stable machine learning executions.
 
 ## Next Steps
-Continue to the next module to see how these features are used downstream.
+
+Explore the How-To guides in this section to apply Feature Engineering logic contextually.
 
 ## KSB Mapping
+
 | KSB | Description | How This Tutorial Addresses It |
 |-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| K1 | Statistical Concepts | Implements eigenvectors mathematically |
+| S7 | Generate Insights | Visually flattens 30 dimensions down to a 2D plot for stakeholder analysis |

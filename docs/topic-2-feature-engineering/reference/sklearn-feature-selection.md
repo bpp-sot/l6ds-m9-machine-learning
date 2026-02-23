@@ -1,30 +1,49 @@
-# Reference: Sklearn Feature Selection
+# Reference: Scikit-Learn Feature Selection API
 
-This page contains quick-lookup information for sklearn feature selection.
+This page organizes the primary `sklearn.feature_selection` classes and functions.
 
-## Key Methods and Parameters
+## 1. Filter Methods (Univariate)
 
-| Method | Parameters | Description |
-|--------|------------|-------------|
-| `fit()` | `X`, `y` | Fits the model or transformer to the data |
-| `transform()` | `X` | Applies the transformation |
-| `predict()` | `X` | Generates predictions |
+Filter methods execute statistically independent of any machine learning model.
 
-## Common Syntax
+| Class | Purpose | Key Parameters | Note |
+|-------|---------|----------------|------|
+| `VarianceThreshold(threshold)` | Drops features where empirical variance falls below threshold | `threshold=0` drops purely static columns | Excellent first-pass sanity check. |
+| `SelectKBest(score_func, k)` | Selects the `k` features with highest statistical scores | `k=10` keeps top 10 features | Must pair with appropriate `score_func`. |
+| `SelectPercentile(score_func, percentile)`| Selects the top `percentile` percentage of features | `percentile=10` keeps top 10% | Dynamic `k` based on total dimension count. |
 
-```python
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
+### Statistical Testing Functions (Used inside `score_func`)
 
-# Standard boilerplate
-pipeline = make_pipeline(StandardScaler(), ...)
-pipeline.fit(X_train, y_train)
-```
+| Function | Task Type | Feature Type | Logic |
+|----------|-----------|--------------|-------|
+| `f_regression` | Regression | Continuous | ANOVA F-Value (Linear Correlation) |
+| `mutual_info_regression` | Regression | Any | Captures non-linear relationships |
+| `f_classif` | Classification | Continuous | ANOVA F-Value (Linear Correlation) |
+| `chi2` | Classification | Categorical | Chi-Squared test (strictly Non-negative data) |
+| `mutual_info_classif` | Classification | Any | Captures non-linear relationships |
 
-## Comparison Metrics
+---
 
-When comparing approaches for sklearn feature selection, consider:
+## 2. Wrapper Methods 
 
-1. **Accuracy**: How well does it perform?
-2. **Interpretability**: How easily can you explain it?
-3. **Speed**: How fast does it run?
+Wrapper methods iteratively train a user-provided estimator model.
+
+| Class | Purpose | Requirements |
+|-------|---------|--------------|
+| `RFE(estimator, n_features_to_select)` | Recursive Feature Elimination. Iteratively drops the weakest feature. | `estimator` must expose `coef_` or `feature_importances_`. |
+| `RFECV(estimator, cv, scoring)` | Automated RFE using Cross-Validation to find the mathematical optimal feature count. | Visually plotted via `.cv_results_`. |
+| `SequentialFeatureSelector(estimator, direction)`| Adds (Forward) or removes (Backward) features one by one evaluating CV score shifts. | Compatible with models lacking importances natively (e.g. KNN). |
+
+---
+
+## 3. Embedded Methods
+
+Embedded methods select features during the natural model training process.
+
+| Algorithm Category | Built-in Feature Selection Logic | Extracted Attribute |
+|--------------------|----------------------------------|---------------------|
+| `Lasso` (L1 Regression) | Punishes magnitude of weights; forces weak features to exactly `0.0`. | `lasso.coef_` |
+| Tree / Ensembles | Chooses features that produce highest Gini Impurity reduction / Information Gain at split nodes. | `rf.feature_importances_` |
+
+To functionally drop columns using embedded logic inside an automated Pipeline, wrap the estimator:
+- `SelectFromModel(estimator, threshold)`: Retains columns whose `coef_` or `importances_` exceed the defined threshold (e.g., `'median'`, `'1.5*mean'`).

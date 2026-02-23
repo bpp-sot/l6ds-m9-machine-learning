@@ -1,75 +1,103 @@
-# Filter Methods
+# Filter Selection Methods
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> "If you torture the data long enough, it will confess to anything." — Ronald Coase
 
 ## What You Will Learn
-- Understand the core concepts of filter methods
-- Apply filter methods techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+
+- Implement univariate filter methods (`SelectKBest`)
+- Understand Pearson Correlation and Mutual Information
+- Utilize `VarianceThreshold` to drop static variables
 
 ## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
 
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
+- [Creating Features from Raw Data](creating-features.md)
+- [DateTime & Text Features](datetime-text-features.md)
+
+## Step 1: Why Feature Selection?
+
+If you just generated 500 new columns utilizing One-Hot Encoders, interaction terms, and TF-IDF matrices, your dataset is now dangerously vast. Feeding everything to an algorithm causes:
+1. Massive computation times
+2. Severe Overfitting (The Curse of Dimensionality)
+3. Destruction of interpretability
+
+**Filter Methods** are the fastest, simplest way to reduce dimensions. They calculate statistical properties of each feature independent from the modeling algorithm.
+
+```mermaid
+graph TD
+    A[Raw Feature Matrix] --> B[Filter Selection]
+    B -->|Calculate Variance| C{Is Variance > 0?}
+    C -->|No| D[Drop Feature]
+    C -->|Yes| E[Calculate Correlation w/ Target]
+    E --> F{Is stat > Threshold?}
+    F -->|No| G[Drop Feature]
+    F -->|Yes| H[Keep Feature]
+    H --> I[Execute Model]
+```
+
+## Step 2: Variance Threshold
+
+If a feature consists identically of the value `1.0` for 99.9% of all rows, it contains zero predictive variance. The model cannot learn anything from it.
 
 ```python
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+from sklearn.feature_selection import VarianceThreshold
 
-# Set visual style
-sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
+data = pd.DataFrame({
+    'Age': [25, 30, 35, 40],
+    'Constant_Value': [1, 1, 1, 1], # 0 Variance
+    'Binary_Flag': [1, 1, 1, 0]     # Low Variance
+})
+
+# Threshold of 0 removes entirely static columns
+vt = VarianceThreshold(threshold=0)
+data_high_variance = pd.DataFrame(vt.fit_transform(data), 
+                                  columns=data.columns[vt.get_support()])
+
+print("Filtered DataFrame:\\n", data_high_variance)
 ```
 
-## Step 2: Applying the Core Technique
-Here is how you apply filter methods in a standard workflow:
+## Step 3: Correlation Filters (SelectKBest)
+
+Once static columns are removed, we filter based on a feature's statistical relationship directly to the prediction Target (`y`).
 
 ```python
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
+from sklearn.datasets import load_breast_cancer
+from sklearn.feature_selection import SelectKBest, f_classif
 
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# Load highly dimensional dataset (30 features)
+X, y = load_breast_cancer(return_X_y=True, as_frame=True)
 
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.show()
+# We only want the Top 5 most important features based on the ANOVA F-Value
+selector = SelectKBest(score_func=f_classif, k=5)
+X_selected = selector.fit_transform(X, y)
+
+# Retrieve the names of the winning columns
+selected_features = X.columns[selector.get_support()]
+print("The 5 most statistically significant features are:")
+for f in selected_features:
+    print(f"- {f}")
 ```
 
-!!! tip "Workplace Tip"
-    When applying filter methods to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
+### Which Statistical Score to Use?
 
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
-
-```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Filter Methods')
-plt.show()
-```
-
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
+| Target Variable | Feature Variable | Recommended `score_func` |
+|-----------------|------------------|--------------------------|
+| Continuous (Regression) | Continuous | `f_regression` (Pearson Correlation) |
+| Continuous (Regression) | Categorical | `mutual_info_regression` |
+| Categorical (Classif) | Continuous | `f_classif` (ANOVA F-Value) |
+| Categorical (Classif) | Categorical | `chi2` or `mutual_info_classif` |
 
 ## Summary
-You have now learned the fundamentals of filter methods. Remember to always start simple and iterate.
+
+Filter methods are lightning-fast mathematical computations executed *before* models are ever deployed. They act as the primary defense against the Curse of Dimensionality.
 
 ## Next Steps
-Continue to the next module to see how these features are used downstream.
+
+→ [Wrapper Selection Methods](wrapper-methods.md)
 
 ## KSB Mapping
+
 | KSB | Description | How This Tutorial Addresses It |
 |-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| K1 | Statistical Concepts | Implements ANOVA F-Values and Variance logic |
+| S1 | Apply statistical methods | Utilizes `SelectKBest` directly from SKLearn architecture |

@@ -23,8 +23,8 @@ theme:
   font:
     text: Inter
     code: JetBrains Mono
-  logo: assets/bpp-logo.svg
-  favicon: assets/bpp-logo.svg
+  logo: assets/bpp_logo.png
+  favicon: assets/bpp_logo.png
   features:
     - navigation.tabs
     - navigation.sections

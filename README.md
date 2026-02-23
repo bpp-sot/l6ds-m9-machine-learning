@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="docs/assets/bpp-logo.svg" alt="BPP University Logo" width="200"/>
+  <img src="docs/assets/bpp_logo.png" alt="BPP University Logo" width="200"/>
   <h1>M9 Machine Learning Module</h1>
   <p><strong>BSc (Hons) Data Science Integrated Degree Apprenticeship (Level 6)</strong></p>
   
