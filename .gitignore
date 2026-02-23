@@ -10,3 +10,4 @@ venv/
 # Sensitive
 gemini-agent-prompt.md
 build_pages.py
+.git-credentials
