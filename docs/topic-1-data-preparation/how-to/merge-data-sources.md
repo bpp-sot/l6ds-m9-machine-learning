@@ -1,46 +1,86 @@
-# How-to: Merge Multiple Data Sources
+# How to Merge Multiple Data Sources
 
-## The Problem
-Workplaces don't store perfect analytic sets in a single CSV. Transaction data lives in one database, customer profiles in Salesforce, and operational logs in an Excel spreadsheet. You must join them.
+> Rarely does all your predictive signal live in a single table. Merging correctly is essential for feature enrichment.
 
-## The Solution
-Pandas offers `merge()`, which functions identically to a SQL JOIN.
+## What You Will Learn
+- Execute Left, Right, Inner, and Outer joins
+- Merge on discrepant column names 
+- Verify merge integrity securely 
+
+## Step 1: The Inner Join
+
+If you want to merge two datasets and strictly only retain the records that securely exist identically in both frames, use the `inner` merge (the Pandas default).
 
 ```python
 import pandas as pd
 
-# Creating sample datasets
-customers = pd.DataFrame({
-    'CustomerID': [101, 102, 103, 104],
-    'Name': ['Alice', 'Bob', 'Charlie', 'Diana'],
-    'Segment': ['Retail', 'Corporate', 'Retail', 'Corporate']
-})
+# Creating synthetic mock data to simulate relational SQL tables
+customers = pd.DataFrame({'cust_id': [1, 2, 3], 'name': ['Alice', 'Bob', 'Charlie']})
+transactions = pd.DataFrame({'cust_id': [2, 3, 4], 'amount': [150, 200, 50]})
 
-transactions = pd.DataFrame({
-    'TransactionID': [1, 2, 3, 4],
-    'CustomerID': [101, 101, 105, 102], # Notice 105 doesn't exist in customers!
-    'Amount': [250, 150, 400, 300]
-})
-
-# Inner Join (Default)
-# only keeps customers who have BOTH a profile and a transaction
-inner_merged = pd.merge(customers, transactions, on='CustomerID', how='inner')
-print("Inner Join (Intersection):")
+# Only Bob (2) and Charlie (3) exist in both. Alice (1) and (4) are dropped.
+inner_merged = pd.merge(customers, transactions, on='cust_id', how='inner')
 print(inner_merged)
+```
 
-# Left Join
-# keeps ALL customers, even if they have no transactions (NaN amount)
-left_merged = pd.merge(customers, transactions, on='CustomerID', how='left')
-print("\\nLeft Join (All Customers):")
+??? example "Expected Output"
+    ```text
+       cust_id     name  amount
+    0        2      Bob     150
+    1        3  Charlie     200
+    ```
+
+## Step 2: The Left Join (Enrichment)
+
+If predicting customer churn, you absolutely must retain 100% of your primary customers even if they have `0` transactions recorded. Use a `left` join securely to enrich the left-hand DataFrame.
+
+```python
+# Retain everyone in 'customers', populate NaN for missing matches in 'transactions'
+left_merged = pd.merge(customers, transactions, on='cust_id', how='left')
+
+# Fill NaN transaction amounts with 0 computationally
+left_merged['amount'] = left_merged['amount'].fillna(0)
 print(left_merged)
 ```
 
-## Discussion
+??? example "Expected Output"
+    ```text
+       cust_id     name  amount
+    0        1    Alice     0.0
+    1        2      Bob   150.0
+    2        3  Charlie   200.0
+    ```
 
-### When to use `how='left'` vs `how='inner'`?
-- Use left joins when the left table is your "master list" (e.g., you are building a predictive model for *all* registered clients, regardless of whether they have purchased recently).
-- Use inner joins when you intend to drop records with incomplete cross-table alignment.
+## Step 3: Merging on Discrepant Keys
 
-### Common Pitfalls
-- **Duplicating Rows (The Cartesian Explosion)**: If your `CustomerID` isn't unique in the secondary table, `merge` generates identical rows. Always run `.duplicated('CustomerID').sum()` before a merge.
-- **Suffix Clashes**: If both tables have a `'Date'` column not used in the `on=` parameter, Pandas creates `'Date_x'` and `'Date_y'`. Handle this cleanly via `pd.merge(..., suffixes=('_cust', '_trans'))`.
+When databases aren't homogenised, your keys might be named differently (e.g. `cust_id` vs `client_num`). Use `left_on` and `right_on`.
+
+```python
+# Simulating a third table with a different ID column completely
+address = pd.DataFrame({'client_num': [1, 2, 3], 'city': ['London', 'Manchester', 'Leeds']})
+
+# Merge specifying explicit columns
+enriched = pd.merge(left_merged, address, left_on='cust_id', right_on='client_num', how='left')
+
+# Drop the redundant secondary key efficiently
+enriched = enriched.drop(columns=['client_num'])
+print(enriched)
+```
+
+??? example "Expected Output"
+    ```text
+       cust_id     name  amount        city
+    0        1    Alice     0.0      London
+    1        2      Bob   150.0  Manchester
+    2        3  Charlie   200.0       Leeds
+    ```
+
+!!! tip "Workplace Tip"
+    Always run `df.shape` before and after executing a `pd.merge()`. Doing a 1:Many join accidentally on a duplicated ID column can massively multiply your row count silently, leading to fatally flawed analytics statistics.
+
+## KSB Mapping
+
+| KSB | Description | How This Guide Addresses It |
+|-----|-------------|-------------------------------|
+| S2 | Discovering dependencies | Executing multi-table relational dependencies logically |
+| K3 | Data management pipelines | Consolidating disparate architectural architectures |

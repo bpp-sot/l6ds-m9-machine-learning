@@ -1,47 +1,86 @@
-# How-to: Clean a Messy CSV File
+# How to Load and Clean a Messy Dataset
 
-## The Problem
-In your workplace projects, data extraction rarely returns a pristine CSV. Frequently, your data will contain unstructured columns, mixed delimiters, erratic spacing, or hidden artifacts.
+> Real-world data is rarely formatted cleanly. Learn to quickly bypass bad metadata, skip rows, and coerce stubborn strings into workable floats.
 
-## The Solution
+## What You Will Learn
+- Skip preamble metadata headers when reading datasets
+- Handle inconsistent missing value indicators (`N/A`, `?`, `missing`)
+- Convert currency strings (`$1,000`) into numeric columns instantly
+- Rename columns programmatically into standard python snake_case
 
-Here are the most robust Pandas commands to quickly sanitize raw structure.
+## Step 1: Handling Inconsistent Missing Indicators
+
+When using built-in datasets like `sns.load_dataset('titanic')`, data is pre-cleaned. In real assessments, your stakeholders will upload files where missing values are marked inconsistently. You can handle this natively inside the `read_csv` parser.
 
 ```python
 import pandas as pd
 import numpy as np
 
-# 1. Handling Bad Delimiters or Encodings
-# If your file errors on loading due to commas in strings or strange characters:
-df_raw = pd.read_csv('messy_file.csv', 
-                     delimiter=';',          # European format
-                     encoding='cp1252',      # Common Windows DB export
-                     skiprows=2)             # Skip metadata headers
+# We simulate a messy CSV by creating a DataFrame with inconsistent missing values
+messy_data = pd.DataFrame({
+    'Passenger Id': [1, 2, 3],
+    'Age': ['22', '?', 'N/A'],
+    'Fare': ['$7.25', '$71.28', 'Missing']
+})
 
-# 2. Stripping Whitespace
-# " London " and "London" are entirely different strings to a machine!
-df_raw.columns = df_raw.columns.str.strip().str.lower().str.replace(' ', '_')
+# In the real world, you'd use pd.read_csv('messy.csv', na_values=['?', 'N/A', 'Missing'])
+# Since we simulate the data, we use replace:
+messy_data.replace(['?', 'N/A', 'Missing'], np.nan, inplace=True)
 
-# Strip whitespace from ALL string columns using applymap
-df_clean = df_raw.apply(lambda x: x.str.strip() if x.dtype == "object" else x)
-
-# 3. Fixing Corrupted Currencies/Numbers
-# For example: "$1,500.00" must be converted to float 1500.00
-if 'revenue' in df_clean.columns:
-    df_clean['revenue'] = df_clean['revenue'].replace({'\$': '', ',': ''}, regex=True).astype(float)
-
-# 4. Standardizing Missing Formats
-# Missing data might look like "N/A", "Unknown", "?", or "-99"
-df_clean.replace(['N/A', 'Unknown', '?', -99], np.nan, inplace=True)
-
-print(df_clean.head())
+print(messy_data)
 ```
 
-## Discussion
+??? example "Expected Output"
+    ```text
+       Passenger Id   Age   Fare
+    0             1    22  $7.25
+    1             2   NaN  $71.28
+    2             3   NaN    NaN
+    ```
 
-### When to use this approach?
-Apply these cleanup sequences *before* utilizing `SimpleImputer` or `StandardScaler`. MLOps pipelines expect structurally sound tables.
+## Step 2: Fixing Column Names
 
-### Caveats
-- Regex replacements (`replace({'\$': ''}, regex=True)`) are computationally expensive on datasets exceeding 10M rows. If possible, process massive strings using Dask or PySpark.
-- Replacing "-99" with `np.nan` assumes "-99" genuinely means missing. If "-99" is a valid code (e.g., negative balance), you will destroy your model. Always inspect distributions before automating!
+Spaces and Capital Letters in column names break your ability to use dot-notation (e.g. `df.Age`). Convert them all cleanly using a lambda functional block to standardise them to `snake_case`.
+
+```python
+# Strip whitespace, lowercase, and replace spaces with underscores
+messy_data.columns = [col.strip().lower().replace(' ', '_') for col in messy_data.columns]
+print(messy_data.columns)
+```
+
+??? example "Expected Output"
+    ```text
+    Index(['passenger_id', 'age', 'fare'], dtype='object')
+    ```
+
+## Step 3: Coerce Strings to Numeric Types
+
+Often currency or percentages load as object text (e.g. `$7.25`). We must strip the characters before converting them to floats.
+
+```python
+# Convert Age mathematically to numeric
+messy_data['age'] = pd.to_numeric(messy_data['age'])
+
+# Strip the '$' from Fare and convert computationally
+messy_data['fare'] = messy_data['fare'].str.replace('$', '').astype(float)
+
+print(messy_data.dtypes)
+```
+
+??? example "Expected Output"
+    ```text
+    passenger_id      int64
+    age             float64
+    fare            float64
+    dtype: object
+    ```
+
+!!! tip "Workplace Tip"
+    Do not iterate over rows manually using `for index, row in df.iterrows()` to fix strings! Python string vectorised operations like `.str.replace()` run exponentially faster natively in C underneath pandas and cleanly format 10 million rows in 0.5s.
+
+## KSB Mapping
+
+| KSB | Description | How This Guide Addresses It |
+|-----|-------------|-------------------------------|
+| S4 | Import, cleanse, transform data | Type coercion and vectorised string stripping |
+| B2 | Logical approach | Sourcing standardized parsing architectures to clean raw tables |

@@ -1,108 +1,139 @@
 # Data Types & Encoding
 
-> "Algorithms don't understand 'Red', 'Green', or 'Blue'. They only understand 0, 1, and 2."
+> Algorithms only understand numbers. Encoding is how you translate categorical text into a mathematical format a model can learn from.
 
 ## What You Will Learn
-
-- Distinguish between Ordinal and Nominal categorical data
-- Implement One-Hot Encoding and get around the Dummy Variable Trap
-- Utilize Target Encoding for high-cardinality features
-- Construct a robust categorical preprocessing pipeline
+- Differentiate between Nomimal and Ordinal data types
+- Apply Ordinal Encoding to hierarchical categories quickly
+- Apply One-Hot Encoding to unranked categorical data
+- Protect your pipeline against the "Dummy Variable Trap"
 
 ## Prerequisites
+- Basic understanding of Pandas DataFrames
+- Completed the *Handling Missing Values* tutorial
 
-- [Handling Missing Values](missing-values.md)
+## Step 1: Loading Categorical Data
 
-## Step 1: Nominal vs. Ordinal Data
-
-Before encoding, classify your text columns:
-- **Nominal**: Categories with no inherent order (e.g., City, Color).
-- **Ordinal**: Categories with a logical sequence (e.g., Low, Medium, High).
-
-```mermaid
-graph TD
-    A[Categorical Data] --> B{Does order matter?}
-    B -->|Yes| C[Ordinal Data]
-    B -->|No| D[Nominal Data]
-    C --> E[OrdinalEncoder]
-    D --> F[OneHotEncoder]
-```
-
-## Step 2: One-Hot Encoding (Nominal)
-
-One-Hot Encoding converts each category into a new binary column.
+We will use the `diamonds` dataset from Seaborn, which is famous for its rich mix of categorical features detailing the physical cut, colour, and clarity of diamonds.
 
 ```python
 import pandas as pd
-from sklearn.preprocessing import OneHotEncoder
+import seaborn as sns
 
-data = pd.DataFrame({
-    'City': ['London', 'Manchester', 'London', 'Birmingham'],
-    'Salary': [55000, 48000, 62000, 42000]
-})
-
-# drop='first' helps avoid perfect multicollinearity (the Dummy Variable Trap)
-encoder = OneHotEncoder(sparse_output=False, drop='first')
-encoded_cities = encoder.fit_transform(data[['City']])
-
-# Recombine into a DataFrame
-encoded_df = pd.DataFrame(
-    encoded_cities, 
-    columns=encoder.get_feature_names_out(['City'])
-)
-final_df = pd.concat([data['Salary'], encoded_df], axis=1)
-print(final_df)
+df = sns.load_dataset('diamonds').head(1000) # Sampled for speed
+print(f"Categorical features: \n{df.select_dtypes(include='category').head()}")
 ```
 
-!!! note "Assessment Connection"
-    If you apply linear models (like Linear Regression or Logistic Regression), you *must* justify your use of `drop='first'`. Tree-based models (Random Forest, XGBoost) generally do not suffer from the dummy variable trap.
+??? example "Expected Output"
+    ```text
+    Categorical features: 
+         cut color clarity
+    0  Ideal     E     SI2
+    1  Premium   E     SI1
+    2  Good      E     VS1
+    3  Premium   I     VS2
+    4  Good      J     SI2
+    ```
 
-## Step 3: Ordinal Encoding
+## Step 2: Ordinal Encoding (Hierarchical Data)
 
-For sizes like "Small", "Medium", "Large", we map them to integers.
+If the text data has an inherent ranking or order (e.g. `Good < Premium < Ideal`), you must use Ordinal Encoding to preserve that hierarchy as sequential integers.
 
 ```python
 from sklearn.preprocessing import OrdinalEncoder
 
-sizes = pd.DataFrame({'Size': ['Small', 'Large', 'Medium', 'Small']})
+# The 'cut' column has a strict ranking
+cut_categories = ['Fair', 'Good', 'Very Good', 'Premium', 'Ideal']
 
-# Explicitly define the order
-ordering = [['Small', 'Medium', 'Large']]
-ord_encoder = OrdinalEncoder(categories=ordering)
+# We must explicitly pass the hierarchy to the encoder as a 2D list
+encoder = OrdinalEncoder(categories=[cut_categories])
 
-sizes['Size_Encoded'] = ord_encoder.fit_transform(sizes[['Size']])
-print(sizes)
+# Transform the column
+df['cut_encoded'] = encoder.fit_transform(df[['cut']])
+
+print(df[['cut', 'cut_encoded']].drop_duplicates().sort_values('cut_encoded'))
 ```
 
-## Step 4: Target Encoding
+??? example "Expected Output"
+    ```text
+             cut  cut_encoded
+    18      Fair          0.0
+    2       Good          1.0
+    5  Very Good          2.0
+    1    Premium          3.0
+    0      Ideal          4.0
+    ```
 
-When dealing with high-cardinality features (e.g., Postcodes), One-Hot encoding will explode your feature space. Target Encoding replaces categories with the average target value for that category.
+!!! tip "Workplace Tip"
+    Never use implicit `LabelEncoder` for features. Explicitly defining the hierarchy ensures that a missing category in your training set doesn't shift the integer scores of the remaining categories during production inference.
+
+## Step 3: One-Hot Encoding (Nominal Data)
+
+If categories have no inherent ranking (e.g. Colour `E` vs `J`), mapping them to `1` and `2` implies that `J` mathematically is "double" `E`, which confuses linear algorithms. Instead, we use One-Hot Encoding to split the category into distinct True/False binary columns.
 
 ```python
-from sklearn.preprocessing import TargetEncoder
-import numpy as np
+from sklearn.preprocessing import OneHotEncoder
 
-# Sample data
-X = np.array([["A"], ["A"], ["B"], ["B"], ["C"]])
-y = np.array([1, 0, 1, 1, 0])
+# 'color' has no strict hierarchy, it is purely nominal
+ohe = OneHotEncoder(sparse_output=False, drop='first') # Drop first prevents collinearity
 
-# Smooth helps prevent overfitting on rare categories
-te = TargetEncoder(smooth="auto")
-X_encoded = te.fit_transform(X, y)
-print(X_encoded)
+# Fit and transform
+color_encoded = ohe.fit_transform(df[['color']])
+
+# Get the generated column names
+new_columns = ohe.get_feature_names_out(['color'])
+
+# Convert back to a DataFrame for viewing
+df_ohe = pd.DataFrame(color_encoded, columns=new_columns)
+print(df_ohe.head())
 ```
 
-## Summary
+??? example "Expected Output"
+    ```text
+       color_E  color_F  color_G  color_H  color_I  color_J
+    0      1.0      0.0      0.0      0.0      0.0      0.0
+    1      1.0      0.0      0.0      0.0      0.0      0.0
+    2      1.0      0.0      0.0      0.0      0.0      0.0
+    3      0.0      0.0      0.0      0.0      1.0      0.0
+    4      0.0      0.0      0.0      0.0      0.0      1.0
+    ```
 
-Proper encoding ensures algorithms can mathematically process the data without introducing false relationships (e.g., assuming category '3' is intrinsically "better" than category '1' just because it's a higher number).
+!!! info "Assessment Connection"
+    Setting `drop='first'` prevents the **Dummy Variable Trap**. If a diamond is not `E`, `F`, `G`, `H`, `I`, or `J`, the algorithm automatically deduces the remaining colour is `D` (all zeroes). Keeping `D` as a column creates perfect multicollinearity, which destroys Linear Regression weights. Explain this trap concisely in your EPA to secure higher marks.
+
+## Summary
+- Use **OrdinalEncoder** precisely when a hierarchy is explicitly defined in business logic (`Small < Medium < Large`).
+- Pass the explicit sequential array to your `OrdinalEncoder` rather than letting it guess alphabetically.
+- Use **OneHotEncoder** for unranked strings (cities, species, IDs).
+- Always `drop='first'` in One-Hot Encoding to prevent matrix collinearity in linear models.
 
 ## Next Steps
+→ [Scaling & Normalisation](scaling-normalisation.md) — harmonise the mathematical weight of distinct continuous distributions.
 
-→ [Scaling & Normalisation](scaling-normalisation.md)
+??? challenge "Stretch & Challenge"
+    ### For Advanced Learners
+    
+    **Target Encoding for High Cardinality**
+    
+    If you have a column with a massive number of unique categorical text features (e.g. `Postcode` or `Make/Model`), One-Hot Encoding will generate hundreds of empty sparse columns (the Curse of Dimensionality).
+    
+    Instead, algorithms can replace the text with the *mean target value* of that category. 
+    
+    ```python
+    import category_encoders as ce
+    
+    # Target encoding replaces the text feature with the 
+    # historical mean price of diamonds with that specific colour
+    target_encoder = ce.TargetEncoder(cols=['color'])
+    df['color_target_encoded'] = target_encoder.fit_transform(df['color'], df['price'])
+    ```
+    
+    This concisely collapses 50+ categorical classes into a single dense numeric feature with high predictive signal. Have a look into `category_encoders.TargetEncoder` to elevate your predictive capability!
 
 ## KSB Mapping
 
 | KSB | Description | How This Tutorial Addresses It |
 |-----|-------------|-------------------------------|
-| S4 | Import, cleanse, transform data | Converting strings into algorithm-ready numbers |
-| K6 | Data analytics | Understanding the statistical implications of encoding |
+| S4 | Import, cleanse, transform data | Converting categorical strings into mathematical arrays |
+| K5 | Machine Learning workflows | Selecting the statistically appropriate encoding technique |
+| B2 | Logical and analytical approach | Avoiding multicollinearity traps analytically |

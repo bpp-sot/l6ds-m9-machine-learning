@@ -1,61 +1,63 @@
-# Reference: Sklearn Preprocessing API
+# Scikit-Learn Preprocessing Reference
 
-This page acts as a quick-lookup repository for Scikit-Learn's `sklearn.preprocessing` library classes. 
+> The `sklearn.preprocessing` module is the engine driving mathematical transformations.
 
-## The Standard Transformer API
+## Encoders (Categorical to Numeric)
 
-All valid transformers within Scikit-Learn follow a tri-method design paradigm:
+Mapping unstructured text structurally into arrays.
 
-| Method | Parameters | Action |
-|--------|------------|--------|
-| `fit()` | `(X, y=None)` | Learns the required parameters from the data structure (e.g., mean, standard deviation, max value, unique classes). |
-| `transform()` | `(X)` | Applies the learned transformation from `fit()` to the provided input matrix. |
-| `fit_transform()` | `(X, y=None)`| Fits and transforms in a single, perfectly optimized computational step. **Only use this on Training Data.** |
+| Class | Use Case | Example |
+|---|---|---|
+| `OrdinalEncoder()` | **Hierarchical/Ranked Text**: Low < Medium < High | `[[0], [1], [2]]` |
+| `OneHotEncoder(drop='first')` | **Nominal Text**: Red vs Blue vs Green | `[[1,0], [0,1], [0,0]]` |
+| `LabelEncoder()` | **Target Variables strictly (`Y`)**: Binary or Multiclass strings | `0, 1` |
 
-> [!WARNING]
-> **Data Leakage Risk:** Using `.fit_transform()` on `X_test` will overwrite the scaling logic learned from the training loop, causing a silent evaluation failure. Always utilize `.fit_transform()` on Training objects, and **strictly** `.transform()` on Validation/Testing vectors. 
+```python
+from sklearn.preprocessing import OrdinalEncoder, OneHotEncoder
 
----
+# Ordinal mathematically enforces scale
+rank_encoder = OrdinalEncoder(categories=[['Small', 'Medium', 'Large']])
 
-## 1. Feature Scalars
+# OneHot purely routes string values out to parallel binary columns
+ohe = OneHotEncoder(sparse_output=False, drop='first')
+```
 
-All scalars modify numeric ranges to protect continuous gradient calculations without sacrificing structural topology.
+## Scalers (Numeric to Numeric)
 
-### `StandardScaler()`
-- **Logic**: Centers mean at 0 and scales to internal variance 1.
-- **When to Use**: Normally distributed variables. Default choice.
+Harmonising the distance between numerical ranges.
 
-### `MinMaxScaler(feature_range=(0,1))`
-- **Logic**: Squashes limits to strict, static bounds.
-- **When to Use**: Deep Learning pixels or hard range strictures. Highly influenced by outliers.
+| Class | Behaviour | Use Case |
+|---|---|---|
+| `StandardScaler()` | Z-score scaling. Mean is strictly 0, std is 1. | **DEFAULT**: Linear regressions, SVMs, PCA |
+| `MinMaxScaler()` | Compresses purely between minimum 0.0 to maximum 1.0 | Deep Learning Tensors (Neural Networks) |
+| `RobustScaler()` | Scales purely around Median and strictly Interquartile Range | Data containing severe extreme outliers |
 
-### `RobustScaler()`
-- **Logic**: Removes Median and scales according to IQR range limits (1st quartile and 3rd quartile). 
-- **When to Use**: Fields devastated by immense, irremovable outlier artifacts.
+```python
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
----
+# Sets feature distribution to Mean = 0, Std = 1
+std = StandardScaler()
 
-## 2. Categorical Encoders
+# Sets boundary dynamically between Min = 0.0, Max = 1.0 
+minmax = MinMaxScaler()
+```
 
-Text encoding forces alphabetic patterns into machine-readable numeric formats.
+## Imputers (Missing Data)
 
-### `OneHotEncoder(drop='first', sparse_output=False)`
-- **Logic**: Projects each category class into a distinct Boolean feature column.
-- **When to Use**: **Nominal** Categories.
-- *Notes:* Setting `drop='first'` prevents multi-collinearity issues against non-regularized generalized linear engines.
+Located uniquely in `sklearn.impute`.
 
-### `OrdinalEncoder()`
-- **Logic**: Enumerates classes progressively (0, 1, 2...).
-- **When to Use**: Explicit **Ordinal** Categories where logic scales progressively (Low, Medium, High). 
+| Class | Strategy | Use Case |
+|---|---|---|
+| `SimpleImputer(strategy='mean')` | Fills statically with statistical Average | Normally distributed continuous algorithms |
+| `SimpleImputer(strategy='median')`| Fills statically with geometric middle | Highly skewed geometric boundaries |
+| `SimpleImputer(strategy='most_frequent')` | Fills statically with textual Mode | Pure categorical (Text/Object) columns |
 
-### `TargetEncoder(smooth="auto")`
-- **Logic**: Injects the historical mathematical Mean of the prediction target aligned specifically with the category group.
-- **When to Use**: High Cardinality String lists (ZIP Code, VIN Num, Store Num).
+```python
+from sklearn.impute import SimpleImputer
 
----
+# Instantiation mapping structurally to Median arithmetic
+imputer = SimpleImputer(strategy='median')
+```
 
-## 3. Discretization
-
-### `KBinsDiscretizer(n_bins=5, encode='ordinal', strategy='quantile')`
-- **Logic**: Partitions massive continuous data values into arbitrary categorical block definitions.
-- **When to Use**: Mapping age ranges natively (20-30, 30-40, etc) to generalize tree relationships natively. Strategy variables can force identical bin sizes or identically sized population distributions inside the bins.
+!!! info "Assessment Connection"
+    For your K3 (Data Management) portfolio, documenting why `StandardScaler` was chosen explicitly over `MinMaxScaler` based on your analysis of the statistical feature skew guarantees top marks from assessment moderators.

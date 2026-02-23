@@ -1,265 +1,178 @@
 # Loading & Exploring Data
 
-> The first step in any ML project is understanding what you're working with.
+> The first step in any ML project is understanding what you're working with. 
 
 ## What You Will Learn
-
-- Load data from CSV, Excel, and SQL sources using pandas
-- Inspect dataset shape, types, and basic statistics
-- Identify missing values and duplicates
+- Load data securely using pandas and built-in datasets
+- Inspect dataset shape, types, and basic statistics efficiently
+- Identify missing values and duplicates with minimal code
 - Create initial visualisations to understand distributions and relationships
-- Document your Exploratory Data Analysis (EDA) findings
 
 ## Prerequisites
-
-- Python environment set up ([see setup guide](../../getting-started/setup.md))
-- Basic familiarity with pandas and matplotlib
+- Python environment set up
+- Basic familiarity with `pandas` and `seaborn`
 
 ## Step 1: Load Your Data
+
+Instead of manually loading CSVs, we will use the built-in `penguins` dataset from Seaborn. This dataset contains physical measurements of three penguin species and is excellent for demonstrating data preparation.
 
 ```python
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.pyplot as plt
+import missingno as msno
 
-# Set display options
-pd.set_option('display.max_columns', None)
-pd.set_option('display.max_rows', 20)
-sns.set_style('whitegrid')
+# Load the built-in penguins dataset
+df = sns.load_dataset('penguins')
+
+print(f"Dataset shape: {df.shape}")
+df.head(3)
 ```
 
-### From CSV
-
-```python
-df = pd.read_csv('data.csv')
-```
-
-### From Excel
-
-```python
-df = pd.read_excel('data.xlsx', sheet_name='Sheet1')
-```
-
-### From SQL
-
-```python
-import sqlite3
-conn = sqlite3.connect('database.db')
-df = pd.read_sql('SELECT * FROM customers', conn)
-```
+??? example "Expected Output"
+    ```text
+    Dataset shape: (344, 7)
+    ```
+    
+    | | species | island | bill_length_mm | bill_depth_mm | flipper_length_mm | body_mass_g | sex |
+    |---|---------|--------|----------------|---------------|-------------------|-------------|-----|
+    | 0 | Adelie | Torgersen | 39.1 | 18.7 | 181.0 | 3750.0 | Male |
+    | 1 | Adelie | Torgersen | 39.5 | 17.4 | 186.0 | 3800.0 | Female |
+    | 2 | Adelie | Torgersen | 40.3 | 18.0 | 195.0 | 3250.0 | Female |
 
 !!! tip "Workplace Tip"
-    In your workplace project, document exactly where your data comes from. The assessment rubric values transparency about data sources and any transformations applied before analysis.
+    In your workplace project, document exactly where your data comes from. The assessment rubric values transparency about data sources and any SQL transformations applied before your Python analysis string.
 
 ## Step 2: First Look at the Data
 
-```python
-# Shape: rows x columns
-print(f"Dataset shape: {df.shape[0]} rows, {df.shape[1]} columns")
-
-# First few rows
-df.head()
-```
-
-```python
-# Column names and data types
-df.info()
-```
+Use pandas built-in methods to concisely summarise the numeric and categorical columns.
 
 ```python
 # Summary statistics for numeric columns
-df.describe()
+df.describe().round(2)
 ```
 
-```python
-# Summary statistics for categorical columns
-df.describe(include='object')
-```
+??? example "Expected Output"
+    | | bill_length_mm | bill_depth_mm | flipper_length_mm | body_mass_g |
+    |---|---|---|---|---|
+    | count | 342.00 | 342.00 | 342.00 | 342.00 |
+    | mean | 43.92 | 17.15 | 200.92 | 4201.75 |
+    | std | 5.46 | 1.97 | 14.06 | 801.95 |
+    | min | 32.10 | 13.10 | 172.00 | 2700.00 |
+    | 25% | 39.23 | 15.60 | 190.00 | 3550.00 |
+    | 50% | 44.45 | 17.30 | 197.00 | 4050.00 |
+    | 75% | 48.50 | 18.70 | 213.00 | 4750.00 |
+    | max | 59.60 | 21.50 | 231.00 | 6300.00 |
 
-!!! note "Assessment Connection"
+!!! info "Assessment Connection"
     Section A of your presentation should demonstrate that you thoroughly understood your data before modelling. Examiners want to see evidence of systematic exploration, not just jumping straight to algorithms.
 
 ## Step 3: Missing Values Audit
 
+Rather than looping over columns, use pandas method chaining to generate a clean summary of missing data.
+
 ```python
-# Count missing values per column
-missing = df.isnull().sum()
-missing_pct = (missing / len(df)) * 100
-
-missing_summary = pd.DataFrame({
-    'Missing Count': missing,
-    'Missing %': missing_pct.round(2)
-}).sort_values('Missing %', ascending=False)
-
-print(missing_summary[missing_summary['Missing Count'] > 0])
+# Create a concise missing values summary
+missing_summary = df.isnull().sum().sort_values(ascending=False)
+print(missing_summary[missing_summary > 0])
 ```
 
-### Visualise Missing Patterns
+??? example "Expected Output"
+    ```text
+    sex                  11
+    bill_length_mm        2
+    bill_depth_mm         2
+    flipper_length_mm     2
+    body_mass_g           2
+    dtype: int64
+    ```
+
+For a visual representation of missing data, the `missingno` library is the industry standard:
 
 ```python
-import missingno as msno
-
 # Matrix view — shows patterns of missingness
-msno.matrix(df, figsize=(12, 6))
-plt.title('Missing Value Patterns')
+msno.matrix(df, figsize=(10, 5))
+plt.title('Penguins Dataset: Missing Value Patterns', fontsize=16)
 plt.tight_layout()
 plt.show()
 ```
 
-```python
-# Heatmap — shows correlations between missing values
-msno.heatmap(df, figsize=(10, 6))
-plt.title('Missing Value Correlations')
-plt.tight_layout()
-plt.show()
-```
+??? example "Expected Plot"
+    ![Missing Value Patterns](../../assets/images/topic1-penguins-msno-matrix.png)
 
-!!! tip "Workplace Tip"
-    Missing data is rarely random. If two columns are missing together, there's often a business reason. For example, in HR data, 'promotion_date' and 'new_salary' might both be missing for employees who weren't promoted.
+## Step 4: Distribution Analysis
 
-## Step 4: Duplicates Check
+Use Seaborn to quickly visualise the distributions of your numeric variables. It handles NaN values natively and requires far less code than Matplotlib.
 
 ```python
-# Check for exact duplicate rows
-n_duplicates = df.duplicated().sum()
-print(f"Exact duplicate rows: {n_duplicates}")
-
-if n_duplicates > 0:
-    print("\nFirst few duplicates:")
-    print(df[df.duplicated(keep=False)].head(10))
-```
-
-```python
-# Check for duplicates on key columns
-key_cols = ['customer_id', 'date']  # Adjust for your dataset
-n_key_dupes = df.duplicated(subset=key_cols).sum()
-print(f"Duplicates on key columns: {n_key_dupes}")
-```
-
-## Step 5: Distribution Analysis
-
-### Numeric Variables
-
-```python
+# Plot numeric distributions
 numeric_cols = df.select_dtypes(include=[np.number]).columns
-
-fig, axes = plt.subplots(
-    nrows=len(numeric_cols),
-    ncols=2,
-    figsize=(14, 4 * len(numeric_cols))
-)
+fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(12, 8))
+axes = axes.flatten()
 
 for i, col in enumerate(numeric_cols):
-    # Histogram
-    axes[i, 0].hist(df[col].dropna(), bins=30, edgecolor='black', alpha=0.7)
-    axes[i, 0].set_title(f'{col} — Distribution')
-    axes[i, 0].set_xlabel(col)
-    axes[i, 0].set_ylabel('Frequency')
-
-    # Box plot
-    axes[i, 1].boxplot(df[col].dropna(), vert=True)
-    axes[i, 1].set_title(f'{col} — Box Plot')
+    sns.histplot(data=df, x=col, kde=True, ax=axes[i], color='#6E368A')
+    axes[i].set_title(f'Distribution of {col}')
 
 plt.tight_layout()
 plt.show()
 ```
 
-### Categorical Variables
+??? example "Expected Plot"
+    ![Feature Distributions](../../assets/images/topic1-penguins-distributions.png)
 
-```python
-cat_cols = df.select_dtypes(include='object').columns
+## Step 5: Correlation Analysis
 
-for col in cat_cols:
-    print(f"\n{col}:")
-    print(f"  Unique values: {df[col].nunique()}")
-    print(f"  Top 5 values:")
-    print(df[col].value_counts().head())
-```
-
-## Step 6: Correlation Analysis
+Identify highly correlated features immediately to diagnose multicollinearity before modelling.
 
 ```python
 # Correlation matrix
+plt.figure(figsize=(8, 6))
 corr_matrix = df.select_dtypes(include=[np.number]).corr()
-
-plt.figure(figsize=(12, 10))
-sns.heatmap(
-    corr_matrix,
-    annot=True,
-    fmt='.2f',
-    cmap='coolwarm',
-    center=0,
-    square=True,
-    linewidths=0.5
-)
+sns.heatmap(corr_matrix, annot=True, fmt='.2f', cmap='coolwarm', center=0, linewidths=0.5)
 plt.title('Feature Correlation Matrix')
 plt.tight_layout()
 plt.show()
 ```
 
-```python
-# Pairplot for key features (limit to 5–6 columns for readability)
-key_features = ['feature1', 'feature2', 'feature3', 'target']  # Adjust
-sns.pairplot(df[key_features], diag_kind='kde', corner=True)
-plt.suptitle('Pairwise Feature Relationships', y=1.02)
-plt.show()
-```
-
-## Step 7: Document Your Findings
-
-Create an EDA summary to include in your presentation:
-
-```python
-eda_summary = {
-    'Dataset': 'Your dataset name',
-    'Rows': df.shape[0],
-    'Columns': df.shape[1],
-    'Numeric features': len(df.select_dtypes(include=[np.number]).columns),
-    'Categorical features': len(df.select_dtypes(include='object').columns),
-    'Missing values': df.isnull().sum().sum(),
-    'Duplicate rows': df.duplicated().sum(),
-    'Target variable': 'target_column_name',
-    'Key observations': [
-        'Observation 1 about your data',
-        'Observation 2 about distributions',
-        'Observation 3 about relationships',
-    ]
-}
-
-for k, v in eda_summary.items():
-    print(f"{k}: {v}")
-```
-
-!!! success "What Good EDA Looks Like in Your Assessment"
-    The difference between a pass and a distinction often lies in the quality of your EDA. Document:
-
-    - **What you found** — key patterns, anomalies, relationships
-    - **What it means** — business interpretation of the patterns
-    - **What you'll do about it** — how findings inform your preprocessing and modelling decisions
+??? example "Expected Plot"
+    ![Correlation Matrix](../../assets/images/topic1-penguins-correlation.png)
 
 ## Summary
-
-In this tutorial you learned to:
-
-- Load data from multiple sources using pandas
-- Systematically inspect shape, types, and statistics
-- Audit missing values with counts, percentages, and visual patterns
-- Check for and handle duplicate records
-- Visualise distributions and identify potential outliers
-- Analyse correlations between features
-- Document EDA findings for your assessment
+- Use `sns.load_dataset` for instant access to practice data
+- Use `df.describe()` and `df.info()` for immediate statistical summaries
+- Use method chaining (`df.isnull().sum().sort_values(ascending=False)`) for concise reporting
+- Use `missingno` to visually identify patterns in your missing data
+- Use `seaborn` heatmaps and histplots for heavily reduced plotting code
 
 ## Next Steps
-
 → [Handling Missing Values](missing-values.md) — decide how to treat the missing data you've identified
+
+??? challenge "Stretch & Challenge"
+    ### For Advanced Learners
+    
+    **Try automated EDA profiling**
+    
+    Instead of writing the exploration steps manually, try using `ydata_profiling` to generate a comprehensive HTML report of your dataset in just three lines of code:
+    
+    ```python
+    from ydata_profiling import ProfileReport
+    
+    # Generate the report
+    profile = ProfileReport(df, title="Penguins Profiling Report")
+    
+    # Save to a file to open in your browser
+    profile.to_file("penguins_report.html")
+    ```
+    
+    In your EPA presentation, doing this can save you 30 minutes of manual plotting while revealing deeper correlations and interactions you may have missed!
 
 ## KSB Mapping
 
 | KSB | Description | How This Tutorial Addresses It |
 |-----|-------------|-------------------------------|
-| K3 | Data management and storage | Loading data from multiple sources |
-| K6 | Data analytics and visualisation | EDA visualisations and statistical summaries |
-| S4 | Import, cleanse, transform data | Systematic data quality assessment |
+| K6 | Data analytics and visualisation | EDA visualisations and statistical heatmaps |
+| S4 | Import, cleanse, transform data | Systematic data quality assessment and loading |
 | S7 | Analyse data to generate insights | Interpreting distributions and correlations |
 | B2 | Logical and analytical approach | Structured, documented exploration process |

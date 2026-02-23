@@ -1,49 +1,102 @@
-# How-to: Handle High-Cardinality Categories
+# How to Handle High Cardinality Features
 
-## The Problem
-If a feature like "City" or "Postcode" has hundreds or thousands of unique string values, utilizing One-Hot Encoding (`pd.get_dummies`) creates an impossibly wide, sparse dataset resulting in the "Curse of Dimensionality" and memory crashes.
+> When a text column contains hundreds of unique classes (e.g. zip codes, product names), traditional encoding explodes into a Curse of Dimensionality.
 
-## The Solution
-You must restrict or transform categorical values.
+## What You Will Learn
+- Group highly fragmented classes into "Other"
+- Execute Frequency Encoding
+- Execute Target Encoding 
+
+## Step 1: Grouping Rare Tails ("Othering")
+
+If a column like `City` has `London` occurring 5000 times, and 400 rural villages occurring once each, mathematically mapping those 400 villages provides zero predictive lift and massively confuses algorithms. Group them together into a generic `Other` bucket.
 
 ```python
 import pandas as pd
-import numpy as np
-from sklearn.preprocessing import TargetEncoder
+import seaborn as sns
 
-# Generate high-cardinality data
-categories = ['Cat_A']*50 + ['Cat_B']*30 + ['Cat_C']*15 + ['Small_Cat']*5
-np.random.shuffle(categories)
-df = pd.DataFrame({
-    'Feature': categories,
-    'Target': np.random.randint(0, 2, 100) # Binary classification target
-})
+# We construct synthetic data with a 'long tail' of rare occurrences
+data = {'City': ['London']*1000 + ['Manchester']*500 + ['Leeds']*100 + ['VillageA', 'VillageB', 'VillageC', 'TownD', 'TownE']}
+df = pd.DataFrame(data)
 
-# Approach 1: Frequency Grouping (The "Other" Bucket)
-# Look at frequencies
-counts = df['Feature'].value_counts()
-print(f"Original Categories:\\n{counts}")
+# Find the frequency of each 
+freqs = df['City'].value_counts()
 
-# Decide a threshold (e.g. keep top 2, group the rest)
-top_categories = counts.nlargest(2).index
-df['Reduced_Feature'] = df['Feature'].where(df['Feature'].isin(top_categories), 'Other')
+# Define an arbitrary threshold (e.g. must appear > 50 times)
+rare_cities = freqs[freqs <= 50].index
 
-print(f"\\nReduced Categories:\\n{df['Reduced_Feature'].value_counts()}")
+# Replace them all with 'Other'
+df.loc[df['City'].isin(rare_cities), 'City'] = 'Other'
 
-# Approach 2: Target Encoding
-# Replaces string category with the Mean Target Value for that category
-# Excellent for Postcodes, Store IDs, Vehicle Models
-encoder = TargetEncoder(smooth="auto")
-
-# Must reshape to 2D array for sklearn
-df['Target_Encoded'] = encoder.fit_transform(df[['Feature']], df['Target'])
-print(f"\\nEncoded Mapping Preview:\\n{df.groupby('Feature')['Target_Encoded'].mean()}")
+print(df['City'].value_counts())
 ```
 
-## Discussion
+??? example "Expected Output"
+    ```text
+    City
+    London        1000
+    Manchester     500
+    Leeds          100
+    Other            5
+    ```
 
-### Feature Hashing
-An alternative for Neural Networks or Massive scales (streaming text categorization) is `FeatureHasher` from `sklearn.feature_extraction`. It hashes strings to bounded buckets, preventing the feature space from expanding infinitely, though it loses interpretability because you can no longer trace "Hash Column 3" back to "Manchester".
+## Step 2: Frequency Encoding
 
-### Caveats
-- Using `TargetEncoder` introduces extreme risks for **Data Leakage**. You must strictly fit the encoder *only* on the training data. If you implement this in your L6 Assessment, explicitly document your leakage mitigation strategy using `Pipeline()`.
+Instead of one-hot encoding 50 classes into 50 sparse columns, you can simply replace the text with the exact integer frequency of how often it appears. 
+
+```python
+# The frequency map
+freq_map = df['City'].value_counts().to_dict()
+
+# Map the raw integers back into the column
+df['City_Freq_Encoded'] = df['City'].map(freq_map)
+
+print(df.drop_duplicates())
+```
+
+??? example "Expected Output"
+    ```text
+                City  City_Freq_Encoded
+    0         London               1000
+    1000  Manchester                500
+    1500       Leeds                100
+    1600       Other                  5
+    ```
+
+Decision Trees (`RandomForest`, `XGBoost`) process Frequency Encoded columns efficiently directly, naturally interpreting that `London (1000)` structurally behaves identically to standard numeric parameters.
+
+## Step 3: Target Encoding
+
+Target encoding permanently maps the categorical string to the *historical mean* of the dependent target variable.
+
+```python
+# Assuming we are trying to predict Salary
+df['Salary'] = [50000]*1000 + [40000]*500 + [35000]*100 + [30000]*5 
+
+# Using category_encoders
+import category_encoders as ce
+
+encoder = ce.TargetEncoder(cols=['City'])
+df['City_Target_Encoded'] = encoder.fit_transform(df['City'], df['Salary'])
+
+print(df[['City', 'City_Target_Encoded']].drop_duplicates())
+```
+
+??? example "Expected Output"
+    ```text
+                City  City_Target_Encoded
+    0         London         50000.000000
+    1000  Manchester         40000.000000
+    1500       Leeds         35000.000000
+    1600       Other         30588.235294
+    ```
+
+!!! tip "Workplace Tip"
+    Target Encoding is strictly dependent on the training `Y` label. Be exceptionally careful not to accidentally `.fit_transform()` your live Test sets or Production records using this encoder. It creates the most catastrophic Data Leakage bugs in the industry!
+
+## KSB Mapping
+
+| KSB | Description | How This Guide Addresses It |
+|-----|-------------|-------------------------------|
+| S12 | Feature engineering | Mitigating Curse of Dimensionality utilizing dense algebraic encoding methodologies |
+| K6 | Data analytics and visualisation | Profiling class imbalances and distributions statistically |

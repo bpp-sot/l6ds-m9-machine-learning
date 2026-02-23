@@ -1,45 +1,83 @@
-# How-to: Choose the Right Data Granularity
+# How to Change Data Granularity
 
-## The Problem
-Your machine learning model will fail if your rows do not align logically with the target you are trying to predict. If you are predicting "Daily Revenue", inputting hourly transaction rows makes no sense.
+> Machine Learning algorithms require one row per 'event'. If your data is recorded per minute, but your predictive event is 'Total Daily Sales', you must aggregate granularities.
 
-## The Solution
-You must aggregate or unpack your dataset to achieve the correct granularity (the definition of a single row). 
+## What You Will Learn
+- Downsample high-frequency time-series data using `.resample()`
+- Aggregate categorical transactions into grouped numeric rows using `.groupby()`
+
+## Step 1: Time-Series Downsampling
+
+If sensors log temperature every 5 seconds, you will have $17,280$ rows per day. If you only want to predict the "Daily High Temp", you must compress the chronological granularity computationally.
 
 ```python
 import pandas as pd
 import numpy as np
 
-# Sample Transaction-level data (Granularity: 1 row = 1 receipt)
-transactions = pd.DataFrame({
-    'TrxDate': pd.to_datetime(['2023-01-01', '2023-01-01', '2023-01-02', '2023-01-02']),
-    'CustomerID': [101, 101, 102, 101],
-    'Amount': [50.50, 100.00, 20.00, 30.00],
-    'ProductID': ['A', 'B', 'A', 'C']
+# Simulate 1 week of minute-by-minute sensor data
+dates = pd.date_range("2024-01-01", "2024-01-07", freq="min")
+df = pd.DataFrame({
+    'timestamp': dates,
+    'temperature_c': np.random.normal(20, 2, len(dates))
 })
 
-print("Original Transaction Data:")
-print(transactions)
+# Set the timestamp as the index (mandatory for Pandas time-series)
+df.set_index('timestamp', inplace=True)
 
-# Goal: Predict "total future customer value". 
-# Solution: Group to Customer Granularity (1 row = 1 Customer)
-customer_level = transactions.groupby('CustomerID').agg({
-    'Amount': ['sum', 'mean', 'count'], # Total Spent, Avg Order Value, Order Count
-    'TrxDate': ['min', 'max']           # First Purchase, Recent Purchase
+# Resample to Daily ('D') frequency, capturing the Max and Mean
+daily_stats = df.resample('D').agg({
+    'temperature_c': ['max', 'mean']
 })
 
-# Flatten MultiIndex columns created by agg
-customer_level.columns = ['_'.join(col).strip() for col in customer_level.columns.values]
-customer_level.reset_index(inplace=True)
-
-print("\\nRe-aggregated Customer Data:")
-print(customer_level)
+print(daily_stats)
 ```
 
-## Discussion
+??? example "Expected Output"
+    ```text
+                temperature_c           
+                          max       mean
+    timestamp                           
+    2024-01-01      25.105123  20.001235
+    2024-01-02      26.002341  19.981290
+    ...
+    ```
 
-### Granularity Mismatches 
-A common failure in ML happens when merging varying granularities. Joining city-level demographic data (1 row = 1 City) onto user purchases (1 row = 1 receipt) replicates the city metrics 5,000 times, introducing artificial certainty to the model constraints.
+## Step 2: Aggregating Categorical Groups
 
-### Temporal Granularity
-Time-series forecasting is particularly vulnerable. Ensure you resample (using `df.resample('D').sum()`) correctly to establish explicit frequencies before feeding parameters into an ARIMA or Prophet pipeline.
+If a transactional file has 1 row per checkout receipt, but your objective is to predict "Customer Lifetime Value", you must aggregate the data so the granularity is exactly 1 row per `customer_id`.
+
+```python
+# Simulating receipt-level transactions
+transactions = pd.DataFrame({
+    'customer_id': [1, 1, 1, 2, 2, 3],
+    'purchase_amount': [15.50, 20.00, 5.00, 100.00, 50.00, 12.00],
+    'item_category': ['Food', 'Food', 'Drink', 'Electronics', 'Clothing', 'Food']
+})
+
+# Group statically by Customer
+customer_profile = transactions.groupby('customer_id').agg(
+    total_spent=('purchase_amount', 'sum'),
+    average_order_value=('purchase_amount', 'mean'),
+    number_of_purchases=('purchase_amount', 'count')
+).reset_index()
+
+print(customer_profile)
+```
+
+??? example "Expected Output"
+    ```text
+       customer_id  total_spent  average_order_value  number_of_purchases
+    0            1         40.5                13.50                    3
+    1            2        150.0                75.00                    2
+    2            3         12.0                12.00                    1
+    ```
+
+!!! info "Assessment Connection"
+    In your presentation, examiners will probe whether your dataset granularity matched your theoretical problem statement. Demonstrating explicit `.groupby()` engineering proves you didn't simply throw raw transactional logs blindly into an algorithm!
+
+## KSB Mapping
+
+| KSB | Description | How This Guide Addresses It |
+|-----|-------------|-------------------------------|
+| S4 | Import, cleanse, transform data | Flattening granular dimensions using groupby heuristics |
+| B2 | Logical approach | Framing algorithmic structures symmetrically mapped to discrete business objectives |
