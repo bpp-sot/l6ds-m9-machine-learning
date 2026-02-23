@@ -1,116 +1,132 @@
-# Embedded Selection Methods
+# Embedded Methods
 
-> "Why build a separate feature selection layer when the algorithm can just do it natively?"
+> Filtering evaluates columns blindly. Wrapping evaluates models blindly. Embedded methods compute feature importance *during* the actual mathematical algorithmic training.
 
 ## What You Will Learn
-
-- Utilize algorithms with built-in feature selection (Lasso, Decision Trees, RandomForest)
-- Extract `.coef_` to build Feature Importance logic
-- Apply `SelectFromModel` meta-transformers
+- Define the Embedded Method architecture
+- Retrieve explicit `.feature_importances_` coefficients natively from `RandomForest`
+- Prune decision trees algorithmically to eliminate low-value inputs
 
 ## Prerequisites
+- Completed *Filter Methods* and *Wrapper Methods*
+- Core understanding of Random Forest or Decision Tree topologies
 
-- [Wrapper Selection Methods](wrapper-methods.md)
+## Step 1: The Beauty of the Embedded Workflow
 
-## Step 1: L1 Regularisation (Lasso)
+Instead of wrapping a model inside a slow, repetitive loop (RFE), we can run a single model that natively tracks its own decisions. 
 
-Standard linear regression algorithms will assign a weight (coefficient) to *every single feature* no matter how useless it is. 
-
-**Lasso Regression** (Least Absolute Shrinkage and Selection Operator) utilizes a mathematical penalty called `L1 Regularization`. This penalty forces the coefficients of weak features directly to **0.0**, permanently eliminating them during natural training!
-
-\\[
-Loss = \\text{MSE} + \\alpha \\sum_{i=1}^{n} |\\beta_i|
-\\]
+Whenever a `RandomForestClassifier` mathematically splits a data node, it calculates how much "Impurity" (Gini Index/Entropy) decreased. Over the construction of 100 parallel trees, it sums those decreases. Features that generated massive, clean splits score highly. Features that failed to split the tree cleanly score ~0.
 
 ```python
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.datasets import fetch_california_housing
-from sklearn.linear_model import Lasso, LinearRegression
-from sklearn.preprocessing import StandardScaler
+import seaborn as sns
+from sklearn.ensemble import RandomForestClassifier
 
-# Load Housing Data
-data = fetch_california_housing(as_frame=True)
-X, y = data.data, data.target
+# Using the Penguins dataset with 4 native continuous features
+df = sns.load_dataset('penguins').dropna()
+X = df[['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g']]
+y = df['species']
 
-# ALL Linear Models must be scaled before using L1/L2 penalties!
-scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X)
+# We train exactly 1 model normally
+rf = RandomForestClassifier(n_estimators=100, random_state=42)
+rf.fit(X, y)
 
-# 1. Standard Linear Regression
-lr = LinearRegression()
-lr.fit(X_scaled, y)
-print("Standard Regression MedInc Coef:", round(lr.coef_[0], 4))
+# We request the model to print its own internal analytical diary!
+importance_df = pd.DataFrame({
+    'Feature': X.columns,
+    'Importance': rf.feature_importances_
+}).sort_values(by='Importance', ascending=False)
 
-# 2. Lasso Regression (The Embedded Selector)
-# Alpha dictates the strength of the penalty. 
-lasso = Lasso(alpha=0.1, random_state=42)
-lasso.fit(X_scaled, y)
-
-print(f"\\nLasso Coefficients (Alpha={lasso.alpha}):")
-for feature, coef in zip(data.feature_names, lasso.coef_):
-    print(f"{feature}: {round(coef, 4)}")
+print(importance_df.round(4))
 ```
 
-If you ran the script above, you would notice Lasso zeroed out multiple columns natively. The data was filtered without building an external `RFE` pipeline.
+??? example "Expected Output"
+    ```text
+                 Feature  Importance
+    2  flipper_length_mm      0.4190
+    0     bill_length_mm      0.3957
+    1      bill_depth_mm      0.1264
+    3        body_mass_g      0.0588
+    ```
 
-## Step 2: Tree-Based Importances
-
-Decision Trees, Random Forests, and Gradient Boosting machines inherently select features by choosing the most optimal splits (Information Gain / Gini Impurity) to build their nodes. We can extract these choices automatically.
+In ~20 milliseconds, the Random Forest confidently deduced that `flipper_length` contributed 42% naturally to all global decision splits, while `body_mass_g` barely managed to contribute 6%. No manual filtering or wrapper loops required!
 
 ```python
-from sklearn.ensemble import RandomForestRegressor
-import seaborn as sns
+import matplotlib.pyplot as plt
 
-rf = RandomForestRegressor(n_estimators=100, max_depth=5, random_state=42)
-rf.fit(X, y) # Trees do not require scaling!
-
-# Extract importances
-importances = pd.DataFrame({
-    'Feature': data.feature_names,
-    'Importance': rf.feature_importances_
-}).sort_values('Importance', ascending=False)
-
-# Visualizing Importances
-plt.figure(figsize=(10, 6))
-sns.barplot(x='Importance', y='Feature', data=importances, palette='mako')
-plt.title('Random Forest Embedded Feature Importances')
+plt.figure(figsize=(8, 5))
+sns.barplot(data=importance_df, x='Importance', y='Feature', color='#D94D26')
+plt.title('Random Forest Gini Importance')
+plt.tight_layout()
 plt.show()
 ```
 
-!!! tip "Workplace Tip"
-    The chart above is the single most common visualization presented to corporate stakeholders during an ML sprint. It answers the fundamental business question: *"What is driving the predictions?"*
+??? example "Expected Plot"
+    ![Random Forest Feature Importance](../../assets/images/topic2-embedded-rf.png)
 
-## Step 3: Sklearn's `SelectFromModel`
+## Step 2: Selecting from Model Output
 
-To functionally integrate Embedded methods into a multi-step `Pipeline`, we use `SelectFromModel`. It automatically wraps an estimator and drops columns whose coefficients or importances fall below a set threshold.
+Once the Forest computes the coefficients internally, we execute `SelectFromModel` to physically delete the physical columns failing our arbitrary thresholds!
 
 ```python
 from sklearn.feature_selection import SelectFromModel
 
-# We tell SelectFromModel to use the Random Forest logic from Step 2
-# and completely drop any feature less important than the median threshold
-selector = SelectFromModel(rf, threshold='median')
+# We instruct Scikit-Learn to only keep features that perform better than the "mean" performance
+selector = SelectFromModel(estimator=rf, prefit=True, threshold='mean')
 
-X_pruned = pd.DataFrame(selector.fit_transform(X, y), 
-                        columns=X.columns[selector.get_support()])
+# Execute the pruning array reduction
+X_pruned = selector.transform(X)
 
-print(f"Original shape: {X.shape}")
-print(f"Embedded Pruned shape: {X_pruned.shape}")
+print(f"Original features: {X.shape[1]}")
+print(f"Pruned features: {X_pruned.shape[1]}")
 ```
 
-## Summary
+??? example "Expected Output"
+    ```text
+    Original features: 4
+    Pruned features: 2
+    ```
 
-Embedded methods are the "Best of Both Worlds". They are faster than Wrapper methods because they only train the model once, and they are more accurate than Filter methods because they learn the interaction between features directly against the prediction target.
+The model calculated the mean importance of all columns was `0.250`. Consequently, it dynamically deleted `body_mass` (`0.05`) and `bill_depth` (`0.12`) from the matrix forever, passing only the top 2 arrays cleanly to production!
+
+!!! tip "Workplace Tip"
+    If your stakeholder demands to know *why* the ML model denied a customer's loan, `RandomForest` Feature Importances are explicitly the definitive reporting tool. Visualizing the `importance_df` as a bar chart in Jira satisfies the C-Suite immediately.
+
+## Summary
+- **Embedded Methods** observe the algorithms organically calculating coefficients mid-training.
+- Models like `RandomForest`, `DecisionTree`, and `Lasso` possess native `.feature_importances_` dictionaries.
+- **SelectFromModel** integrates seamlessly with Pipelines to mechanically enforce deletion parameters mid-stream without crashing.
 
 ## Next Steps
+→ [PCA Dimensionality Reduction](pca-dimensionality-reduction.md) — What if deleting columns isn't enough? What if we must mathematically crush 50 columns into 2 dimensions entirely?
 
-→ [PCA & Dimensionality Reduction](pca-dimensionality-reduction.md)
+??? challenge "Stretch & Challenge"
+    ### For Advanced Learners
+    
+    **Lasso (L1) Regularisation Shrinkage**
+    
+    Tree-based algorithms use Gini Impurity splits. Linear algorithms (like `LogisticRegression`) can dynamically eliminate features *during* training by utilizing the `L1` penalty mathematically (also known as Lasso Regularisation).
+    
+    ```python
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.preprocessing import StandardScaler
+    
+    # Standardisation is MANDATORY for Lasso mathematics
+    X_scaled = StandardScaler().fit_transform(X)
+    
+    # The 'l1' penalty explicitly forces low-signal variables to mathematically equal 0.00
+    lasso_model = LogisticRegression(penalty='l1', solver='liblinear', C=0.1)
+    lasso_model.fit(X_scaled, y)
+    
+    print(f"Coefficients dynamically assigned 0.00: {(lasso_model.coef_ == 0).sum()}")
+    ```
+    
+    Unlike standard regressions, Lasso rigorously pushes bad variables identically to exactly zero, fundamentally acting identically to an Embedded Selection filter!
 
 ## KSB Mapping
 
 | KSB | Description | How This Tutorial Addresses It |
 |-----|-------------|-------------------------------|
-| S9 | Present findings | Translating mathematical weights into stakeholder impact visualisations |
-| S2 | Apply ML techniques | Implementing Lasso regularization and Gini Impurity weighting |
+| S13 | Apply ML algorithms | Operating analytical models mechanically capable of self-filtering features |
+| K6 | Data analytics and visualisation | Generating internal Gini node distributions across topological plots |
+| B2 | Logical and analytical approach | Optimizing dimensionality purely natively rather than via arbitrary statistical wrappers |

@@ -1,49 +1,45 @@
-# Reference: Scikit-Learn Feature Selection API
+# Scikit-Learn Feature Selection API
 
-This page organizes the primary `sklearn.feature_selection` classes and functions.
+> The most frequently natively utilized dimensionality optimization modules computationally located within sklearn.
 
-## 1. Filter Methods (Univariate)
+## Statistical Filters 
 
-Filter methods execute statistically independent of any machine learning model.
+Evaluating vectors fundamentally strictly via mathematical boundaries computationally independently.
 
-| Class | Purpose | Key Parameters | Note |
-|-------|---------|----------------|------|
-| `VarianceThreshold(threshold)` | Drops features where empirical variance falls below threshold | `threshold=0` drops purely static columns | Excellent first-pass sanity check. |
-| `SelectKBest(score_func, k)` | Selects the `k` features with highest statistical scores | `k=10` keeps top 10 features | Must pair with appropriate `score_func`. |
-| `SelectPercentile(score_func, percentile)`| Selects the top `percentile` percentage of features | `percentile=10` keeps top 10% | Dynamic `k` based on total dimension count. |
+| Class | Methodology | Scoring Function Support (Target) |
+|---|---|---|
+| `VarianceThreshold(threshold=0)` | Deletes identical fixed columns structurally | None required (Unsupervised) |
+| `SelectKBest(score_func=...)` | Keeps strictly top `K` numeric arrays independently | Requires Regression/Classification scoring explicitly |
+| `SelectPercentile(percentile=10)` | Retains exactly the top `X%` distributions geometrically | Requires Regression/Classification scoring explicitly |
 
-### Statistical Testing Functions (Used inside `score_func`)
+### Scoring Functions for `SelectKBest`
 
-| Function | Task Type | Feature Type | Logic |
-|----------|-----------|--------------|-------|
-| `f_regression` | Regression | Continuous | ANOVA F-Value (Linear Correlation) |
-| `mutual_info_regression` | Regression | Any | Captures non-linear relationships |
-| `f_classif` | Classification | Continuous | ANOVA F-Value (Linear Correlation) |
-| `chi2` | Classification | Categorical | Chi-Squared test (strictly Non-negative data) |
-| `mutual_info_classif` | Classification | Any | Captures non-linear relationships |
+| Score Func | Predictor Vector (`X`) | Target Vector (`Y`) | Use Case |
+|---|---|---|---|
+| `f_classif` | Continuous Float | Categorical Binary | **Classification** |
+| `chi2` | Categorical Integer | Categorical Binary | **Classification** |
+| `f_regression` | Continuous Float | Continuous Float | **Regression** |
+| `mutual_info_classif` | Non-Linear Float | Categorical Binary | **Classification** (Heavy compute) |
 
----
+## Wrapper Constructors
 
-## 2. Wrapper Methods 
+Searching algorithmic arrays structurally combinatorially dynamically.
 
-Wrapper methods iteratively train a user-provided estimator model.
+| Class | Description | Scaling Efficiency |
+|---|---|---|
+| `RFE(estimator=rf, step=1)` | Recursive Feature Elimination implicitly strips the singularly lowest performing matrix explicitly mechanically natively backwards | Medium |
+| `RFECV(cv=5)` | RFE mechanically executed sequentially across 5 completely separated Validation distributions natively preventing extreme Data Leakage mathematically | Slow |
+| `SequentialFeatureSelector()` | Forwards or backwards combinatorial explicit isolation matrix algebraically geometrically | Extremely Slow |
 
-| Class | Purpose | Requirements |
-|-------|---------|--------------|
-| `RFE(estimator, n_features_to_select)` | Recursive Feature Elimination. Iteratively drops the weakest feature. | `estimator` must expose `coef_` or `feature_importances_`. |
-| `RFECV(estimator, cv, scoring)` | Automated RFE using Cross-Validation to find the mathematical optimal feature count. | Visually plotted via `.cv_results_`. |
-| `SequentialFeatureSelector(estimator, direction)`| Adds (Forward) or removes (Backward) features one by one evaluating CV score shifts. | Compatible with models lacking importances natively (e.g. KNN). |
+## Feature Importances (Embedded)
 
----
+Extracting explicitly algorithmic constraints organically natively explicitly computational generated weights algebraically.
 
-## 3. Embedded Methods
+| Technique | Metric | How to Call |
+|---|---|---|
+| **Tree Ensembles** | Gini Impurity or Entropy Decreases strictly | `model.feature_importances_` |
+| **Linear Models** | Absolute weight parameter size functionally globally | `model.coef_` |
+| **Lasso Regression (L1)** | Feature Coefficient forced mechanically to exactly `0` | `model.coef_ == 0` |
 
-Embedded methods select features during the natural model training process.
-
-| Algorithm Category | Built-in Feature Selection Logic | Extracted Attribute |
-|--------------------|----------------------------------|---------------------|
-| `Lasso` (L1 Regression) | Punishes magnitude of weights; forces weak features to exactly `0.0`. | `lasso.coef_` |
-| Tree / Ensembles | Chooses features that produce highest Gini Impurity reduction / Information Gain at split nodes. | `rf.feature_importances_` |
-
-To functionally drop columns using embedded logic inside an automated Pipeline, wrap the estimator:
-- `SelectFromModel(estimator, threshold)`: Retains columns whose `coef_` or `importances_` exceed the defined threshold (e.g., `'median'`, `'1.5*mean'`).
+!!! tip "Workplace Tip"
+    To extract the physical column string matrix natively out from `SelectKBest`, execute `selector.get_support()`. This yields explicitly a boolean array internally `[True, False, True]`, allowing you to slice dynamically `df.columns[selector.get_support()]` elegantly algebraically.

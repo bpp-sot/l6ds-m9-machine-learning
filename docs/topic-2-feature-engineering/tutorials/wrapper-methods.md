@@ -1,129 +1,101 @@
-# Wrapper Selection Methods
+# Wrapper Methods
 
-> "If Filter methods are the shotgun approach, Wrapper methods are the sniper rifle. They are slow, methodical, and aggressively accurate."
+> Wrapper methods actually train microscopic machine learning models recursively to test whether omitting a specific column damages predictive velocity.
 
 ## What You Will Learn
-
-- Implement Recursive Feature Elimination (RFE)
-- Cross-Validate feature elimination (RFECV)
-- Implement Sequential Feature Selection (Forward/Backward Stepwise)
+- Differentiate Wrapper methods from Filter methods computationally
+- Deploy Recursive Feature Elimination (RFE)
+- Assess the radical computation costs involved
 
 ## Prerequisites
+- Completed the *Filter Methods* tutorial
+- Basic understanding of standard supervised classifiers (`LogisticRegression`)
 
-- [Filter Selection Methods](filter-methods.md)
-- Familiarity with the `scikit-learn` Pipeline API
+## Step 1: The Flaw in Filtering
 
-## Step 1: Why Wrapper Methods?
+Filter methods evaluate columns exclusively individually. If `Age` is highly predictive, and `Date of Birth` is highly predictive, a Filter method will stubbornly keep *both*. But keeping both is redundant multicollinearity.
 
-**Wrapper Methods** evaluate subsets of features by training an *actual* machine learning model (the "wrapper") on varying combinations of features and measuring the evaluation metric (e.g., Accuracy, R-Squared). 
-
-Because it trains a real model thousands of times, it is computationally devastating, but mathematically superior to simple Filter checks which ignore how features interact *together*.
-
-```mermaid
-graph TD
-    A[Start: All Features] --> B[Train Estimator]
-    B --> C[Rank Feature Importances]
-    C --> D[Drop Weakest Feature]
-    D --> E{Desired Feature Count Reached?}
-    E -->|No| B
-    E -->|Yes| F[Final Reduced Dataset]
-```
+Wrapper Methods solve this. They actually train a model with `Age`, then train a totally new model with `Date of Birth`, explicitly noticing that removing one doesn't alter accuracy.
 
 ## Step 2: Recursive Feature Elimination (RFE)
 
-RFE trains a model, extracts the `coef_` or `feature_importances_` attribute, drops the lowest-ranking feature, and rebuilds the model from scratch. It repeats recursively until you reach the target `n_features_to_select`.
+RFE builds an algorithm utilizing every single feature. It ranks all features by validation weight coefficients. It executes the weakest feature, drops the column, and mathematically retrains the entire model dynamically from scratch cleanly until `n_features_to_select` remains.
+
+We will systematically eliminate components of the `diamonds` array utilizing a Logistic model.
 
 ```python
 import pandas as pd
-from sklearn.datasets import make_friedman1
+import seaborn as sns
 from sklearn.feature_selection import RFE
-from sklearn.tree import DecisionTreeRegressor
-import matplotlib.pyplot as plt
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler, LabelEncoder
 
-# Generate a synthetic regression dataset with 10 features
-# only 5 of these features are actually linked to the target 'y'!
-X, y = make_friedman1(n_samples=500, n_features=10, random_state=42)
-X_df = pd.DataFrame(X, columns=[f'Feature_{i}' for i in range(1, 11)])
+# Sample the dataset for extreme speed 
+df = sns.load_dataset('diamonds').sample(500, random_state=42)
 
-# 1. Define the Estimator
-estimator = DecisionTreeRegressor(random_state=42)
+# Prepare pure numeric Data
+X = df[['carat', 'depth', 'table', 'price']]
+y = LabelEncoder().fit_transform(df['cut']) # Encode text target for classification
 
-# 2. Define the RFE strategy (Select exactly 5 features)
-selector = RFE(estimator, n_features_to_select=5, step=1)
-selector = selector.fit(X_df, y)
+# Linear algorithms require standardisation natively!
+X_scaled = StandardScaler().fit_transform(X)
 
-# 3. View the boolean masks
-print("Feature Ranking Matrix:")
-for i, feature in enumerate(X_df.columns):
-    status = "SELECTED" if selector.support_[i] else "DROPPED"
-    print(f"{feature}: Rank {selector.ranking_[i]} ({status})")
+# We initialize the "Base Estimator" (the model that iterates)
+eval_model = LogisticRegression(max_iter=1000)
+
+# We initialize RFE, telling it to strip down to precisely 2 features
+selector = RFE(estimator=eval_model, n_features_to_select=2, step=1)
+
+# Execute the recursive loop computationally
+selector.fit(X_scaled, y)
+
+# Inspect the outputs
+results = pd.DataFrame({
+    'Feature': X.columns,
+    'Elimination Rank': selector.ranking_,
+    'Selected': selector.support_
+}).sort_values(by='Elimination Rank')
+
+print(results)
 ```
 
-## Step 3: Optimal Feature Count (RFECV)
+??? example "Expected Output"
+    ```text
+      Feature  Elimination Rank  Selected
+    2   table                 1      True
+    0   carat                 1      True
+    1   depth                 2     False
+    3   price                 3     False
+    ```
 
-How do you know what `n_features_to_select` should be? You don't. 
+In this simulation, the algorithm structurally dropped `price` immediately (Rank 3), subsequently dropped `depth` (Rank 2) explicitly preserving only `table` and `carat` as the maximal synergistic combination dimensions universally!
 
-**RFECV** (Recursive Feature Elimination with Cross-Validation) automates this by plotting performance at every step and mathematically selecting the peak.
-
-```python
-from sklearn.feature_selection import RFECV
-
-# Create the automated Cross-Validated wrapper
-min_features_to_select = 1
-rfecv = RFECV(
-    estimator=estimator,
-    step=1,
-    cv=5, # 5-Fold Cross Validation
-    scoring="neg_mean_squared_error",
-    min_features_to_select=min_features_to_select,
-    n_jobs=-1 # run in parallel
-)
-rfecv.fit(X, y)
-
-print(f"Optimal number of features: {rfecv.n_features_}")
-
-# Visualizing the performance drop as features are eliminated
-plt.figure()
-plt.xlabel("Number of features selected")
-plt.ylabel("CV Score (Negative MSE)")
-plt.plot(range(min_features_to_select, len(rfecv.cv_results_['mean_test_score']) + min_features_to_select),
-         rfecv.cv_results_['mean_test_score'])
-plt.title("RFECV Automated Feature Pruning")
-plt.show()
-```
-
-!!! warning "Model Dependence"
-    RFE only works with algorithms that expose `coef_` (Linear Models, SVM) or `feature_importances_` (Trees, Random Forest, XGBoost). You cannot pass KNN into an RFE because KNN does not rank features internally.
-
-## Step 4: Sequential Feature Selector (SFS)
-
-If your model lacks `coef_` (like KNN), you must use **SFS**. 
-- **Forward SFS:** Starts with 0 features. Tries adding every single feature individually, keeps the single best one. Repeats until target reached.
-- **Backward SFS:** Acts identically to RFE but drops based on overall metric degradation.
-
-```python
-from sklearn.feature_selection import SequentialFeatureSelector
-from sklearn.neighbors import KNeighborsRegressor
-
-knn = KNeighborsRegressor(n_neighbors=3)
-# Forward stepwise selection
-sfs = SequentialFeatureSelector(knn, n_features_to_select=3, direction='forward')
-sfs.fit(X, y)
-
-print("SFS Selected indices:", sfs.get_support(indices=True))
-```
+!!! tip "Workplace Tip"
+    Do not use RFE directly against datasets possessing 5,000 columns. RFE structurally retrains an entire Machine Learning model exactly 5,000 times! Utilize extremely fast **Filter Methods** dynamically to slice your dimensions from 5,000 to 100, and *then* run RFE carefully on the surviving 100 constraints.
 
 ## Summary
-
-Wrapper methods find the perfect subset sequence. In production environments where API latency dictates model speed, using RFE to slash features from 500 down to 20 without losing accuracy is a masterstroke.
+- **Wrapper Methods** utilize operational Machine Learning algorithms natively to execute scoring.
+- They intelligently discover explicit collinearity flaws that singular arbitrary Filter Methods universally ignore natively.
+- **Recursive Feature Elimination (RFE)** loops persistently backwards, terminating the singularly weakest geometric parameter mathematically each pass.
 
 ## Next Steps
+→ [Embedded Methods](embedded-methods.md) — algorithmically combining the calculation speed natively of Filters efficiently with the holistic precision of Wrappers concurrently!
 
-→ [Embedded Selection Methods](embedded-methods.md)
+??? challenge "Stretch & Challenge"
+    ### For Advanced Learners
+    
+    **Forward Sequential Selection (SFS)**
+    
+    RFE calculates backwards recursively (starting with 100, dropping down explicitly to 10). Forward Sequential Selection works identically but starts completely empty!
+    
+    It trains 100 models possessing exactly 1 column each. It locates the singular best parameter, freezes it dynamically into the list, and tests 99 models containing exactly 2 arrays. Look closely into `from sklearn.feature_selection import SequentialFeatureSelector`.
+    
+    It is catastrophically unscalable, but explicitly guarantees locating the singular cleanest minimal operational parameter subset cleanly!
 
 ## KSB Mapping
 
 | KSB | Description | How This Tutorial Addresses It |
 |-----|-------------|-------------------------------|
-| S2 | Apply machine learning | Recursively building estimators to validate models |
-| B2 | Logical approach | Cross-validating computational metrics dynamically |
+| S13 | Apply ML algorithms | Invoking operational modeling frameworks explicitly conditionally to optimize array densities|
+| K5 | Machine Learning workflows | Selecting hierarchical dimensionality suppression pipelines defensively |
+| B2 | Logical and analytical approach | Mitigating multicollinearity overlap mathematically mapping RFE algorithms |

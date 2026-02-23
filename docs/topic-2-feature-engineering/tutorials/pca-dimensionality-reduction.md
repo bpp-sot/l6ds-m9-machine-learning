@@ -1,114 +1,139 @@
-# PCA & Dimensionality Reduction
+# Dimensionality Reduction with PCA
 
-> "When data lives in a hundred dimensions, human intuition completely breaks down. PCA is our mathematical flashlight into the dark."
+> Feature Selection deletes columns cleanly. Principal Component Analysis (PCA) chemically melts columns together into fewer, denser geometric combinations.
 
 ## What You Will Learn
-
-- Understand Principal Component Analysis (PCA) conceptually
-- Transform highly correlated features into independent Principal Components
-- Select `n_components` empirically using Scree Plots and Explained Variance Ratio
+- Differentiate mathematically between Feature **Selection** and Feature **Extraction**
+- Compress highly correlated dimensions utilizing Python natively
+- Validate PCA compression metrics tracking `.explained_variance_ratio_`
 
 ## Prerequisites
+- Completed the *Filter / Embedded Methods* tutorials
+- Core understanding of `StandardScaler` (Z-Scores)
 
-- [Scaling & Normalisation](../../topic-1-data-preparation/tutorials/scaling-normalisation.md)
+## Step 1: The Curse of Dimensionality
 
-## Step 1: Concept Overview
+If you possess an image comprising 100x100 pixels, it functionally behaves computationally as a matrix possessing 10,000 completely separate columns. 
 
-When you have hundreds of features (e.g., measuring house prices using `square_footage`, `number_of_bedrooms`, `number_of_bathrooms`, `lot_size`), many of those features say the *exact same thing*. 
+If you attempt to feed 10,000 columns into K-Nearest Neighbors, the fundamental mathematics of "Distance" completely break down natively physically due to sparse hyper-dimensionality.
 
-If you know a house is 5,000 square feet, you already know it probably has more than 1 bathroom. This redundancy is mathematically inefficient.
+Instead of selecting the "Top 50" pixels and deleting the other 9,950 pixels (which would literally obliterate the picture), we explicitly use Principal Component Analysis (PCA). PCA discovers the invisible correlation axes and crushes 10,000 columns dynamically into 100 dense super-columns called "Components".
 
-**PCA** identifies the axes (directions) in your data that contain the most variance (information) and physically rotates the dataset onto those new axes, dropping the axes that contain nothing but noise.
+## Step 2: Explicit Standardisation
 
-```mermaid
-graph LR
-    A[Original Features] -->|Scaling| B[Centered Data]
-    B -->|Calculate Eigenvectors| C[Principal Components]
-    C -->|Project Data| D[Reduced Feature Space]
-```
+PCA purely calculates raw Euclidean matrix variance. It is completely blind to specific underlying units. If `carat` ranges from 0-5, and `price` ranges from 0-15000, PCA will algorithmically declare that `price` dominates 99.9% of the structural geometric trajectory!
 
-## Step 2: Implementation
-
-> [!CAUTION]
-> PCA is exceptionally sensitive to scale! If you apply PCA before `StandardScaler`, PCA will simply identify your largest-scaled feature as the "First Principal Component" and fail catastrophically.
+**You must Standardise ALL data before passing it mechanically to PCA.**
 
 ```python
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.datasets import load_breast_cancer
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 
-sns.set_style('whitegrid')
+df = sns.load_dataset('penguins').dropna()
+X = df[['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g']]
+y = df['species']
 
-# Load dataset (30 features!)
-data = load_breast_cancer(as_frame=True)
-X, y = data.data, data.target
-
-# 1. MUST SCALE FIRST
+# THIS IS MANDATORY
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
-
-# 2. Fit PCA (Let's see all components first)
-pca = PCA()
-pca.fit(X_scaled)
 ```
 
-## Step 3: Determining `n_components`
+## Step 3: Extracting Principal Components
 
-How many components should you keep? We look at the **Explained Variance Ratio**.
+We will instruct the PCA transformer dynamically to convert our 4 penguin columns physically into just 2 super-components!
 
 ```python
-# Calculate cumulative variance
-cumulative_variance = np.cumsum(pca.explained_variance_ratio_)
+# Force compilation down explicitly exactly to 2 dimensions!
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X_scaled) 
 
-# Plot the Scree Plot
-plt.figure(figsize=(10, 6))
-plt.plot(range(1, len(cumulative_variance) + 1), cumulative_variance, marker='o', linestyle='--')
-plt.axhline(y=0.90, color='r', linestyle='-')
-plt.text(15, 0.85, '90% Variance Threshold', color='red', fontsize=12)
-plt.title('PCA Scree Plot (Cumulative Explained Variance)')
-plt.xlabel('Number of Principal Components')
-plt.ylabel('Cumulative Explained Variance')
-plt.show()
-
-# Find exactly how many components we need to reach 90%
-n_components_90 = np.argmax(cumulative_variance >= 0.90) + 1
-print(f"We can reduce the dataset from {X.shape[1]} features down to {n_components_90} features while keeping 90% of the information!")
+print(f"Original Structural Shape: {X_scaled.shape}")
+print(f"Reduced PCA Tensor Shape:  {X_pca.shape}")
 ```
 
-## Step 4: The Final Transformation
+??? example "Expected Output"
+    ```text
+    Original Structural Shape: (333, 4)
+    Reduced PCA Tensor Shape:  (333, 2)
+    ```
 
-Once you determine the threshold, apply the transformation.
+What is inside `X_pca`? We deleted the raw names (`bill_length`, `body_mass`) completely! The new columns are just geometric blends titled `PC1` and `PC2`. 
+
+## Step 4: Measuring Information Loss
+
+We mathematically deleted 2 physical dimensions entirely. Did we lose 50% of our predictive information? Let's check the `.explained_variance_ratio_`.
 
 ```python
-# Re-instantiate with target components
-final_pca = PCA(n_components=n_components_90)
-X_pca = final_pca.fit_transform(X_scaled)
+variance_ratio = pca.explained_variance_ratio_
 
-# Creating a 2D scatter plot using the first two principal components
-plt.figure(figsize=(8, 6))
-scatter = plt.scatter(X_pca[:, 0], X_pca[:, 1], c=y, cmap='viridis', alpha=0.7)
-plt.xlabel('First Principal Component (PC1)')
-plt.ylabel('Second Principal Component (PC2)')
-plt.title('2D PCA Projection of Breast Cancer Data')
-plt.legend(handles=scatter.legend_elements()[0], labels=['Malignant', 'Benign'])
+print(f"Data mathematically retained in PC1: {variance_ratio[0]*100:.2f}%")
+print(f"Data mathematically retained in PC2: {variance_ratio[1]*100:.2f}%")
+print(f"Total Cumulative Retained Variance: {sum(variance_ratio)*100:.2f}%")
+```
+
+??? example "Expected Output"
+    ```text
+    Data mathematically retained in PC1: 68.63%
+    Data mathematically retained in PC2: 19.45%
+    Total Cumulative Retained Variance: 88.09%
+    ```
+
+Incredible! We violently collapsed the entire physical dataset physically by 50% identically, yet structurally retained mathematically exactly 88% of all variance signals. 
+
+Let's observe PCA physically decoupling our classes effectively in a mapped 2D space:
+
+```python
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(12, 5))
+sns.scatterplot(x=X_pca[:, 0], y=X_pca[:, 1], hue=y, palette='Set2')
+plt.xlabel('Principal Component 1')
+plt.ylabel('Principal Component 2')
+plt.title('2D PCA Projection of Penguins')
+plt.tight_layout()
 plt.show()
 ```
+
+??? example "Expected Plot"
+    ![PCA Compression Output](../../assets/images/topic2-pca.png)
+
+!!! info "Assessment Connection"
+    In your EPA explicitly mapping S12 (Feature Engineering), document mathematically that you set a threshold (e.g., "I initialized PCA to strictly retain identically exactly 90% Cumulative Variance"). Arbitrarily guessing exactly `n_components=10` is deemed structurally unsafe by scoring examiners.
 
 ## Summary
-
-PCA compresses information. It solves the Curse of Dimensionality by dropping noise and highly collinear artifacts, resulting in faster and more stable machine learning executions.
+- **Selection** mechanically deletes raw columns entirely.
+- **Extraction (PCA)** physically melts variables entirely along their steepest variance axes dynamically.
+- `StandardScaler()` is an absolutely non-negotiable prerequisite prior to PCA extraction arrays.
+- Summing `.explained_variance_ratio_` dictates mathematically how much accuracy was lost dynamically to dimensionality reduction operations.
 
 ## Next Steps
+→ [Domain Expertise in Feature Design](../how-to/domain-features.md) — leaving mechanics behind to manually inject psychological reality bounds purely via How-To structural engineering.
 
-Explore the How-To guides in this section to apply Feature Engineering logic contextually.
+??? challenge "Stretch & Challenge"
+    ### For Advanced Learners
+    
+    **Inverse Transformation**
+    
+    If PCA compresses the data heavily from exactly 4 dimensions down to 2 dimensions structurally, can we "uncompress" it dynamically back to exactly 4 dimensions natively? 
+    
+    Yes, using `pca.inverse_transform()`.
+    
+    ```python
+    # 2D -> 4D
+    X_recovered = pca.inverse_transform(X_pca)
+    
+    # We must explicitly reverse the scaler mathematically to return to raw millimetres!
+    X_original_approximation = scaler.inverse_transform(X_recovered)
+    ```
+    
+    The reversed data strictly will never match perfectly the origin sequence identically because 12% of the variance was violently discarded (Lossy Compression), but the structural mapping heavily mirrors reality efficiently!
 
 ## KSB Mapping
 
 | KSB | Description | How This Tutorial Addresses It |
 |-----|-------------|-------------------------------|
-| K1 | Statistical Concepts | Implements eigenvectors mathematically |
-| S7 | Generate Insights | Visually flattens 30 dimensions down to a 2D plot for stakeholder analysis |
+| S12 | Feature engineering | Constructing hyper-dimensionality compression arrays geometrically |
+| K5 | Machine Learning workflows | Eliminating curse of dimensionality vectors utilizing PCA |
+| B2 | Logical and analytical approach | Validating dimensional tracking analytically via variance ratios |

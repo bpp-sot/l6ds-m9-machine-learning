@@ -36,6 +36,7 @@ Section A — you must justify your feature choices and demonstrate systematic s
 
 === "Reference"
 
+    - [Common Engineered Features](reference/common-engineered-features.md)
     - [Feature Selection Methods Comparison](reference/feature-selection-comparison.md)
     - [Sklearn Feature Selection API](reference/sklearn-feature-selection.md)
 
@@ -44,3 +45,5 @@ Section A — you must justify your feature choices and demonstrate systematic s
     - [The Curse of Dimensionality](explanation/curse-of-dimensionality.md)
     - [Feature Interactions & Non-Linearity](explanation/feature-interaction.md)
     - [Domain Knowledge vs Automated Selection](explanation/domain-knowledge-vs-automation.md)
+    - [The Bias-Variance Tradeoff](explanation/bias-variance-tradeoff.md)
+    - [Understanding Feature Leakage](explanation/feature-leakage.md)

@@ -1,30 +1,46 @@
-# Reference: Common Engineered Features
+# Common Engineered Features Cheat Sheet
 
-This reference provides a lookup catalog of standard feature transformations used across major Data Science disciplines.
+> Need inspiration for feature engineering? Here are the most common high-signal mathematical transformations utilized universally by Data Scientists.
 
-## Mathematical Transformers 
+## Temporal Features (Datetime)
 
-| Transformation | Formula | Use-Case |
-|----------------|---------|----------|
-| Log Transform | `np.log1p(X)` | Normalizing severely right-skewed data (e.g. Salary, Population, Website Hits). |
-| Box-Cox Transform | `scipy.stats.boxcox(X)` | Optimizing the shape of non-normal distributions dynamically. (Strictly requires $X > 0$). |
-| Power Transform | `power_transform(X, method='yeo-johnson')`| Sklearn's variation of Box-Cox that safely handles $0$ and negative values. |
-| Polynomial Term | `X^2` or `PolynomialFeatures(degree=2)` | Catching "U-Shape" parabolic relationships inside a linear model (e.g. Age vs Happiness). |
+Derived purely mechanically from strictly one Timestamp column.
 
-## Time & Dates 
+| Feature Type | How to Create | Why it Matters |
+|---|---|---|
+| **Cyclical Units** | `df['date'].dt.month` | Identifies human seasonal behavior geometrically |
+| **Duration/Elapsed** | `(today - df['date']).dt.days` | Absolute chronologies (e.g., "Days Since Last Login") |
+| **Time of Day** | `df['date'].dt.hour` | High predictive signal logically for user engagement bursts |
+| **Is Weekend** | `df['date'].dt.dayofweek >= 5` | Binary switch tracking structural behavior breaks |
 
-| Transformation | Pandas Syntax | Use-Case |
-|----------------|---------------|----------|
-| Time Elapsed | `(df['End'] - df['Start']).dt.days` | User tenure, loan duration, time-to-conversion. |
-| Seasonality | `df['Date'].dt.month` + Trigonometric encoding | Capturing cyclical purchasing patterns. |
-| Day Name | `df['Date'].dt.day_name()` | Investigating "Weekend" vs "Weekday" operational shifts. |
-| Recency | `(pd.to_datetime('today') - df['Last_Login']).dt.days` | Flagging churn or inactive users. |
+## Mathematical Ratios
 
-## Text Vectors 
+Constructed structurally by mechanically dividing two continuous variables algorithmically.
 
-| Transformation | Logic | Use-Case |
-|----------------|-------|----------|
-| `CountVectorizer` | Simply counts the frequency of words across documents. | Basic spam filtering or sentiment classification. |
-| `TfidfVectorizer` | Scores words based on Term Frequency (TF) penalized by Inverse Document Frequency (IDF). | Identifying highly unique keyword topics inside reviews. |
-| Word Length | `df['Review'].apply(len)` | Longer reviews often correlate strongly with high emotional investment (either 5-Star or 1-Star). |
-| Capitalization Ratio | `num_caps / len(text)` | Detecting angry or frustrated user inputs. |
+| Feature Type | How to Create | Why it Matters |
+|---|---|---|
+| **Per Capita** | `df['GDP'] / df['population']` | Scales massive absolute volume into comparative individual density |
+| **Percentage Change** | `df['q4_sales'] / df['q3_sales']` | Identifies acceleration vectors physically independently of scale |
+| **Proportions** | `df['bedrooms'] / df['total_rooms']` | Uncovers geometric property layouts irrespective of house dimension |
+
+## Domain Boundaries (Binning)
+
+Compressing structurally dispersed variance algebraically into logical categorical intervals explicitly.
+
+| Feature Type | How to Create | Why it Matters |
+|---|---|---|
+| **Generational Cohorts** | `pd.cut(df['age'], bins=[0, 18, 35, 65])` | Forces predictive algorithms mechanically to respect sociological reality natively |
+| **Pricing Tiers** | `pd.qcut(df['price'], q=4)` | Divides natively continuous sales equally mechanically into "Budget, Mid, Premium, Luxury" quartiles |
+
+## String Metadata (Natural Language)
+
+Bypassing extreme computationally intense NLP vectorization by aggressively tracking structural text dimensions recursively.
+
+| Feature Type | How to Create | Why it Matters |
+|---|---|---|
+| **Text Length** | `df['text'].str.len()` | Longer reviews geometrically explicitly correlate natively with anger or passion structurally |
+| **Word Count** | `df['text'].apply(lambda x: len(str(x).split()))` | Measures density over length structurally |
+| **Title Presence** | `df['name'].str.contains('Dr.')` | Extracts binary categorical demographic data deeply embedded natively within raw input arrays |
+
+!!! tip "Workplace Tip"
+    Whenever a Dataset physically lacks robust initial continuous independent variables structurally, deriving "Elapsed Duration" natively and "Mathematical Proportions" geometrically generates exactly the high-signal predictive tensors that Machine Learning classifiers implicitly crave mechanically!

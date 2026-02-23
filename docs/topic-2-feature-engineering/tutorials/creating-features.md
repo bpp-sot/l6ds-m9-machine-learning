@@ -1,104 +1,165 @@
-# Creating Features from Raw Data
+# Creating Features from Existing Data
 
-> "Feature engineering is the process of transforming raw data into features that better represent the underlying problem to the predictive models, resulting in improved model accuracy on unseen data." — Dr. Jason Brownlee
+> Data Preparation cleans what you have. Feature Engineering creates what you don't.
 
 ## What You Will Learn
-
-- Engineer interaction terms to highlight latent relationships between columns
-- Build polynomial features to map nonlinear dependencies
-- Construct mathematical ratios
-- Perform Continuous-to-Categorical binning
+- Define the architectural difference between Preparation and Engineering
+- Construct new predictive signals from existing scalar columns
+- Use Domain Knowledge to encode complex business logic into integers
 
 ## Prerequisites
+- Completed Topic 1 (Data Preparation)
+- Understanding of independent variables (Features / `X`)
 
-- [Pipelines in Data Prep](../../topic-1-data-preparation/tutorials/pipelines.md)
+## Step 1: Mathematical Transformations
 
-## Step 1: Mathematical Ratios & Interaction Terms
+The simplest feature engineering involves applying basic arithmetic to existing columns to generate a new metric that explains the business problem better.
 
-Algorithms are good at finding patterns *if* those patterns are structurally defined. If your dataset contains `Total_Debt` and `Total_Income`, the algorithm can learn from them independently, but explicitly defining the `Debt_to_Income_Ratio` provides immediate, non-linear context.
+Using the `titanic` dataset, an algorithm tracking `sibsp` (siblings/spouses) and `parch` (parents/children) separately might miss the broader concept of "Total Family Size". If larger families survive differently than individuals, we must engineer that signal explicitly.
 
 ```python
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 import seaborn as sns
+import matplotlib.pyplot as plt
 
-# Set visual style
-sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
+df = sns.load_dataset('titanic')
 
-# Sample banking data
-data = pd.DataFrame({
-    'Total_Debt': [50000, 10000, 200000, 5000],
-    'Total_Income': [60000, 80000, 150000, 30000]
-})
+# Feature Engineering: simple arithmetic combination
+df['family_size'] = df['sibsp'] + df['parch'] + 1  # +1 for the passenger themselves
 
-# Interaction terms (Ratios)
-# Add a small epsilon (1e-6) to denominator to avoid division by zero
-data['Debt_to_Income'] = data['Total_Debt'] / (data['Total_Income'] + 1e-6)
-
-# Interaction terms (Multipliers)
-# e.g., 'House_Width' * 'House_Length' = 'House_Square_Footage'
-
-print(data)
+print(df[['sibsp', 'parch', 'family_size']].head())
 ```
 
-## Step 2: Polynomial Features Workflow
+??? example "Expected Output"
+    ```text
+       sibsp  parch  family_size
+    0      1      0            2
+    1      1      0            2
+    2      0      0            1
+    3      1      0            2
+    4      0      0            1
+    ```
 
-For Linear Models (Linear Regression, Logistic Regression), relationships are assumed to be a straight line. If the actual pattern curves, a straight line will fail (Underfitting).
+Let's test if our engineered feature actually isolates a stronger signal than the raw data:
 
-We can forcefully inject curved logic into basic line-fitting models using `PolynomialFeatures`.
+```python
+fig, axes = plt.subplots(1, 2, figsize=(12, 5))
 
-\\[
-y = \\beta_0 + \\beta_1(x_1) + \\beta_2(x_1^2) + \\epsilon
-\\]
+sns.barplot(data=df, x='sibsp', y='survived', ax=axes[0], errorbar=None, color='#6E368A')
+axes[0].set_title('Survival by SibSp')
+
+sns.barplot(data=df, x='family_size', y='survived', ax=axes[1], errorbar=None, color='#2D2D2D')
+axes[1].set_title('Survival by Engineered Family Size')
+
+plt.tight_layout()
+plt.show()
+```
+
+??? example "Expected Plot"
+    ![Engineered Feature Distribution](../../assets/images/topic2-titanic-familysize.png)
+
+The rightmost chart now clearly shows a parabolic survival curve: individuals (1) and massive families (6+) died, while medium families (2-4) survived. We captured a complex sociological truth purely with `+` signs!
+
+## Step 2: Binning Continuous Values (Discretization)
+
+Algorithms like Decision Trees split numbers arbitrarily. Sometimes, human domain boundaries (e.g. Legal Adult = 18) possess infinitely stronger predictive power than raw continuous distributions.
+
+We can bin the `age` column dynamically into logical demographic categories using `pd.cut()`.
+
+```python
+# Define the arbitrary numeric boundaries and the human labels
+bins = [0, 12, 18, 60, 120]
+labels = ['Child', 'Teen', 'Adult', 'Senior']
+
+# Execute the cut
+df['age_group'] = pd.cut(df['age'], bins=bins, labels=labels)
+
+print(df[['age', 'age_group']].head(6))
+```
+
+??? example "Expected Output"
+    ```text
+        age age_group
+    0  22.0     Adult
+    1  38.0     Adult
+    2  26.0     Adult
+    3  35.0     Adult
+    4  35.0     Adult
+    5   NaN       NaN
+    ```
+
+!!! tip "Workplace Tip"
+    Do not randomly bin continuous data just because you can! You are mathematically destroying variance (shrinking 100 possible ages into 4 categories). ONLY use `pd.cut()` when explicit business thresholds exist (e.g. Tax Brackets, Legal Drinking Age) that the algorithm is failing to discover natively.
+
+## Step 3: Polynomial Features
+
+If a relationship between `X` and `Y` is curved rather than a straight line, standard linear regressions will fail completely. You must manually generate exponential features ($x^2, x^3$) to allow the line to bend organically.
 
 ```python
 from sklearn.preprocessing import PolynomialFeatures
+import numpy as np
 
-# Creating an exponential feature visually
-X = np.arange(1, 6).reshape(-1, 1)
+# Synthesize a tiny dataset
+X = np.array([[2], [3], [4]])
 
+# Instatiate a Polynomial compiler to generate x^2 components
 poly = PolynomialFeatures(degree=2, include_bias=False)
 X_poly = poly.fit_transform(X)
 
-print(f"Original X:\\n{X}")
-print(f"\\nPolynomial X (x^1, x^2):\\n{X_poly}")
+print(f"Original X:\n{X}\n")
+print(f"Polynomial X (x, x^2):\n{X_poly}")
 ```
 
-## Step 3: Binning (Discretization)
+??? example "Expected Output"
+    ```text
+    Original X:
+    [[2]
+     [3]
+     [4]]
+    
+    Polynomial X (x, x^2):
+    [[ 2.  4.]
+     [ 3.  9.]
+     [ 4. 16.]]
+    ```
 
-Sometimes algorithms perform better if you group continuous data into logical categories (e.g. converting `Age=34` into the category `30-40`). 
-
-Trees implicitly do this, but Linear Models benefit greatly from explicit bins because it allows them to learn non-linear patterns over different intervals.
-
-```python
-from sklearn.preprocessing import KBinsDiscretizer
-
-ages = np.array([22, 25, 34, 45, 55, 60, 21, 23, 80, 75]).reshape(-1, 1)
-
-# Bin into 4 groups ('uniform' means equal width bins)
-est = KBinsDiscretizer(n_bins=4, encode='ordinal', strategy='uniform')
-binned_ages = est.fit_transform(ages)
-
-df_ages = pd.DataFrame({'Original_Age': ages.flatten(), 'Age_Group': binned_ages.flatten()})
-print(df_ages.sort_values('Original_Age'))
-```
-
-!!! tip "Workplace Tip"
-    In marketing or economics divisions, **Binning** is critical. You rarely market a product to "people aged exactly 34". You build campaigns for "Millennials (25-40)". Feature engineering directly translates real-world business segments into algorithm logic.
+By passing `X_poly` into a linear regression model, you mathematically allow a straight line algorithm to trace a parabolic curve!
 
 ## Summary
-
-Feature Engineering is the single most important mechanism for increasing the performance limit of your application. You are structurally manipulating the dimensionality of your model to expose facts that were previously buried. 
+- **Mathematical Combinations** merge redundant baseline columns into stronger solitary signals.
+- **Discretization (Binning)** forces algorithms to respect explicit domain-knowledge thresholds.
+- **Polynomials** unlock curved analysis inside strictly linear analytical algorithms.
 
 ## Next Steps
+→ [Datetime & Text Features](datetime-text-features.md) — parse complex cyclical timeseries strings into distinct geographic or chronological columns.
 
-→ [DateTime & Text Features](datetime-text-features.md)
+??? challenge "Stretch & Challenge"
+    ### For Advanced Learners
+    
+    **Automated Feature Engineering Tooling**
+    
+    If your dataset has 50 columns, manually deriving interactions like `col1 * col3` or `col4 / col10` requires thousands of human hours and results in 2,500 new columns.
+    
+    Look into **FeatureTools** — an open-source library that automates deep feature synthesis relationally.
+    
+    ```python
+    import featuretools as ft
+    
+    # FeatureTools automatically multiplies, divides, and groups every column
+    # against every other column automatically to hunt for hyper-signals.
+    feature_matrix, feature_defs = ft.dfs(
+        dataframes=dataframes,
+        relationships=relationships,
+        target_dataframe_name="customers"
+    )
+    ```
+    
+    This is highly computationally expensive but routinely wins Kaggle competitions.
 
 ## KSB Mapping
 
 | KSB | Description | How This Tutorial Addresses It |
 |-----|-------------|-------------------------------|
-| S2 | Apply machine learning | Using Polynomial expansions |
-| S4 | Transform data | Implements continuous-to-categorical grouping |
+| S12 | Feature engineering | Engineering mathematically derived scalar signals from baseline datasets |
+| K5 | Machine Learning workflows | Distinguishing preparation from extraction methodologies |
+| B2 | Logical and analytical approach | Connecting physical sociological events to arithmetic operations |
