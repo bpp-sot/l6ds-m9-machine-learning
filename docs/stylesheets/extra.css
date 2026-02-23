@@ -1,97 +1,188 @@
 /* ==========================================================================
-   BPP Hub & Material Fresh Theme Override 
+   BPP Hub & Material Fresh Theme Override (Iteration 2)
    ========================================================================== */
 
 :root {
   /* Core Colours */
-  --md-primary-fg-color: #6E368A;
-  /* Purple accents (primary actions) */
-  --md-primary-fg-color--light: #8b4fb0;
-  --md-primary-fg-color--dark: #4d2363;
+  --md-primary-fg-color: #3C3C3B;
+  /* Header background (softened near-black) */
+  --md-primary-fg-color--light: #6E368A;
+  /* Secondary tabs background */
+  --md-primary-fg-color--dark: #2d2d2c;
   --md-accent-fg-color: #6E368A;
+  /* Primary purple */
 
   /* Typography */
   --md-text-font: "Inter", -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
   --md-code-font: "JetBrains Mono", Consolas, Menlo, monospace;
 
-  /* BPP Hub specific variables */
-  --bpp-bg-grey: #EFEFEF;
-  /* Warm grey page background */
-  --bpp-sidebar-bg: #2D2D2D;
-  /* Dark sidebar background */
-  --bpp-sidebar-text: #FFFFFF;
-  /* Sidebar text */
-  --bpp-card-heading: #6B6B6B;
-  /* Brownish-muted grey card headings */
-  --bpp-breadcrumb: #999999;
+  /* BPP colour reference */
+  --bpp-dark-text: #3C3C3B;
   --bpp-purple: #6E368A;
-  --bpp-table-alt: #F9F7F7;
+  --bpp-academic-blue: #3763AD;
+  --bpp-teal-green: #64BDB6;
+  --bpp-warm-amber: #F9B149;
+  --bpp-muted-text: #7A7A7A;
+  --bpp-light-bg: #F9F7F7;
+  --bpp-page-bg: #EFEFEF;
+  --bpp-border: #E2E8F0;
 
-  /* RAG Status Colors */
-  --rag-teal: #008080;
-  --rag-amber: #FFBF00;
-  --rag-red: #D32F2F;
+  /* Specific UI Panel colours */
+  --bpp-left-sidebar: #F5F5F5;
+  --bpp-right-sidebar: #FAFAFA;
 }
 
 /* --------------------------------------------------------------------------
-   Page Background & Typography
+   2. Fix BPP Logo Visibility
    -------------------------------------------------------------------------- */
+/* Invert and brighten the dark logo image to stand out against the dark header */
+.md-header__button.md-logo img,
+.md-header__title .md-logo img {
+  filter: brightness(0) invert(1);
+}
+
+/* --------------------------------------------------------------------------
+   5. Soften the header
+   -------------------------------------------------------------------------- */
+.md-header {
+  background-color: var(--bpp-dark-text);
+}
+
+/* The secondary navigation bar below the main header (With Home, Getting Started, etc.) */
+.md-tabs {
+  background-color: var(--bpp-purple);
+}
+
+/* Inactive tabs */
+.md-tabs__link {
+  color: rgba(255, 255, 255, 0.7) !important;
+  opacity: 1;
+  /* Remove native material opacity fade to respect rgba */
+}
+
+/* Active tabs */
+.md-tabs__link--active {
+  color: #FFFFFF !important;
+  border-bottom: 2px solid #FFFFFF !important;
+}
+
+/* --------------------------------------------------------------------------
+   1 & 3. Improve the left sidebar styling
+   -------------------------------------------------------------------------- */
+/* Fix the white gap at the top of the sidebars */
+@media screen and (min-width: 76.25em) {
+  .md-sidebar--primary {
+    background-color: var(--bpp-left-sidebar);
+    height: 100%;
+    /* Stretch background down */
+  }
+}
+
+.md-sidebar--primary .md-sidebar__scrollwrap {
+  background-color: var(--bpp-left-sidebar);
+}
+
+.md-nav--primary {
+  background-color: var(--bpp-left-sidebar);
+}
+
+/* Consistent dark text for links */
+.md-nav--primary .md-nav__item .md-nav__link {
+  color: var(--bpp-dark-text) !important;
+}
+
+/* The active page link */
+.md-nav--primary .md-nav__item--active > .md-nav__link {
+  font-weight: bold;
+  border-left: 3px solid var(--bpp-purple);
+  padding-left: 0.8rem;
+  /* Nudge text to right accounting for border */
+  color: var(--bpp-dark-text) !important;
+}
+
+/* Section headings (Tutorials, How-to Guides) */
+.md-nav--primary .md-nav__item--section > .md-nav__title,
+.md-nav--primary .md-nav__item--nested > .md-nav__title {
+  color: var(--bpp-purple) !important;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  margin-top: 1.5rem;
+  font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   1 & 4. Improve the right TOC sidebar
+   -------------------------------------------------------------------------- */
+@media screen and (min-width: 76.25em) {
+  .md-sidebar--secondary {
+    background-color: var(--bpp-right-sidebar);
+    border-left: 1px solid var(--bpp-border);
+    height: 100%;
+  }
+}
+
+.md-sidebar--secondary .md-sidebar__scrollwrap {
+  background-color: var(--bpp-right-sidebar);
+  padding: 1.5rem;
+}
+
+/* Right TOC links */
+.md-nav--secondary .md-nav__link {
+  color: var(--bpp-muted-text) !important;
+}
+
+/* Active/Current section link */
+.md-nav--secondary .md-nav__link--active {
+  color: var(--bpp-purple) !important;
+  font-weight: 600;
+}
+
+/* Right TOC heading size */
+.md-nav--secondary .md-nav__title {
+  font-size: 0.85rem;
+}
+
+/* --------------------------------------------------------------------------
+   6. Improve the main content area
+   -------------------------------------------------------------------------- */
+/* Page background (behind the content card) */
 body,
 .md-main__inner {
-  background-color: var(--bpp-bg-grey);
+  background-color: var(--bpp-page-bg);
 }
 
-.md-typeset {
-  font-family: var(--md-text-font);
-  line-height: 1.6;
+/* The content container */
+.md-content {
+  background-color: #FFFFFF;
+  padding: 2rem 3rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  /* subtle drop shadow for depth */
 }
 
-/* Headings (Purple Accents) */
-.md-typeset h1,
+/* Page title */
+.md-typeset h1 {
+  color: var(--bpp-dark-text);
+}
+
+/* Section headings */
 .md-typeset h2,
 .md-typeset h3,
 .md-typeset h4 {
   color: var(--bpp-purple);
-  font-weight: 600;
 }
+
+/* Blockquote */
+.md-typeset blockquote {
+  border-left: 3px solid var(--bpp-purple);
+  color: var(--bpp-muted-text);
+}
+
 
 /* --------------------------------------------------------------------------
-   Sidebar (Dark #2D2D2D)
+   Cards & Grids (Hover interactions, Borders, Shadows) 
+   (Retained from previous requirements)
    -------------------------------------------------------------------------- */
-/* Target the sidebar navigation area specifically */
-.md-sidebar--primary .md-sidebar__scrollwrap {
-  background-color: var(--bpp-sidebar-bg);
-}
-
-.md-nav {
-  background-color: var(--bpp-sidebar-bg);
-  color: var(--bpp-sidebar-text);
-}
-
-.md-nav__title,
-.md-nav__link,
-.md-nav__item .md-nav__link {
-  color: var(--bpp-sidebar-text) !important;
-  opacity: 0.85;
-}
-
-.md-nav__link:hover,
-.md-nav__link--active {
-  color: #FFFFFF !important;
-  opacity: 1;
-  font-weight: 600;
-}
-
-/* Header matching the sidebar dark tone */
-.md-header {
-  background-color: var(--bpp-sidebar-bg);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* --------------------------------------------------------------------------
-   Cards & Grids (Hover interactions, Borders, Shadows)
-   -------------------------------------------------------------------------- */
-/* Basic card styling */
 .md-typeset .grid.cards > ul > li {
   background-color: #FFFFFF;
   border-radius: 8px;
@@ -101,7 +192,6 @@ body,
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
   overflow: hidden;
-  /* For progress bar rounding */
 }
 
 /* Arrow Pattern for cards */
@@ -114,7 +204,7 @@ body,
 
 /* Card Heading */
 .md-typeset .grid.cards > ul > li h3 {
-  color: var(--bpp-card-heading);
+  color: #6B6B6B;
   font-size: 1.25rem;
   margin-top: 0;
   display: flex;
@@ -122,11 +212,9 @@ body,
   justify-content: space-between;
 }
 
-/* Add an arrow after the title if it contains a link */
 .md-typeset .grid.cards > ul > li > a h3::after {
   content: " →";
   font-family: system-ui;
-  /* Fallback for arrows */
   margin-left: auto;
   color: var(--bpp-purple);
   transition: transform 0.2s;
@@ -141,54 +229,21 @@ body,
   transform: translateX(4px);
 }
 
-/* Material Fresh Top Borders (Alternating Colors) */
+/* Material Fresh Top Borders */
 .md-typeset .grid.cards > ul > li:nth-child(4n+1) {
   border-top: 4px solid var(--bpp-purple);
 }
 
 .md-typeset .grid.cards > ul > li:nth-child(4n+2) {
-  border-top: 4px solid var(--rag-teal);
+  border-top: 4px solid var(--bpp-teal-green);
 }
 
 .md-typeset .grid.cards > ul > li:nth-child(4n+3) {
-  border-top: 4px solid var(--rag-amber);
+  border-top: 4px solid var(--bpp-warm-amber);
 }
 
 .md-typeset .grid.cards > ul > li:nth-child(4n+4) {
-  border-top: 4px solid var(--rag-red);
-}
-
-/* Progress bars (Thin 4px bars at the bottom of cards) */
-/* We simulate this with an ::after pseudo-element */
-.md-typeset .grid.cards.progress > ul > li::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 4px;
-  width: 50%;
-  /* Example progress width */
-  background-color: var(--rag-teal);
-}
-
-/* --------------------------------------------------------------------------
-   Breadcrumbs
-   -------------------------------------------------------------------------- */
-.md-nav--secondary .md-nav__list {
-  color: var(--bpp-breadcrumb);
-  font-size: 0.85rem;
-}
-
-.md-path__item,
-.md-path__link {
-  color: var(--bpp-breadcrumb) !important;
-}
-
-/* Replace default separator with › */
-.md-path__item::after {
-  content: "›" !important;
-  color: var(--bpp-breadcrumb);
-  margin: 0 0.4rem;
+  border-top: 4px solid var(--bpp-academic-blue);
 }
 
 /* --------------------------------------------------------------------------
@@ -211,30 +266,30 @@ body,
 }
 
 .md-typeset .admonition.tip {
-  border-left-color: var(--rag-teal);
+  border-left-color: var(--bpp-teal-green);
 }
 
 .md-typeset .admonition.tip .admonition-title {
-  color: var(--rag-teal);
-  background-color: rgba(0, 128, 128, 0.05);
+  color: var(--bpp-teal-green);
+  background-color: rgba(100, 189, 182, 0.05);
 }
 
 .md-typeset .admonition.warning {
-  border-left-color: var(--rag-amber);
+  border-left-color: var(--bpp-warm-amber);
 }
 
 .md-typeset .admonition.warning .admonition-title {
   color: #d69e00;
-  background-color: rgba(255, 191, 0, 0.05);
+  background-color: rgba(249, 177, 73, 0.05);
 }
 
 .md-typeset .admonition.danger,
 .md-typeset .admonition.caution {
-  border-left-color: var(--rag-red);
+  border-left-color: #D32F2F;
 }
 
 .md-typeset .admonition.danger .admonition-title {
-  color: var(--rag-red);
+  color: #D32F2F;
   background-color: rgba(211, 47, 47, 0.05);
 }
 
@@ -262,44 +317,7 @@ body,
 }
 
 .md-typeset table:not([class]) tr:nth-child(even) td {
-  background-color: var(--bpp-table-alt);
-}
-
-/* --------------------------------------------------------------------------
-   Section Dividers (Mirrors Slide Deck)
-   -------------------------------------------------------------------------- */
-.md-typeset hr {
-  border-bottom: 3px solid var(--bpp-purple);
-  margin: 3em 0;
-  opacity: 0.8;
-}
-
-/* --------------------------------------------------------------------------
-   RAG Badges (Inline status rendering)
-   -------------------------------------------------------------------------- */
-.rag-badge {
-  display: inline-block;
-  padding: 0.2em 0.6em;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #FFFFFF;
-  margin-left: 0.5rem;
-}
-
-.rag-green,
-.rag-teal {
-  background-color: var(--rag-teal);
-}
-
-.rag-amber,
-.rag-yellow {
-  background-color: var(--rag-amber);
-  color: #333333;
-}
-
-.rag-red {
-  background-color: var(--rag-red);
+  background-color: var(--bpp-light-bg);
 }
 
 /* --------------------------------------------------------------------------
@@ -311,5 +329,5 @@ body,
 }
 
 .md-typeset .md-button--primary:hover {
-  background-color: var(--md-primary-fg-color--dark);
+  background-color: var(--bpp-dark-text);
 }
