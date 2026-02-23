@@ -1,0 +1,262 @@
+site_name: Machine Learning
+site_description: M9 Machine Learning Module - BPP University School of Technology
+site_url: https://bpp-sot.github.io/l6ds-m9-machine-learning/
+repo_url: https://github.com/bpp-sot/l6ds-m9-machine-learning
+repo_name: bpp-sot/l6ds-m9-machine-learning
+
+theme:
+  name: material
+  custom_dir: docs/overrides
+  palette:
+    - scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Inter
+    code: JetBrains Mono
+  logo: assets/bpp-logo.svg
+  favicon: assets/bpp-logo.svg
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - content.code.copy
+    - content.code.annotate
+    - toc.follow
+  icon:
+    repo: fontawesome/brands/github
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - getting-started/index.md
+    - Environment Setup: getting-started/setup.md
+    - ML Workflow Overview: getting-started/ml-workflow.md
+    - Assessment Overview: getting-started/assessment-overview.md
+  - Data Preparation & Preprocessing:
+    - topic-1-data-preparation/index.md
+    - Tutorials:
+      - Loading & Exploring Data: topic-1-data-preparation/tutorials/loading-exploring.md
+      - Handling Missing Values: topic-1-data-preparation/tutorials/missing-values.md
+      - Data Types & Encoding: topic-1-data-preparation/tutorials/data-types-encoding.md
+      - Scaling & Normalisation: topic-1-data-preparation/tutorials/scaling-normalisation.md
+      - Detecting & Treating Outliers: topic-1-data-preparation/tutorials/outliers.md
+      - Building Preprocessing Pipelines: topic-1-data-preparation/tutorials/pipelines.md
+    - How-to Guides:
+      - Clean a Messy CSV File: topic-1-data-preparation/how-to/clean-messy-csv.md
+      - Merge Multiple Data Sources: topic-1-data-preparation/how-to/merge-data-sources.md
+      - Handle High-Cardinality Categories: topic-1-data-preparation/how-to/high-cardinality.md
+      - Choose the Right Data Granularity: topic-1-data-preparation/how-to/data-granularity.md
+    - Reference:
+      - Pandas Cheatsheet: topic-1-data-preparation/reference/pandas-cheatsheet.md
+      - Sklearn Preprocessing API: topic-1-data-preparation/reference/sklearn-preprocessing.md
+      - Data Quality Checklist: topic-1-data-preparation/reference/data-quality-checks.md
+    - Explanation:
+      - Why Data Preparation Matters: topic-1-data-preparation/explanation/why-data-prep-matters.md
+      - The Tidy Data Philosophy: topic-1-data-preparation/explanation/tidy-data.md
+      - Understanding Data Leakage: topic-1-data-preparation/explanation/data-leakage.md
+  - Feature Engineering & Selection:
+    - topic-2-feature-engineering/index.md
+    - Tutorials:
+      - Creating Features from Raw Data: topic-2-feature-engineering/tutorials/creating-features.md
+      - DateTime & Text Features: topic-2-feature-engineering/tutorials/datetime-text-features.md
+      - Filter Selection Methods: topic-2-feature-engineering/tutorials/filter-methods.md
+      - Wrapper Selection Methods: topic-2-feature-engineering/tutorials/wrapper-methods.md
+      - Embedded Selection Methods: topic-2-feature-engineering/tutorials/embedded-methods.md
+      - PCA & Dimensionality Reduction: topic-2-feature-engineering/tutorials/pca-dimensionality-reduction.md
+    - How-to Guides:
+      - Create Domain-Specific Features: topic-2-feature-engineering/how-to/domain-features.md
+      - Reduce Multicollinearity: topic-2-feature-engineering/how-to/reduce-multicollinearity.md
+      - Generate a Feature Importance Report: topic-2-feature-engineering/how-to/feature-importance-report.md
+    - Reference:
+      - Feature Selection Methods Comparison: topic-2-feature-engineering/reference/feature-selection-comparison.md
+      - Sklearn Feature Selection API: topic-2-feature-engineering/reference/sklearn-feature-selection.md
+    - Explanation:
+      - The Curse of Dimensionality: topic-2-feature-engineering/explanation/curse-of-dimensionality.md
+      - Feature Interactions & Non-Linearity: topic-2-feature-engineering/explanation/feature-interaction.md
+      - Domain Knowledge vs Automated Selection: topic-2-feature-engineering/explanation/domain-knowledge-vs-automation.md
+  - Predictive Modelling (Supervised Learning):
+    - topic-3-predictive-modelling/index.md
+    - Tutorials:
+      - Linear Regression: topic-3-predictive-modelling/tutorials/linear-regression.md
+      - Logistic Regression: topic-3-predictive-modelling/tutorials/logistic-regression.md
+      - Decision Trees: topic-3-predictive-modelling/tutorials/decision-trees.md
+      - Random Forests & Bagging: topic-3-predictive-modelling/tutorials/random-forests.md
+      - Gradient Boosting: topic-3-predictive-modelling/tutorials/gradient-boosting.md
+      - Comparing Multiple Models: topic-3-predictive-modelling/tutorials/model-comparison.md
+    - How-to Guides:
+      - Handle Imbalanced Classes: topic-3-predictive-modelling/how-to/imbalanced-classes.md
+      - Multi-Class Classification: topic-3-predictive-modelling/how-to/multi-class-classification.md
+      - Run Regression Diagnostics: topic-3-predictive-modelling/how-to/regression-diagnostics.md
+    - Reference:
+      - Sklearn Classifiers API: topic-3-predictive-modelling/reference/sklearn-classifiers.md
+      - Sklearn Regressors API: topic-3-predictive-modelling/reference/sklearn-regressors.md
+      - Loss Functions Reference: topic-3-predictive-modelling/reference/loss-functions.md
+      - Algorithm Selection Flowchart: topic-3-predictive-modelling/reference/algorithm-selection-flowchart.md
+    - Explanation:
+      - The Bias-Variance Tradeoff: topic-3-predictive-modelling/explanation/bias-variance.md
+      - Why Ensembles Work: topic-3-predictive-modelling/explanation/ensemble-theory.md
+      - Regularisation Explained: topic-3-predictive-modelling/explanation/regularisation.md
+  - Non-Parametric Modelling:
+    - topic-4-nonparametric-modelling/index.md
+    - Tutorials:
+      - k-Nearest Neighbours: topic-4-nonparametric-modelling/tutorials/knn.md
+      - SVM & Kernel Methods: topic-4-nonparametric-modelling/tutorials/svm-kernels.md
+      - Advanced Tree-Based Methods: topic-4-nonparametric-modelling/tutorials/advanced-trees.md
+      - XGBoost & LightGBM: topic-4-nonparametric-modelling/tutorials/xgboost-lightgbm.md
+    - How-to Guides:
+      - Choose the Right k Value: topic-4-nonparametric-modelling/how-to/choose-k-value.md
+      - Select the Right Kernel: topic-4-nonparametric-modelling/how-to/kernel-selection.md
+      - Prune and Regularise Trees: topic-4-nonparametric-modelling/how-to/tree-pruning.md
+    - Reference:
+      - Non-Parametric Methods Comparison: topic-4-nonparametric-modelling/reference/nonparametric-comparison.md
+      - XGBoost Parameter Reference: topic-4-nonparametric-modelling/reference/xgboost-parameters.md
+    - Explanation:
+      - Parametric vs Non-Parametric: topic-4-nonparametric-modelling/explanation/parametric-vs-nonparametric.md
+      - The No Free Lunch Theorem: topic-4-nonparametric-modelling/explanation/no-free-lunch.md
+  - Clustering & Unsupervised Learning:
+    - topic-5-clustering/index.md
+    - Tutorials:
+      - k-Means Clustering: topic-5-clustering/tutorials/kmeans.md
+      - Hierarchical Clustering: topic-5-clustering/tutorials/hierarchical.md
+      - DBSCAN & Density-Based Methods: topic-5-clustering/tutorials/dbscan.md
+      - Evaluating Cluster Quality: topic-5-clustering/tutorials/cluster-evaluation.md
+    - How-to Guides:
+      - Find the Optimal Number of Clusters: topic-5-clustering/how-to/optimal-clusters.md
+      - Cluster Mixed Data Types: topic-5-clustering/how-to/mixed-data-clustering.md
+      - Build a Customer Segmentation: topic-5-clustering/how-to/segment-customers.md
+    - Reference:
+      - Clustering Algorithms Comparison: topic-5-clustering/reference/clustering-algorithms.md
+      - Cluster Evaluation Metrics: topic-5-clustering/reference/cluster-metrics.md
+    - Explanation:
+      - When Clustering Fails: topic-5-clustering/explanation/when-clustering-fails.md
+      - Clustering vs Classification: topic-5-clustering/explanation/clustering-vs-classification.md
+  - Time Series Analysis & Forecasting:
+    - topic-6-time-series/index.md
+    - Tutorials:
+      - Time Series Fundamentals: topic-6-time-series/tutorials/time-series-fundamentals.md
+      - Stationarity & Differencing: topic-6-time-series/tutorials/stationarity.md
+      - ARIMA Models: topic-6-time-series/tutorials/arima.md
+      - SARIMA (Seasonal ARIMA): topic-6-time-series/tutorials/sarima.md
+      - Facebook Prophet: topic-6-time-series/tutorials/prophet.md
+    - How-to Guides:
+      - Decompose a Time Series: topic-6-time-series/how-to/decompose-time-series.md
+      - Evaluate Forecast Accuracy: topic-6-time-series/how-to/forecast-evaluation.md
+      - Handle Missing Timestamps: topic-6-time-series/how-to/handle-missing-timestamps.md
+    - Reference:
+      - Statsmodels TSA Reference: topic-6-time-series/reference/statsmodels-tsa.md
+      - Prophet Parameters: topic-6-time-series/reference/prophet-parameters.md
+      - ACF/PACF Interpretation Guide: topic-6-time-series/reference/acf-pacf-interpretation.md
+    - Explanation:
+      - Why Stationarity Matters: topic-6-time-series/explanation/why-stationarity-matters.md
+      - ML vs Statistical Forecasting: topic-6-time-series/explanation/ml-vs-statistical-forecasting.md
+  - Model Validation & Hyperparameter Tuning:
+    - topic-7-validation-tuning/index.md
+    - Tutorials:
+      - Train-Test Splitting: topic-7-validation-tuning/tutorials/train-test-split.md
+      - Cross-Validation Strategies: topic-7-validation-tuning/tutorials/cross-validation.md
+      - Grid & Random Search: topic-7-validation-tuning/tutorials/grid-random-search.md
+      - Bayesian Optimisation with Optuna: topic-7-validation-tuning/tutorials/optuna.md
+      - Learning Curves & Diagnostics: topic-7-validation-tuning/tutorials/learning-curves.md
+    - How-to Guides:
+      - Prevent Overfitting: topic-7-validation-tuning/how-to/prevent-overfitting.md
+      - Cross-Validate Time Series: topic-7-validation-tuning/how-to/time-series-cv.md
+      - Compare Models Statistically: topic-7-validation-tuning/how-to/compare-models-statistically.md
+      - Report Confidence Intervals: topic-7-validation-tuning/how-to/confidence-intervals.md
+    - Reference:
+      - Sklearn Model Selection API: topic-7-validation-tuning/reference/sklearn-model-selection.md
+      - Hyperparameter Cheatsheet by Algorithm: topic-7-validation-tuning/reference/hyperparameter-cheatsheet.md
+      - Metrics Reference Table: topic-7-validation-tuning/reference/metrics-reference.md
+    - Explanation:
+      - Overfitting vs Underfitting: topic-7-validation-tuning/explanation/overfitting-underfitting.md
+      - Why Cross-Validation Works: topic-7-validation-tuning/explanation/cross-validation-theory.md
+      - Choosing the Right Metric: topic-7-validation-tuning/explanation/metric-selection.md
+  - Application, Communication & Impact:
+    - topic-8-communication-impact/index.md
+    - Tutorials:
+      - SHAP Values: topic-8-communication-impact/tutorials/shap-values.md
+      - LIME Explanations: topic-8-communication-impact/tutorials/lime-explanations.md
+      - Feature Importance Visualisation: topic-8-communication-impact/tutorials/feature-importance-viz.md
+      - ROI & Business Impact Analysis: topic-8-communication-impact/tutorials/roi-analysis.md
+    - How-to Guides:
+      - Write an Executive Summary: topic-8-communication-impact/how-to/executive-summary.md
+      - Build a Stakeholder Presentation: topic-8-communication-impact/how-to/stakeholder-presentation.md
+      - Anticipate & Handle Objections: topic-8-communication-impact/how-to/objection-handling.md
+      - Create a Model Card: topic-8-communication-impact/how-to/model-card.md
+    - Reference:
+      - SHAP Library Reference: topic-8-communication-impact/reference/shap-api.md
+      - LIME Library Reference: topic-8-communication-impact/reference/lime-api.md
+      - Presentation Quality Checklist: topic-8-communication-impact/reference/presentation-checklist.md
+    - Explanation:
+      - Interpretability vs Accuracy: topic-8-communication-impact/explanation/interpretability-vs-accuracy.md
+      - Ethics in Machine Learning: topic-8-communication-impact/explanation/ethics-in-ml.md
+      - ML in the Workplace: topic-8-communication-impact/explanation/ml-in-workplace.md
+      - Responsible AI Principles: topic-8-communication-impact/explanation/responsible-ai.md
+  - Appendix:
+    - appendix/index.md
+    - Full Setup Guide: appendix/full-setup.md
+    - Datasets: appendix/datasets.md
+    - KSB Mapping: appendix/ksb-mapping.md
+    - Assessment Checklist: appendix/assessment-checklist.md
+    - Reading List: appendix/reading-list.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.arithmatex:
+      generic: true
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - tables
+  - footnotes
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - toc:
+      permalink: true
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/bpp-sot/l6ds-m9-machine-learning
+
+plugins:
+  - search
+
+copyright: "&copy; 2026 BPP University School of Technology - M9 Machine Learning"

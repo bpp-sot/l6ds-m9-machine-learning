@@ -1,0 +1,40 @@
+/* BPP Brand Override */
+:root {
+  --md-primary-fg-color: #1a1a2e;
+  --md-primary-fg-color--light: #2d2d4e;
+  --md-primary-fg-color--dark: #0d0d17;
+  --md-accent-fg-color: #c8a951;
+  --md-accent-fg-color--transparent: #c8a95133;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: #1a1a2e;
+  --md-accent-fg-color: #c8a951;
+}
+
+/* BPP gold links */
+.md-nav__link:hover,
+.md-nav__link--active {
+  color: #c8a951 !important;
+}
+
+/* Gold accents on admonitions */
+.md-typeset .admonition.tip,
+.md-typeset details.tip {
+  border-color: #c8a951;
+}
+
+/* Header bar styling */
+.md-header {
+  background-color: #1a1a2e;
+}
+
+/* Footer */
+.md-footer {
+  background-color: #1a1a2e;
+}
+
+/* Tab active indicator */
+.md-tabs__link--active {
+  border-bottom-color: #c8a951 !important;
+}
