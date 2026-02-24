@@ -1,30 +1,18 @@
-# Explanation: Metric Selection
+# Choosing the Right Metric
 
-## Conceptual Overview
-Understanding metric selection is critical for bridging the gap between technical execution and business impact. 
+> You can have a model with 99% accuracy that is completely useless.
 
-### Analogy
-Think of this process like organizing a messy filing cabinet. Before you can find insights (extract documents), you need a system (the algorithm or transformation).
+## The Imbalanced Data Trap
+Imagine a dataset predicting credit card fraud. 99% of transactions are legitimate, and 1% are fraudulent.
+A "dumb" model that simply predicts "Legitimate" for every single transaction will score 99% Accuracy. But it caught 0 frauds.
 
-## Formal Definition
+## When to use what:
+*   **Accuracy:** Only when classes are perfectly balanced (e.g., 50% cats, 50% dogs).
+*   **Precision:** When **false positives are expensive**. (e.g., A spam filter. You don't want to send legitimate emails to the junk folder).
+*   **Recall:** When **false negatives are expensive**. (e.g., Cancer screening. Missing a cancer diagnosis is worse than a false alarm).
+*   **F1-Score:** When you want a balance of Precision and Recall on an imbalanced dataset.
 
-The underlying concept can be expressed mathematically. For instance, consider the fundamental equation of evaluation:
-
-\[
-J(\theta) = \frac{1}{2m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2
-\]
-
-## Workflow Diagram
-
-```mermaid
-graph TD
-    A[Raw Input] --> B{Requires Metric Selection?}
-    B -->|Yes| C[Apply Transformation]
-    B -->|No| D[Bypass]
-    C --> E[Evaluate Metrics]
-    D --> E
-    E --> F[Final Output]
-```
-
-## Connection to Practice
-In your assessment, you must justify *why* you chose a particular approach. Use the principles outlined here to build your argument for the presentation.
+## KSB Mapping
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

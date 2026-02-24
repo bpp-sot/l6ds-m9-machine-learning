@@ -1,30 +1,18 @@
-# Explanation: Overfitting Underfitting
+# Overfitting vs Underfitting
 
-## Conceptual Overview
-Understanding overfitting underfitting is critical for bridging the gap between technical execution and business impact. 
+> The primary goal of machine learning is to find the sweet spot between bias (underfitting) and variance (overfitting).
 
-### Analogy
-Think of this process like organizing a messy filing cabinet. Before you can find insights (extract documents), you need a system (the algorithm or transformation).
+## Underfitting (High Bias)
+The model is too simple to capture the underlying pattern of the data.
+*   **Symptom:** Bad performance on both the training set and the test set.
+*   **Cure:** Use a more complex model (e.g., switch from Linear Regression to Random Forest), add more features, or reduce regularisation.
 
-## Formal Definition
+## Overfitting (High Variance)
+The model is too complex and has memorised the training data, including its noise and outliers.
+*   **Symptom:** Excellent performance on the training set, but terrible performance on the test set.
+*   **Cure:** Get more data, use a simpler model, use regularisation, or use early stopping.
 
-The underlying concept can be expressed mathematically. For instance, consider the fundamental equation of evaluation:
-
-\[
-J(\theta) = \frac{1}{2m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2
-\]
-
-## Workflow Diagram
-
-```mermaid
-graph TD
-    A[Raw Input] --> B{Requires Overfitting Underfitting?}
-    B -->|Yes| C[Apply Transformation]
-    B -->|No| D[Bypass]
-    C --> E[Evaluate Metrics]
-    D --> E
-    E --> F[Final Output]
-```
-
-## Connection to Practice
-In your assessment, you must justify *why* you chose a particular approach. Use the principles outlined here to build your argument for the presentation.
+## KSB Mapping
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

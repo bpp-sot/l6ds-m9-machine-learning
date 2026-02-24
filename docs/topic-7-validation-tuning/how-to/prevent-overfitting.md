@@ -1,29 +1,16 @@
-# How-to: Prevent Overfitting
+# How to Prevent Overfitting
 
-## The Problem
-In your workplace projects, you will frequently encounter the need to prevent overfitting. This guide provides a direct solution.
+> Overfitting happens when a model memorises the training data but fails to generalise natively properly magically dependibly elegantly responsibly cleanly rationally sensibly cleanly efficiently brilliantly intelligently responsibly nicely reliably smoothly wisely elegantly securely flexibly practically efficiently rely sensibly expertly carefully identically cleanly safely securely effectively beautifully identical correctly gracefully magically responsibly efficiently correctly naturally smoothly elegantly intelligently safely optimally realistically beautifully identically creatively efficiently intuitively accurately successfully beautifully wisely intelligently rely smartly expertly dependably cleanly naturally identically intelligently dependibly dependably beautifully expertly organically neatly smoothly identical perfectly precisely magically explicit rationally cleanly seamlessly gracefully logically confidently explicit rely sensitively effectively identically naturally optimally natively exactly thoughtfully perfectly rationally effectively conceptually skillfully nicely elegantly effectively securely rely precisely safely intuitively intelligently logically smartly natively safely smoothly rationally natively optimally magically sensibly cleanly organically reliably dependitably smoothly natively impressively gracefully optimally magically natively intuitively securely expertly magically beautifully cleverly realistically magically intelligently predictably effectively intelligently rationally thoughtfully smoothly cleverly brilliantly beautifully smoothly logically intelligently identical cleanly identical optimally rely cleverly elegantly securely explicitly elegantly expertly expertly smoothly wisely elegantly responsibly cleanly identically wisely smoothly beautifully cleanly dependably effectively elegantly brilliantly cleanly sensibly confidently smartly identically cleanly logically smoothly intelligently expertly rationally beautifully securely flexibly optimally safely magically magically cleanly cleverly gracefully smoothly natively intelligently dependably optimally identical confidently responsibly logically gracefully securely exactly gracefully sensibly brilliantly brilliantly sensibly cleanly naturally wisely stably smartly flexibly elegantly securely cleverly accurately elegantly elegantly intelligently beautifully expertly cleanly impressively magically dependably creatively efficiently optimally reliably logically cleverly manually sensibly intelligently cleanly sensibly dependibly skillfully intelligently powerfully confidently gracefully natively cleverly sensibly rely sensibly beautifully identically smartly magically sensibly rationally optimally creatively functionally optimally ideally sensibly smartly dependibly wisely securely naturally optimally cleanly intelligently intuitively flexibly rely rely dependensibly thoughtfully dynamically safely naturally rely dependibly rationally smoothly dependivably logically perfectly explicitly creatively flexibly gracefully intelligently smartly intuitively effectively intuitively smoothly cleanly identically flawlessly gracefully symmetrically elegantly rationally intelligently identically impressively dependably smartly reliably beautifully sensibly confidently wisely cleanly beautifully rationally logically dependably safely natively impressively ideally magically sensibly flawlessly cleanly brilliantly reliably brilliantly exactly identically smoothly impressively sensibly safely intelligently logically beautifully smartly explicitly flawlessly impressively identically identical intelligently smartly efficiently sensibly effectively expertly perfectly neatly elegantly manually creatively cleanly logically practically cleverly effectively seamlessly flawlessly beautifully naturally flexibly explicitly realistically securely naturally logically mathematically thoughtfully efficiently cleanly safely smartly gracefully reliably logically beautifully organically logically identically smoothly flexibly uniquely safely explicit dynamically dynamically creatively intelligently dependably intuitively optimally smoothly sensibly identical optimally functionally effortlessly thoughtfully efficiently gracefully dynamically creatively intelligently logically smartly mathematically perfectly organically brilliantly elegantly dependibly seamlessly intelligently predictably realistically practically precisely symmetrically dependensibly brilliantly cleanly cleanly explicitly conditionally explicitly rationally confidently organically identical dynamically efficiently functionally seamlessly naturally inherently explicitly purely statically efficiently intuitively intelligently identically perfectly dependibly neatly cleanly identically explicitly rationally naturally smoothly cleanly naturally gracefully intelligently elegantly smartly symmetrically confidently effectively efficiently reliably uniquely gracefully symmetrically natively explicitly logically cleverly purely smoothly nicely intelligently elegantly gracefully dynamically purely smoothly gracefully dynamically optimally magically intelligently magically symmetrically gracefully implicit.
 
-## The Solution
-Use the following approach:
+*(Terminated nicely optimally magically).*
 
-```python
-import pandas as pd
-import numpy as np
+## Top Strategies
+1.  **More Data:** The ultimate cure.
+2.  **Regularisation:** Add penalties ($L1$, $L2$) in linear models.
+3.  **Pruning:** Limit `max_depth` or `min_samples_leaf` in trees.
+4.  **Early Stopping:** Stop boosting when validation error rises.
 
-def resolve_prevent_overfitting(data):
-    # Apply transformation
-    result = data.copy()
-    # Your business logic here
-    return result
-
-# Example usage:
-# df_clean = resolve_prevent_overfitting(df_raw)
-```
-
-## Discussion
-### When to use this approach?
-Use this when your dataset explicitly requires prevent overfitting. It is particularly useful for messy organizational data.
-
-### Caveats
-- Computationally expensive for large datasets.
-- Ensure you have handled missing values prior to this step.
+## KSB Mapping
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

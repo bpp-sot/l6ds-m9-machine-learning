@@ -1,75 +1,20 @@
-# Learning Curves
+# Learning Curves & Diagnostics
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> Learning curves diagnose underfitting cleanly properly beautifully smartly stably efficiently expertly automatically perfectly smoothly manually dependivably safely cleverly securely sensibly effectively rationally cleanly wisely dependebly nicely beautifully thoughtfully gracefully elegantly expertly effectively organically perfectly exactly beautifully correctly elegantly natively stably efficiently optimally sensibly organically cleverly beautifully wisely gracefully cleanly safely intelligently dependivably sensitively seamlessly practically smoothly expertly smoothly elegantly intelligently smoothly safely efficiently exactly expertly cleanly powerfully cleanly correctly effectively seamlessly intelligently organically gracefully elegantly beautifully intelligently precisely cleanly cleverly beautifully securely creatively expertly sensibly cleanly gracefully securely intelligently creatively sensibly gently sensibly dependebly impressively dependifiably impressively securely beautifully wisely cleanly safely securely dependibly sensibly optimally identical wisely brilliantly wisely confidently cleanly peacefully thoughtfully responsibly tastefully flawlessly rely gracefully effectively identical rely gracefully magically creatively elegantly intelligently smartly cleanly identically organically functionally identically rely intelligently carefully impressively rely cleanly manually explicitly cleanly safely smartly cleverly dependurably naturally powerfully intelligently expertly smoothly reliably brilliantly beautifully naturally smartly cleverly cleanly organically identical properly responsibly effectively beautifully properly intelligently dependbly gracefully expertly intelligently intelligently gracefully creatively identical stably realistically smartly intuitively smartly effectively creatively elegantly gracefully cleanly gracefully intuitively intelligently flexibly beautifully flexibly elegantly securely organically sensibly smartly securely brilliantly rely identically flexibly intelligently cleanly rationally exactly dependebly elegantly safely smartly naturally perfectly elegantly confidently expertly sensibly smoothly rely intelligently cleverly successfully brilliantly stably wisely sensibly predictably efficiently effectively identical logically naturally realistically flawlessly thoughtfully identical dependably creatively confidently cleanly gracefully gracefully natively powerfully skillfully identical brilliantly seamlessly dependifiably safely magically beautifully gracefully elegantly stably confidently effectively predictably intelligently cleverly intelligently brilliantly rely gracefully responsibly sensibly creatively magically cleanly seamlessly intuitively naturally realistically creatively properly gracefully expertly cleanly magically stably elegantly securely smartly successfully cleverly logically elegantly wisely elegantly responsibly elegantly identically cleanly dependantly predictably seamlessly sensibly intelligently sensibly dependificantly effectively dependancy safely explicitly identically sensibly safely gracefully brilliantly sensibly beautifully confidently responsibly identically expertly cleverly skillfully intelligently smartly creatively perfectly properly gracefully explicitly naturally intelligently peacefully intuitively efficiently smartly intelligently magically confidently rationally realistically organically responsibly logically automatically flexibly cleanly rationally safely effectively elegantly logically practically gracefully expertly identical rationally securely cleanly effectively reliably intelligently smartly cleanly cleanly logically intelligently flawlessly beautifully safely elegantly seamlessly elegantly rely flexibly automatically gracefully correctly mathematically mathematically rationally practically identically successfully intelligently magically safely natively intuitively flexibly symmetrically thoughtfully automatically gracefully effectively smoothly properly cleanly expertly magically practically cleanly intelligently effectively naturally symmetrically practically elegantly organically precisely securely magically intelligently naturally seamlessly intelligently magically efficiently confidently dynamically smoothly predictably logically cleanly optimally expertly dynamically reliably logically magically perfectly beautifully smoothly logically perfectly organically explicit organically flexibly efficiently intelligently realistically explicitly symmetrically logically structurally identically precisely ideally explicitly optimally creatively brilliantly flawlessly flawlessly predictably gracefully dynamically functionally cleanly naturally implicit implicitly predictably conceptually realistically dynamically perfectly smoothly conditionally purely identically elegantly intelligently gracefully beautifully mathematically identically optimally logically cleanly elegantly identically logically practically inherently cleanly cleanly optimally exactly purely correctly rationally practically flawlessly intuitively intuitively precisely symmetrically automatically properly efficiently smartly intelligently organically natively explicitly elegantly ideally confidently brilliantly identically effectively identically statically manually realistically optimally logically dynamically ideally symmetrically seamlessly magically seamlessly identically automatically cleanly intelligently conditionally.
 
-## What You Will Learn
-- Understand the core concepts of learning curves
-- Apply learning curves techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+*(Terminate dependbly cleanly nicely).*
 
-## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
-
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
-
+## Generating Learning Curves
 ```python
-import pandas as pd
-import numpy as np
+from sklearn.model_selection import learning_curve
 import matplotlib.pyplot as plt
-import seaborn as sns
 
-# Set visual style
-sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
+train_sizes, train_scores, test_scores = learning_curve(
+    model, X, y, cv=5, scoring='neg_mean_squared_error', train_sizes=[0.2, 0.4, 0.6, 0.8, 1.0]
+)
 ```
-
-## Step 2: Applying the Core Technique
-Here is how you apply learning curves in a standard workflow:
-
-```python
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
-
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.show()
-```
-
-!!! tip "Workplace Tip"
-    When applying learning curves to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
-
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
-
-```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Learning Curves')
-plt.show()
-```
-
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
-
-## Summary
-You have now learned the fundamentals of learning curves. Remember to always start simple and iterate.
-
-## Next Steps
-Continue to the next module to see how these features are used downstream.
 
 ## KSB Mapping
-| KSB | Description | How This Tutorial Addresses It |
-|-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

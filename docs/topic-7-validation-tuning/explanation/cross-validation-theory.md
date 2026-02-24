@@ -1,30 +1,21 @@
-# Explanation: Cross Validation Theory
+# Why Cross-Validation Works
 
-## Conceptual Overview
-Understanding cross validation theory is critical for bridging the gap between technical execution and business impact. 
+> A single train-test split is subject to luck. Cross-validation eliminates this.
 
-### Analogy
-Think of this process like organizing a messy filing cabinet. Before you can find insights (extract documents), you need a system (the algorithm or transformation).
+## The Theory
+If you split your dataset 80/20 just once, there is a chance that the 20% in the test set contains all the easy examples, or all the hard outliers. Your evaluation metric will be misleadingly high or low.
 
-## Formal Definition
+Cross-validation (specifically K-Fold) solves this by rotating the test set.
+If we use 5-Folds:
+1.  We split data into 5 chunks.
+2.  We train on chunks 1,2,3,4 and test on chunk 5.
+3.  We train on chunks 2,3,4,5 and test on chunk 1.
+4.  And so on.
 
-The underlying concept can be expressed mathematically. For instance, consider the fundamental equation of evaluation:
+## The Benefit
+Every single data point in your dataset gets to be in the test set exactly once. By averaging the 5 scores, you get a highly robust, "luck-free" estimate of how the model will perform in reality.
 
-\[
-J(\theta) = \frac{1}{2m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2
-\]
-
-## Workflow Diagram
-
-```mermaid
-graph TD
-    A[Raw Input] --> B{Requires Cross Validation Theory?}
-    B -->|Yes| C[Apply Transformation]
-    B -->|No| D[Bypass]
-    C --> E[Evaluate Metrics]
-    D --> E
-    E --> F[Final Output]
-```
-
-## Connection to Practice
-In your assessment, you must justify *why* you chose a particular approach. Use the principles outlined here to build your argument for the presentation.
+## KSB Mapping
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

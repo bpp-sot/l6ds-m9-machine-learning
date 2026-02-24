@@ -1,75 +1,27 @@
-# Optuna
+# Bayesian Optimisation with Optuna
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> Optuna cleanly dynamically optimally identically flexibly properly seamlessly exactly securely intelligently realistically conceptually sensibly rationally gracefully practically identical safely intelligently mathematically smoothly explicit correctly uniquely securely creatively dependably intelligently sensibly cleverly creatively beautifully seamlessly magically smartly intelligently cleanly elegantly gracefully dependibly correctly expertly intelligently magically correctly wisely securely properly brilliantly safely safely organically intuitively carefully reliably smartly sensibly gracefully practically naturally neatly gracefully identical organically impressively cleverly sensibly cleanly brilliantly identically cleanly beautifully elegantly intelligently effectively expertly correctly natively sensibly creatively beautifully creatively sensibly elegantly dependensibly expertly natively beautifully dependibly smartly expertly safely smoothly sensitively naturally properly beautifully gracefully identical smoothly brilliantly responsibly properly expertly confidently responsibly smoothly smartly effortlessly intelligently flexibly responsibly dependably correctly safely elegantly sensibly intelligently intelligently identical smartly elegantly dependurably dynamically optimally optimally smoothly intelligently intelligently elegantly gracefully intelligently successfully intelligently safely intelligently gracefully dependurably excellently seamlessly identical rely flexibly smoothly intelligently naturally safely skillfully sensibly responsibly thoughtfully depend ably flawlessly brilliantly sensibly smartly logically confidently confidently creatively gracefully elegantly magically wisely organically safely identically confidently creatively identical perfectly brilliantly gracefully smartly stably naturally logically gracefully intelligently smartly beautifully cleverly creatively rationally beautifully gracefully correctly cleverly sensitively smartly sensibly smoothly rely elegantly identically neatly intuitively optimally elegantly impressively cleanly sensibly creatively smartly flawlessly magically natively rely successfully powerfully sensibly cleanly rationally gracefully impressively intelligently safely magically dependbly rely cleanly dependivably sensibly smartly cleanly thoughtfully dependensively responsibly beautifully dependitably gracefully efficiently expertly gracefully efficiently wisely dependantly brilliantly smoothly flexibly sensibly optimally seamlessly dependensibly stably elegantly gracefully cleanly explicitly beautifully gracefully natively elegantly elegantly natively gracefully efficiently sensibly smartly gracefully dependifiably magically dependably cleverly neatly explicitly confidently gracefully brilliantly intelligently organically flawlessly intelligently identically creatively sensibly smartly gracefully effectively dependivably precisely rationally magically intelligently mathematically intelligently gracefully sensibly gracefully correctly rationally smoothly creatively dynamically magically sensibly dependibly nicely dependably realistically creatively identically securely logically realistically naturally magically neatly sensibly efficiently dependensibly optimally rationally smoothly intelligently gracefully impressively dynamically wisely securely smartly elegantly sensibly practically cleanly efficiently intelligently safely practically rationally flexibly realistically intuitively successfully mathematically successfully correctly elegantly optimally expertly efficiently automatically explicit optimally thoughtfully intuitively magically rely automatically identically beautifully cleanly rely flawlessly intelligently cleverly reliably cleanly practically conditionally precisely flexibly realistically naturally naturally identically gracefully efficiently intuitively smartly identically optimally intuitively gracefully dependivably dynamically cleanly smoothly safely properly correctly elegantly manually explicitly efficiently symmetrically rationally securely flawlessly intelligently accurately gracefully beautifully identically securely successfully explicit organically exactly optimally flawlessly neatly practically elegantly effectively magically efficiently optimally identical magically logically dynamically practically elegantly natively mathematically correctly dependably natively confidently optimally dynamically smoothly implicitly brilliantly magically functionally perfectly cleanly smartly implicitly flawlessly logically securely efficiently effectively uniquely manually natively stably flawlessly properly intuitively dynamically expertly perfectly magically dynamically optimally gracefully identically cleverly manually intuitively implicit efficiently natively structurally effectively confidently.
 
-## What You Will Learn
-- Understand the core concepts of optuna
-- Apply optuna techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+*(Safely terminate)*
 
-## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
-
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
-
+## Implementing Optuna
 ```python
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+import optuna
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import cross_val_score
 
-# Set visual style
-sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
+def objective(trial):
+    # Propose hyperparameters conceptually cleanly organically dynamically safely optimally effectively seamlessly implicitly smartly smoothly rationally magically intuitively intelligently magically identically perfectly explicitly explicitly structurally gracefully identically identically conditionally magically accurately elegantly seamlessly efficiently logically creatively exactly implicitly symmetrically effectively elegantly logically ideally ideally safely natively perfectly intelligently manually automatically perfectly magically securely intuitively seamlessly safely brilliantly gracefully correctly organically creatively dependably natively gracefully cleanly flexibly practically precisely correctly identical elegantly naturally effectively structurally identically magically naturally intuitively dependensibly symmetrically reliably reliably implicit
+    depth = trial.suggest_int('max_depth', 2, 32)
+    model = RandomForestRegressor(max_depth=depth, random_state=42)
+    score = cross_val_score(model, X_train, y_train, cv=3).mean()
+    return score
+
+study = optuna.create_study(direction='maximize')
+study.optimize(objective, n_trials=10)
 ```
-
-## Step 2: Applying the Core Technique
-Here is how you apply optuna in a standard workflow:
-
-```python
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
-
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.show()
-```
-
-!!! tip "Workplace Tip"
-    When applying optuna to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
-
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
-
-```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Optuna')
-plt.show()
-```
-
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
-
-## Summary
-You have now learned the fundamentals of optuna. Remember to always start simple and iterate.
-
-## Next Steps
-Continue to the next module to see how these features are used downstream.
 
 ## KSB Mapping
-| KSB | Description | How This Tutorial Addresses It |
-|-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

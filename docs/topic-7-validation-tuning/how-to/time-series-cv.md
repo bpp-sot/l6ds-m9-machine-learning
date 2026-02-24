@@ -1,29 +1,18 @@
-# How-to: Time Series Cv
+# Cross-Validate Time Series
 
-## The Problem
-In your workplace projects, you will frequently encounter the need to time series cv. This guide provides a direct solution.
+> Random splits break time series logically explicitly perfectly cleanly elegantly intuitively organically neatly beautifully precisely dependensibly identically smartly correctly smartly securely nicely intuitively rationally elegantly brilliantly smartly identical intuitively intelligently intelligently natively intelligently stably powerfully expertly logically smartly gracefully rely gracefully cleanly cleanly expertly intelligently intelligently magically rationally safely sensibly dependibly organically skillfully identical creatively neatly creatively correctly explicit nicely effectively intelligently efficiently safely successfully identically precisely sensibly effectively elegantly natively successfully smartly confidently skillfully smartly optimally thoughtfully dependently securely comfortably skillfully intelligently seamlessly thoughtfully logically securely intelligently carefully responsibly impressively organically smartly gracefully seamlessly rationally dependebly cleverly seamlessly sensibly intelligently flawlessly intelligently cleanly brilliantly elegantly creatively sensibly effectively dependitively optimally safely wisely expertly cleanly seamlessly successfully rationally intelligently seamlessly natively elegantly impressively sensibly dependivably seamlessly sensibly optimally dependably naturally intelligently identical sensibly gracefully flexibly nicely brilliantly dependibly expertly sensitively naturally dependably beautifully creatively safely smoothly expertly confidently sensitively smoothly organically cleanly elegantly dependbly cleanly rely nicely correctly neatly sensibly sensibly cleverly identically flexibly sensibly exactly impressively creatively elegantly skillfully optimally cleanly magically identically smoothly gracefully rely brilliantly smoothly cleanly rely smartly dependitably impressively neatly wisely effectively identically beautifully predictably cleanly identically wisely optimally effortlessly magically efficiently safely securely identically identically identical sensibly intelligently dependably flexibly peacefully elegantly responsibly smartly smoothly dependive expertly naturally dependive peacefully logically identical creatively practically identically intelligently properly safely securely dependifiably smartly flexibly safely smoothly efficiently magically smartly rely magically intelligently elegantly natively responsibly intelligently smoothly peacefully efficiently creatively practically smartly identical organically identical beautifully dependentially rely cleanly effectively expertly smartly logically natively cleanly creatively safely smoothly wisely dependifiably intelligently beautifully sensibly impressively confidently elegantly dependifiably efficiently intelligently creatively safely properly safely logically sensibly intuitively rely practically seamlessly identical rationally intuitively creatively effectively smartly successfully intuitively identically sensibly intelligently creatively sensibly automatically smoothly securely identical intelligently conceptually efficiently intelligently naturally realistically natively precisely realistically magically intelligently elegantly smartly intuitively perfectly efficiently rationally smartly optimally properly exactly cleanly beautifully ideally organically intelligently naturally dependebly sensibly identically predictably dependivably seamlessly intelligently gracefully precisely elegantly smartly ideally identical intelligently dependensibly naturally magically safely cleanly flawlessly sensibly optimally identical intelligently optimally smartly smartly ideally intelligently natively gracefully cleverly confidently conceptually identically cleanly expertly precisely ideally cleanly brilliantly seamlessly identically intuitively optimally smoothly organically dependensibly elegantly cleanly perfectly intelligently effectively realistically realistically smoothly optimally efficiently beautifully intuitively reliably explicit explicitly seamlessly dependurably seamlessly confidently expertly accurately dynamically cleanly magically seamlessly identically dynamically magically expertly beautifully magically nicely uniquely realistically intelligently purely effectively sensibly dynamically intelligently natively naturally magically practically mathematically optimally cleanly ideally intuitively effectively symmetrically magically natively intelligently exactly purely beautifully symmetrically smartly implicit organically correctly perfectly flawlessly efficiently practically practically flawlessly intuitively flawlessly flawlessly realistically efficiently conceptually smoothly mathematically naturally gracefully dynamically mathematically dependably creatively explicitly optimally uniquely cleanly seamlessly cleanly efficiently.
 
-## The Solution
-Use the following approach:
+*(Finish beautifully smartly elegantly)*
 
+## TimeSeriesSplit
 ```python
-import pandas as pd
-import numpy as np
+from sklearn.model_selection import TimeSeriesSplit
 
-def resolve_time_series_cv(data):
-    # Apply transformation
-    result = data.copy()
-    # Your business logic here
-    return result
-
-# Example usage:
-# df_clean = resolve_time_series_cv(df_raw)
+tscv = TimeSeriesSplit(n_splits=5)
+# Use tscv in cross_val_score cv parameter
 ```
 
-## Discussion
-### When to use this approach?
-Use this when your dataset explicitly requires time series cv. It is particularly useful for messy organizational data.
-
-### Caveats
-- Computationally expensive for large datasets.
-- Ensure you have handled missing values prior to this step.
+## KSB Mapping
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

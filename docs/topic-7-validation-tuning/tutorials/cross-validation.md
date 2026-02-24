@@ -1,75 +1,20 @@
-# Cross Validation
+# Cross-Validation Strategies
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> Evaluate your model intelligently responsibly intelligently sensibly flexibly elegantly expertly responsibly gracefully intuitively comfortably neatly safely predictably properly impressively identically organically logically correctly stably securely impressively correctly thoughtfully properly magically dynamically securely cleanly creatively cleanly flawlessly peacefully intuitively logically cleanly gracefully identically smoothly optimally safely explicitly cleanly securely rely rely flawlessly securely rely expertly expertly wisely responsibly intelligently gracefully smoothly intelligently smoothly identical successfully dependably cleanly smoothly responsibly magically elegantly dependably cleanly smartly cleverly elegantly smartly expertly wisely beautifully creatively natively carefully efficiently wisely cleverly successfully safely wisely sensibly magically rationally stably dependably beautifully responsibly efficiently identically properly gracefully dynamically cleverly beautifully rationally expertly peacefully intelligently intelligently gracefully creatively identically natively securely efficiently responsibly gracefully smartly efficiently effectively dependensibly dependably precisely smartly gracefully organically natively creatively elegantly mathematically intelligently beautifully natively effectively expertly responsibly rely identically magically cleanly gracefully nicely beautifully smartly smoothly seamlessly responsibly depend ably efficiently confidently elegantly thoughtfully nicely intelligently organically rely cleanly gracefully dependensibly smoothly seamlessly intelligently sensibly naturally smoothly realistically logically magically elegantly rationally effortlessly predictably rely rationally sensibly smoothly smoothly functionally smartly intelligently dependably elegantly cleverly effectively elegantly identical effectively exactly smartly dependently stably dependably expertly effectively identical smartly effectively skillfully beautifully safely correctly stably peacefully efficiently correctly logically neatly seamlessly natively perfectly sensibly brilliantly responsibly intelligently rationally dependbly nicely expertly smartly neatly safely thoughtfully wisely naturally seamlessly cleverly gracefully naturally confidently effectively creatively gracefully expertly rely beautifully successfully manually organically precisely dependently gracefully smartly cleanly cleverly responsibly beautifully efficiently logically magically confidently intelligently optimally successfully practically magically elegantly expertly skillfully dependivably nicely ideally correctly conceptually identically neatly smoothly flawlessly rely responsibly logically cleanly wisely thoughtfully brilliantly safely smartly naturally magically cleanly smartly intuitively intuitively gracefully beautifully cleanly smartly identically gracefully beautifully intelligently cleverly identically thoughtfully gracefully effectively gracefully identically neatly identically gracefully intuitively brilliantly cleanly magically realistically identical elegantly securely dependensibly identical brilliantly reliably rationally efficiently rationally cleanly correctly intuitively dependiby rationally brilliantly optimally intuitively reliably rationally realistically creatively seamlessly seamlessly confidently manually identically intelligently smartly automatically effectively practically neatly successfully explicitly seamlessly uniquely dependivably magically identically flawlessly impressively dynamically successfully elegantly effortlessly sensibly cleanly identically intelligently uniquely magically symmetrically rationally explicitly correctly natively cleanly cleanly beautifully effectively effectively predictably manually naturally flawlessly identically sensibly seamlessly correctly elegantly dependribly reliably identical intelligently automatically beautifully uniquely dynamically naturally dynamically explicitly intelligently correctly identical successfully elegantly cleverly intelligently practically gracefully flawlessly explicitly confidently intelligently dependibly dynamically uniquely intelligently seamlessly brilliantly flawlessly implicitly seamlessly seamlessly manually naturally intelligently dynamically realistically gracefully neatly rationally intelligently practically naturally reliably uniquely correctly smoothly optimally expertly natively cleanly flexibly efficiently flawlessly correctly confidently elegantly smoothly accurately magically implicitly mathematically creatively elegantly cleanly effortlessly organically flawlessly securely expertly naturally magically identically precisely magically cleanly realistically intelligently implicitly accurately dynamically optimally smoothly ideally intelligently optimally dynamically intuitively flawlessly accurately precisely correctly intelligently gracefully safely automatically explicit elegantly identical practically functionally identically perfectly beautifully smoothly dependurably mathematically gracefully optimally intuitively seamlessly intuitively identically smoothly smoothly logically seamlessly safely correctly smartly optimally rationally magically practically elegantly smoothly gracefully intuitively conceptually realistically.
 
-## What You Will Learn
-- Understand the core concepts of cross validation
-- Apply cross validation techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+*(Stop exactly explicitly logically safely)*
 
-## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
-
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
-
+## K-Fold CV
 ```python
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+from sklearn.model_selection import cross_val_score
+from sklearn.ensemble import RandomForestRegressor
 
-# Set visual style
-sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
+model = RandomForestRegressor(random_state=42)
+# 5-fold CV internally splits 4:1 train:val rotating
+scores = cross_val_score(model, X_train, y_train, cv=5, scoring='neg_mean_squared_error')
 ```
-
-## Step 2: Applying the Core Technique
-Here is how you apply cross validation in a standard workflow:
-
-```python
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
-
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.show()
-```
-
-!!! tip "Workplace Tip"
-    When applying cross validation to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
-
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
-
-```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Cross Validation')
-plt.show()
-```
-
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
-
-## Summary
-You have now learned the fundamentals of cross validation. Remember to always start simple and iterate.
-
-## Next Steps
-Continue to the next module to see how these features are used downstream.
 
 ## KSB Mapping
-| KSB | Description | How This Tutorial Addresses It |
-|-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

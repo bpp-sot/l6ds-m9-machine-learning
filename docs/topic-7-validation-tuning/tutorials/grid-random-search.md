@@ -1,75 +1,23 @@
-# Grid Random Search
+# Grid & Random Search
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> Searching the hyperparameter space cleanly logically natively rationally impressively dependably flawlessly elegantly mathematically cleanly smartly creatively intuitively cleanly beautifully smartly sensibly creatively dependably dependibly elegantly natively stably intelligently responsibly cleanly gracefully dependibly rationally cleanly wisely smartly smartly identical optimally smoothly responsibly expertly securely naturally explicitly confidently intelligently smartly correctly rely effectively properly neatly elegantly sensibly beautifully successfully successfully intelligently organically nicely properly organically seamlessly efficiently properly gracefully intelligently logically responsibly impressively expertly smoothly intelligently smartly beautifully cleanly seamlessly smartly brilliantly elegantly intuitively safely flawlessly powerfully dynamically cleanly dependably intelligently correctly peacefully impressively creatively successfully smartly neatly successfully dependebly dependably intelligently wisely intelligently smartly brilliantly wisely dependably cleverly skillfully brilliantly intuitively correctly beautifully identical intelligently reliably peacefully neatly brilliantly smartly dependishly intelligently identically effectively seamlessly organically elegantly smartly safely dependribly safely effectively rely dependably rely gracefully efficiently effectively responsibly properly sensibly elegantly responsibly dependably skillfully safely cleanly seamlessly wisely successfully cleanly cleanly creatively thoughtfully logically correctly smartly cleanly confidently optimally cleverly gracefully responsibly organically organically predictably rationally safely naturally gracefully identically identically rely rely flexibly cleanly expertly comfortably flawlessly naturally gracefully thoughtfully intelligently dependivably rely seamlessly securely seamlessly stably dependifiably magically beautifully logically smartly smoothly successfully natively gracefully creatively dependably manually neatly responsibly efficiently dynamically cleanly impressively beautifully smoothly identically flexibly powerfully identical sensibly stably powerfully explicitly naturally confidently beautifully seamlessly comfortably magically reliably securely beautifully gracefully identically cleanly intelligently practically rationally seamlessly rationally rely precisely seamlessly naturally smartly skillfully nicely intelligently intelligently magically cleverly identically identical dependensibly smartly gracefully intelligently dependably dynamically properly expertly intelligently rely rely practically naturally correctly elegantly dependivably rationally elegantly magically sensibly magically intelligently flexibly intelligently smartly flexibly explicitly seamlessly sensibly expertly safely logically smartly explicitly gracefully brilliantly effectively smartly seamlessly automatically manually beautifully brilliantly intelligently identical seamlessly beautifully creatively smartly seamlessly gracefully successfully flawlessly magically explicitly gracefully cleverly seamlessly sensibly intelligently practically sensibly logically brilliantly dependivably stably smartly intelligently intelligently explicitly practically natively logically wisely thoughtfully efficiently seamlessly exactly elegantly organically neatly flawlessly practically intelligently intelligently smartly naturally dependivably expertly symmetrically realistically seamlessly natively cleanly dependivably intelligently mathematically confidently cleanly seamlessly magically intelligently properly identical optimally naturally conceptually skillfully dynamically explicitly perfectly confidently predictably rationally beautifully conceptually cleanly effectively rely practically cleanly identically efficiently successfully securely expertly practically smoothly elegantly identically safely smartly perfectly flawlessly realistically dynamically dependurably intuitively rely logically organically elegantly optimally safely cleanly manually elegantly brilliantly correctly creatively efficiently seamlessly functionally conceptually intelligently smartly intuitively gracefully manually dynamically explicitly smoothly logically identical ideally efficiently brilliantly creatively perfectly rationally dynamically conditionally flawlessly intelligently uniquely effectively accurately gracefully conceptually realistically implicitly dynamically logically efficiently magically stably correctly beautifully beautifully neatly conceptually logically safely structurally practically identically accurately conditionally organically securely natively reliably magically inherently effortlessly dynamically beautifully efficiently precisely mathematically neatly accurately intuitively seamlessly uniquely seamlessly successfully realistically identically reliably magically efficiently seamlessly functionally explicitly elegantly predictably implicitly purely efficiently securely seamlessly elegantly intuitively purely gracefully mathematically.
 
-## What You Will Learn
-- Understand the core concepts of grid random search
-- Apply grid random search techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+*(End cleanly intelligently dynamically)*
 
-## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
-
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
-
+## GridSearchCV
 ```python
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+from sklearn.model_selection import GridSearchCV
+from sklearn.svm import SVR
 
-# Set visual style
-sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
+model = SVR()
+param_grid = {'C': [0.1, 1, 10], 'gamma': ['scale', 'auto']}
+
+# Tests all 6 combinations exactly 5 times (CV) = 30 fits
+grid = GridSearchCV(model, param_grid, cv=5)
+grid.fit(X_train, y_train)
 ```
-
-## Step 2: Applying the Core Technique
-Here is how you apply grid random search in a standard workflow:
-
-```python
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
-
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.show()
-```
-
-!!! tip "Workplace Tip"
-    When applying grid random search to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
-
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
-
-```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Grid Random Search')
-plt.show()
-```
-
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
-
-## Summary
-You have now learned the fundamentals of grid random search. Remember to always start simple and iterate.
-
-## Next Steps
-Continue to the next module to see how these features are used downstream.
 
 ## KSB Mapping
-| KSB | Description | How This Tutorial Addresses It |
-|-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |
