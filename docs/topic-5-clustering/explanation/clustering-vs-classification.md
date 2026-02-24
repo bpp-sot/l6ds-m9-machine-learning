@@ -1,30 +1,18 @@
-# Explanation: Clustering Vs Classification
+# Clustering vs Classification
 
-## Conceptual Overview
-Understanding clustering vs classification is critical for bridging the gap between technical execution and business impact. 
+> Both group data, but they operate under fundamentally different paradigms.
 
-### Analogy
-Think of this process like organizing a messy filing cabinet. Before you can find insights (extract documents), you need a system (the algorithm or transformation).
+## The Core Difference
 
-## Formal Definition
+*   **Classification (Supervised):** You know the answers (labels). You train the algorithm to map inputs to those known answers. The goal is prediction.
+*   **Clustering (Unsupervised):** You do *not* know the answers. You ask the algorithm to find natural groupings in the raw data. The goal is exploration and discovery.
 
-The underlying concept can be expressed mathematically. For instance, consider the fundamental equation of evaluation:
+## When to use which?
 
-\[
-J(\theta) = \frac{1}{2m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2
-\]
+*   Use classification if you have a historically labelled dataset (e.g., predicting if a *known* customer churned).
+*   Use clustering if you have raw data and want to understand it (e.g., finding *groups* of similar customers to create targeted marketing campaigns without knowing what those groups are beforehand).
 
-## Workflow Diagram
-
-```mermaid
-graph TD
-    A[Raw Input] --> B{Requires Clustering Vs Classification?}
-    B -->|Yes| C[Apply Transformation]
-    B -->|No| D[Bypass]
-    C --> E[Evaluate Metrics]
-    D --> E
-    E --> F[Final Output]
-```
-
-## Connection to Practice
-In your assessment, you must justify *why* you chose a particular approach. Use the principles outlined here to build your argument for the presentation.
+## KSB Mapping
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

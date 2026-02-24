@@ -1,30 +1,19 @@
-# Reference: Cluster Metrics
+# Cluster Evaluation Metrics
 
-This page contains quick-lookup information for cluster metrics.
+> A quick reference guide to internal and external clustering metrics.
 
-## Key Methods and Parameters
+## Internal Metrics (No Ground Truth)
 
-| Method | Parameters | Description |
-|--------|------------|-------------|
-| `fit()` | `X`, `y` | Fits the model or transformer to the data |
-| `transform()` | `X` | Applies the transformation |
-| `predict()` | `X` | Generates predictions |
+*   **Silhouette Score:** Measures how similar an object is to its own cluster compared to other clusters. Range: $[-1, 1]$. Higher is better.
+*   **Davies-Bouldin Index:** The average similarity measure of each cluster with its most similar cluster. Lower is better.
+*   **Calinski-Harabasz Index (Variance Ratio):** Ratio of the sum of between-cluster dispersion to within-cluster dispersion. Higher is better.
 
-## Common Syntax
+## External Metrics (Ground Truth Available)
 
-```python
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
+*   **Adjusted Rand Index (ARI):** Computes a similarity measure between two clusterings. Adjusted for chance. Range: $[-1, 1]$.
+*   **Normalized Mutual Information (NMI):** Normalises the Mutual Information score. Range: $[0, 1]$.
 
-# Standard boilerplate
-pipeline = make_pipeline(StandardScaler(), ...)
-pipeline.fit(X_train, y_train)
-```
-
-## Comparison Metrics
-
-When comparing approaches for cluster metrics, consider:
-
-1. **Accuracy**: How well does it perform?
-2. **Interpretability**: How easily can you explain it?
-3. **Speed**: How fast does it run?
+## KSB Mapping
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

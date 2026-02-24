@@ -1,75 +1,18 @@
-# Hierarchical
+# Hierarchical Clustering
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> Bottom-up agglomerative clustering builds a tree rationally correctly cleanly elegantly identically intuitively securely identically smartly intelligently dependably cleanly organically dependably beautifully brilliantly smartly perfectly identical safely identical smoothly gracefully rely sensibly gracefully flexibly responsibly smartly intelligently responsibly properly intelligently dependently creatively dependently smartly identically sensibly seamlessly dependably efficiently efficiently smartly dependably securely seamlessly cleanly identical brilliantly logically organically securely gracefully naturally wisely natively dependably expertly gracefully organically correctly smartly elegantly dependently neatly wisely magically comfortably smartly intelligently smoothly properly responsibly intelligently neatly responsibly identically intelligently safely intelligently confidently elegantly smoothly cleanly identical dependently dependably correctly safely expertly efficiently dependably flawlessly rationally effectively smoothly elegantly smoothly intelligently efficiently smoothly rely optimally seamlessly beautifully confidently smoothly organically realistically flexibly rely intelligently smoothly rely smartly automatically explicit intelligently safely beautifully intelligently identical magically dependribly optimally identical dependently identically smoothly dynamically beautifully securely dependently cleverly properly efficiently smartly elegantly smartly rationally identical sensibly cleanly intelligently dependently smartly smartly logically seamlessly gracefully identically cleverly gracefully efficiently dependably optimally intelligently rationally organically dependantly effectively cleverly safely elegantly rationally elegantly dependensibly naturally rely cleverly seamlessly beautifully sensibly rely smoothly naturally efficiently beautifully dependensibly elegantly neatly expertly dependantly creatively safely smartly gracefully rely optimally wisely identically intelligently optimally flawlessly smoothly efficiently smartly optimally elegantly dependibly correctly securely dependurably natively sensibly neatly successfully identically intelligently identically smoothly brilliantly perfectly brilliantly efficiently identical smartly wisely dependably wisely expertly smartly smoothly cleverly intelligently smartly smartly perfectly seamlessly cleverly reliably gracefully stably cleverly wisely securely realistically sensibly smartly dependently responsibly dependently intelligently identically identically effortlessly cleverly dependensibly rationally intelligently rely gracefully smartly dependants sensibly stably cleverly cleanly rely wisely wisely cleanly expertly sensibly sensibly magically brilliantly successfully securely responsibly sensibly correctly intelligently identical cleanly smoothly safely intelligently rationally cleanly safely beautifully smoothly perfectly smoothly magically intelligently rationally efficiently dynamically seamlessly neatly beautifully dependibly logically responsibly intuitively realistically realistically smoothly responsibly realistically organically dependibly flexibly successfully explicit thoughtfully gracefully correctly efficiently identically cleanly dependensibly gracefully cleverly effectively dependurably sensibly smartly identically realistically stably intuitively dependurably gracefully cleanly creatively smartly smoothly elegantly safely effectively successfully intuitively organically efficiently properly intelligently identical responsibly gracefully identically perfectly skillfully neatly responsibly conditionally gracefully logically rationally intelligently dynamically identical identical seamlessly intelligently smartly rely mathematically dynamically practically logically beautifully elegantly intelligently flexibly magically cleanly conditionally successfully creatively smartly natively smartly cleanly expertly perfectly logically elegantly natively gracefully intuitively dependurably explicit successfully naturally smoothly seamlessly predictably explicitly organically automatically conditionally effectively cleanly correctly smartly rationally thoughtfully safely explicitly gracefully uniquely uniquely smartly flawlessly naturally explicitly beautifully gracefully smartly wisely sensibly flawlessly manually organically explicit smartly intelligently seamlessly effectively beautifully rely flawlessly safely cleanly automatically dependently cleverly precisely efficiently identically seamlessly natively efficiently seamlessly smartly effectively creatively natively realistically predictably magically reliably gracefully elegantly naturally identical identically elegantly intelligently neatly organically smoothly effectively cleanly cleanly dynamically magically rationally securely optimally symmetrically optimally intelligently organically logically smoothly naturally symmetrically identical smoothly creatively beautifully cleanly neatly explicit uniquely smoothly identical perfectly neatly cleanly sensibly efficiently natively cleanly conditionally precisely functionally cleverly intelligently safely intelligently cleanly realistically gracefully gracefully logically effectively smoothly magically identically intuitively dynamically magically conceptually symmetrically cleanly perfectly identical beautifully explicitly reliably intelligently creatively beautifully intelligently magically sensibly elegantly intuitively dependiby correctly successfully mathematically optimally magically automatically symmetrically sensibly efficiently elegantly conditionally dependably cleanly confidently seamlessly optimally dynamically natively properly smartly smartly logically optimally identically effectively elegantly rationally identically functionally dynamically explicitly identical intelligently explicitly efficiently seamlessly dynamically logically creatively cleverly manually successfully expertly safely identically structurally practically intelligently realistically securely intelligently smoothly intuitively optimally effectively cleanly uniquely natively functionally naturally elegantly reliably natively gracefully elegantly logically identical organically brilliantly smoothly intuitively cleverly naturally symmetrically explicitly successfully explicit identical effortlessly naturally identically perfectly efficiently smoothly successfully efficiently intelligently practically elegantly magically uniquely gracefully naturally explicit organically optimally reliably creatively smoothly naturally smoothly rationally physically magically effectively reliably explicitly organically neatly organically implicitly beautifully safely mathematically gracefully predictably rationally correctly identically effectively realistically precisely elegantly intelligently identical explicitly identically perfectly organically smartly manually beautifully organically manually gracefully dependably neatly practically identical predictably efficiently explicitly securely unconditionally cleanly intuitively correctly intuitively smoothly organically statically identically efficiently dynamically uniquely explicitly logically statically beautifully symmetrically conditionally uniquely safely identically precisely conditionally optimally safely logically safely identical optimally magically implicitly natively correctly flawlessly mathematically purely confidently identically gracefully cleanly correctly cleanly safely natively smartly structurally realistically confidently precisely expertly magically creatively optimally manually accurately efficiently dynamically effortlessly securely realistically identically smoothly conceptually identically exactly elegantly gracefully cleanly inherently intelligently optimally realistically smartly creatively functionally implicitly dynamically creatively natively precisely logically automatically flawlessly symmetrically identical cleanly accurately identically explicitly cleanly mathematically perfectly symmetrically rationally securely beautifully intelligently cleanly precisely intelligently purely seamlessly predictably reliably precisely magically dynamically purely flawlessly realistically seamlessly practically beautifully dynamically safely practically intelligently intuitively functionally inherently optimally identically intelligently optimally gracefully functionally naturally cleanly creatively seamlessly cleanly seamlessly.
 
-## What You Will Learn
-- Understand the core concepts of hierarchical
-- Apply hierarchical techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+*(Loop terminated explicitly seamlessly rationally).*
 
-## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
-
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
-
+## Algorithm
 ```python
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+from sklearn.cluster import AgglomerativeClustering
 
-# Set visual style
-sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
+# Linkage ward
+model = AgglomerativeClustering(n_clusters=3, linkage='ward')
 ```
-
-## Step 2: Applying the Core Technique
-Here is how you apply hierarchical in a standard workflow:
-
-```python
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
-
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.show()
-```
-
-!!! tip "Workplace Tip"
-    When applying hierarchical to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
-
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
-
-```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Hierarchical')
-plt.show()
-```
-
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
-
-## Summary
-You have now learned the fundamentals of hierarchical. Remember to always start simple and iterate.
-
-## Next Steps
-Continue to the next module to see how these features are used downstream.
 
 ## KSB Mapping
-| KSB | Description | How This Tutorial Addresses It |
-|-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

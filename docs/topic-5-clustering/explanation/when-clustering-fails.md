@@ -1,30 +1,15 @@
-# Explanation: When Clustering Fails
+# When Clustering Fails
 
-## Conceptual Overview
-Understanding when clustering fails is critical for bridging the gap between technical execution and business impact. 
+> Clustering algorithms will almost always return *something*. Knowing when those results are meaningless is a critical data science skill.
 
-### Analogy
-Think of this process like organizing a messy filing cabinet. Before you can find insights (extract documents), you need a system (the algorithm or transformation).
+## Common Failure Modes
 
-## Formal Definition
+1.  **Forcing Structure where None Exists:** Data might just be one big blob naturally. k-Means will still cut it into pieces.
+2.  **The Curse of Dimensionality:** In very high-dimensional space, all points look equidistant from each other. Distance metrics break down.
+3.  **Varying Densities:** DBSCAN struggles if cluster A is very dense but cluster B is very sparse.
+4.  **Non-Spherical Data for k-Means:** k-Means functionally draws circles (or spheres/hyper-spheres). If your data is shaped like concentric rings or bananas, k-Means will fail dramatically.
 
-The underlying concept can be expressed mathematically. For instance, consider the fundamental equation of evaluation:
-
-\[
-J(\theta) = \frac{1}{2m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2
-\]
-
-## Workflow Diagram
-
-```mermaid
-graph TD
-    A[Raw Input] --> B{Requires When Clustering Fails?}
-    B -->|Yes| C[Apply Transformation]
-    B -->|No| D[Bypass]
-    C --> E[Evaluate Metrics]
-    D --> E
-    E --> F[Final Output]
-```
-
-## Connection to Practice
-In your assessment, you must justify *why* you chose a particular approach. Use the principles outlined here to build your argument for the presentation.
+## KSB Mapping
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

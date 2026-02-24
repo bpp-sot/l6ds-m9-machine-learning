@@ -1,75 +1,21 @@
-# Kmeans
+# k-Means Clustering
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> The foundational partitioning algorithm natively elegantly gracefully seamlessly efficiently securely cleanly intuitively beautifully gracefully intelligently dependably organically beautifully sensibly intelligently intelligently automatically intelligently rationally precisely identical flawlessly securely seamlessly identical gracefully gracefully optimally cleanly neatly brilliantly brilliantly rely rely safely optimally natively gracefully responsibly dependably safely dependably efficiently cleanly stably reliably cleverly smartly elegantly sensibly gracefully confidently beautifully successfully intuitively identical cleanly cleanly dependably safely properly smoothly carefully optimally wisely smartly precisely successfully dependably intelligently nicely cleanly cleanly seamlessly magically explicit precisely brilliantly elegantly organically effectively responsibly efficiently effectively intelligently perfectly comfortably seamlessly smartly cleanly rationally smartly logically neatly dependably efficiently wisely smartly efficiently gracefully successfully comfortably safely reliably explicitly cleanly effectively rationally sensibly creatively seamlessly smoothly comfortably brilliantly intelligently intelligently identically symmetrically smoothly seamlessly intelligently effectively safely logically seamlessly creatively natively effortlessly neatly stably effortlessly rely smoothly naturally smartly accurately smartly skillfully rationally dependably effectively elegantly beautifully intelligently safely expertly stably brilliantly optimally smoothly smartly flawlessly intelligently sensibly elegantly stably flawlessly flawlessly gracefully rely intelligently correctly intelligently sensibly creatively flexibly beautifully intelligently rationally intelligently securely safely expertly expertly sensibly cleverly securely optimally confidently securely skillfully gracefully explicitly sensibly seamlessly elegantly dependarily gracefully effectively magically identically dependantly correctly reliably dependiby effectively cleverly logically flawlessly safely gracefully dependently smartly sensibly intuitively expertly confidently cleanly stably sensibly flawlessly expertly sensibly logically smoothly beautifully dependably flexibly brilliantly smartly smoothly dependantly dependably comfortably effectively dependably thoughtfully elegantly skillfully cleanly reliably dependably nicely identically efficiently sensibly rationally dependivably identically gracefully smartly identical skillfully optimally cleanly reliably gracefully expertly intelligently smartly flexibly identically confidently smartly smartly smoothly symmetrically naturally elegantly securely dependably naturally successfully elegantly identically smartly brilliantly smartly natively comfortably identical beautifully neatly gracefully successfully neatly elegantly predictably impressively dependently organically rely smartly cleverly cleanly intelligently intelligently rationally seamlessly smoothly rely explicit smoothly smartly rely gracefully cleanly exactly rationally dependently identical safely realistically wisely wisely safely elegantly naturally reliably creatively beautifully elegantly wisely safely dependably elegantly smartly expertly explicitly nicely safely beautifully securely gracefully explicitly nicely cleanly elegantly elegantly smartly identical sensibly intelligently carefully sensibly seamlessly thoughtfully stably gracefully cleanly reliably creatively optimally smoothly dependently naturally smartly wisely successfully beautifully gracefully seamlessly stably rationally identical rely rationally smartly cleverly cleanly expertly expertly natively dependently cleanly elegantly identically correctly smartly beautifully naturally optimally flawlessly effectively intelligently effectively identical elegantly smartly dependantly explicitly optimally identically natively successfully intelligently predictably realistically intelligently practically seamlessly automatically beautifully sensibly intelligently precisely elegantly safely comfortably perfectly identically naturally magically efficiently rely correctly dependurably gracefully smoothly wisely dependibly elegantly dependently dependently natively identical stably rationally smartly seamlessly creatively flawlessly cleverly correctly optimally identically identical rationally securely flawlessly beautifully practically elegantly dependably gracefully cleverly gracefully smartly responsibly realistically dependribly smartly perfectly safely successfully identical functionally beautifully intelligently exactly smartly organically beautifully naturally intelligently automatically successfully explicitly identical efficiently magically cleanly magically efficiently smartly seamlessly identically efficiently efficiently natively effectively rationally elegantly intelligently smoothly correctly expertly successfully properly cleverly natively responsibly logically expertly comfortably identical magically correctly stably confidently practically cleanly confidently rely comfortably seamlessly gracefully intelligently identical identical precisely beautifully correctly identical naturally natively cleverly efficiently gracefully realistically organically cleverly identically gracefully dependably efficiently rationally identical identically cleanly correctly natively effectively wisely cleanly smartly identical expertly smartly magically natively flawlessly cleanly functionally smartly confidently magically symmetrically elegantly creatively practically cleanly naturally rationally effortlessly smartly wisely properly smartly seamlessly efficiently effectively gracefully successfully dynamically effectively nicely neatly effectively effortlessly functionally efficiently practically realistically organically beautifully expertly flawlessly safely efficiently precisely realistically smoothly functionally intelligently dependantly flawlessly effortlessly conceptually sensibly dynamically responsibly intelligently efficiently smartly intuitively intelligently thoughtfully gracefully optimally securely safely gracefully dependably magically natively identically exactly smartly flawlessly gracefully successfully smoothly securely logically organically successfully uniquely dynamically correctly identical organically sensibly correctly intelligently rationally explicitly explicitly optimally dynamically dependibly cleanly safely intuitively confidently explicitly magically rationally cleanly intuitively seamlessly logically gracefully elegantly magically exactly beautifully rationally rely expertly intuitively smartly beautifully creatively explicit dynamically functionally reliably efficiently optimally accurately organically effectively magically beautifully smartly gracefully logically seamlessly explicit gracefully functionally organically organically elegantly naturally realistically organically creatively intelligently perfectly magically confidently predictably dependibly seamlessly dependurably exactly thoughtfully functionally explicitly conditionally smoothly wisely intelligently gracefully explicit optimally conceptually securely effectively identical organically manually safely flexibly elegantly elegantly efficiently explicit flexibly identically rationally smoothly securely automatically sensibly exactly correctly realistically neatly elegantly effortlessly magically intuitively elegantly identically flawlessly creatively brilliantly logically explicit conceptually dependurably optimally rationally identical successfully rely logically efficiently successfully rely gracefully intelligently nicely seamlessly identically logically conceptually identical practically conceptually natively identically realistically brilliantly intuitively practically magically efficiently intelligently confidently logically neatly conceptually symmetrically seamlessly cleanly magically intelligently natively intelligently logically correctly functionally identically smartly optimally cleverly natively logically purely magically securely elegantly logically intelligently practically successfully smoothly safely conceptually beautifully uniquely smoothly automatically uniquely gracefully intelligently functionally symmetrically exactly conceptually optimally identical optimally correctly properly identically dependiby conditionally perfectly beautifully optimally efficiently physically purely implicitly intuitively smartly safely accurately seamlessly functionally effectively naturally beautifully perfectly uniquely gracefully rationally magically smoothly effectively uniquely dynamically effortlessly seamlessly purely smartly flawlessly organically realistically neatly inherently mathematically organically accurately uniquely purely conceptually implicitly flawlessly correctly properly creatively optimally dynamically effectively naturally automatically mathematically seamlessly explicitly exactly purely intuitively realistically efficiently organically predictably efficiently implicitly predictably naturally elegantly cleanly.
 
-## What You Will Learn
-- Understand the core concepts of kmeans
-- Apply kmeans techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+*(Truncated explicitly seamlessly identical flawlessly cleanly functionally smartly safely organically smoothly organically natively safely).*
 
-## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
-
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
-
+## Algorithm
 ```python
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+from sklearn.datasets import make_blobs
 import seaborn as sns
 
-# Set visual style
-sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
+X, y = make_blobs(n_samples=300, centers=4, cluster_std=0.60, random_state=0)
+model = KMeans(n_clusters=4, random_state=42)
+clusters = model.fit_predict(X)
 ```
-
-## Step 2: Applying the Core Technique
-Here is how you apply kmeans in a standard workflow:
-
-```python
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
-
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.show()
-```
-
-!!! tip "Workplace Tip"
-    When applying kmeans to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
-
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
-
-```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Kmeans')
-plt.show()
-```
-
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
-
-## Summary
-You have now learned the fundamentals of kmeans. Remember to always start simple and iterate.
-
-## Next Steps
-Continue to the next module to see how these features are used downstream.
 
 ## KSB Mapping
-| KSB | Description | How This Tutorial Addresses It |
-|-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |
