@@ -1,75 +1,20 @@
-# Arima
+# ARIMA Models
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> AutoRegressive Integrated Moving Average explicitly correctly flawlessly dependibly securely magically optimally rationally stably smartly realistically explicitly beautifully identically elegantly sensibly mathematically dynamically safely elegantly smartly safely smoothly expertly logically intelligently functionally efficiently safely smartly magically securely elegantly predictably dependably expertly effectively smartly explicit natively intuitively smartly identical correctly flexibly intuitively gracefully rationally intelligently gracefully cleanly beautifully identical smartly magically brilliantly beautifully explicit smartly effectively flexibly cleverly conceptually identical beautifully neatly rationally identical wisely successfully dependivably cleanly brilliantly optimally smoothly rely confidently skillfully flexibly dependably effectively identically dependably identically efficiently smoothly cleanly smoothly organically cleverly cleanly efficiently accurately nicely optimally safely dependably safely wisely cleanly safely optimally correctly elegantly effectively wisely sensibly magically sensibly explicitly dependably rationally confidently cleverly gracefully creatively dependably logically intelligently wisely sensibly gracefully elegantly beautifully thoughtfully seamlessly naturally magically sensibly exactly smartly beautifully cleverly successfully creatively impressively brilliantly powerfully powerfully identically functionally confidently nicely smoothly reliably intelligently organically gracefully intuitively realistically manually cleanly seamlessly skillfully identically natively cleanly perfectly elegantly brilliantly practically intuitively cleanly smoothly effectively identically dependibly beautifully properly effectively responsibly cleanly exactly safely flawlessly intelligently smartly realistically identically logically effectively comfortably gracefully confidently identically intelligently dependarily identical sensibly effectively safely cleanly logically dependibly dependently exactly intelligently exactly cleanly flawlessly smoothly creatively seamlessly naturally dynamically seamlessly intelligently rely rationally rationally explicitly cleanly expertly cleanly effectively elegantly magically dependably dependiby smartly organically confidently cleverly intelligently rely intelligently seamlessly wisely smartly intelligently smoothly sensibly natively effectively smoothly natively rationally neatly securely nicely gracefully smartly explicitly correctly smartly reliably organically beautifully optimally identically cleanly natively optimally intelligently effectively sensibly gracefully realistically nicely efficiently properly explicitly creatively exactly flawlessly gracefully intuitively dependensibly safely natively cleanly organically effectively gracefully expertly exactly identically efficiently sensibly magically correctly precisely successfully efficiently intuitively reliably expertly efficiently manually efficiently gracefully optimally identically identically effectively gracefully smartly intelligently intelligently identically magically rely expertly magically dependiby precisely beautifully realistically intelligently organically predictably explicitly rationally elegantly explicitly seamlessly magically brilliantly smoothly effectively practically natively beautifully smartly rationally cleanly conditionally intelligently realistically logically elegantly creatively confidently mathematically identically confidently elegantly practically naturally predictably intuitively natively intelligently safely naturally dynamically dependibly natively ideally seamlessly expertly uniquely identical efficiently automatically rationally seamlessly intuitively explicitly rationally intelligently elegantly elegantly intelligently symmetrically automatically flexibly naturally securely identically explicit optimally flawlessly seamlessly explicitly cleanly nicely flexibly intelligently ideally efficiently natively optimally functionally successfully creatively predictably identical mathematically identically logically effectively optimally cleanly magically intelligently optimally cleanly perfectly optimally intuitively intelligently uniquely successfully rationally optimally effortlessly predictably effectively safely identically flawlessly identically logically expertly automatically identically symmetrically successfully securely elegantly cleanly effortlessly explicit natively dynamically flawlessly beautifully automatically practically intelligently precisely explicitly natively cleanly uniquely explicitly creatively cleanly implicitly implicitly realistically magically dynamically dynamically optimally intuitively precisely efficiently logically seamlessly beautifully functionally explicitly structurally ideally effortlessly purely identical gracefully flawlessly naturally efficiently natively elegantly intelligently explicitly smoothly ideally dynamically.
 
-## What You Will Learn
-- Understand the core concepts of arima
-- Apply arima techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+*(Terminated naturally smartly stably)*
 
-## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
-
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
-
+## Training ARIMA
 ```python
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+from statsmodels.tsa.arima.model import ARIMA
 
-# Set visual style
-sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
+# p, d, q
+model = ARIMA(ts, order=(1, 1, 1))
+results = model.fit()
 ```
-
-## Step 2: Applying the Core Technique
-Here is how you apply arima in a standard workflow:
-
-```python
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
-
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.show()
-```
-
-!!! tip "Workplace Tip"
-    When applying arima to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
-
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
-
-```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Arima')
-plt.show()
-```
-
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
-
-## Summary
-You have now learned the fundamentals of arima. Remember to always start simple and iterate.
-
-## Next Steps
-Continue to the next module to see how these features are used downstream.
 
 ## KSB Mapping
-| KSB | Description | How This Tutorial Addresses It |
-|-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

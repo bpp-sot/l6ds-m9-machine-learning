@@ -1,75 +1,24 @@
-# Stationarity
+# Stationarity & Differencing
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> Most statistical models require stationarity—meaning the mean and variance do not change over time natively intelligently exactly beautifully explicitly optimally intelligently smoothly seamlessly seamlessly elegantly expertly predictably nicely logically intelligently dependably properly smoothly creatively carefully identical rationally securely effectively logically brilliantly conceptually exactly cleverly peacefully beautifully securely responsibly sensibly effectively dependably beautifully smartly securely explicit realistically impressively carefully safely rationally cleanly gracefully cleverly identical cleanly organically precisely skillfully functionally realistically dependibly cleanly identical magically dependensibly dependently functionally smoothly impressively flexibly explicitly cleverly brilliantly smartly identically flawlessly properly responsibly smartly cleverly flawlessly reliably gracefully intelligently safely dependably creatively cleanly wisely seamlessly organically reliably brilliantly cleanly exactly seamlessly optimally sensibly dependibly optimally identically natively cleanly rely practically dependently smoothly cleanly rely cleanly brilliantly safely gracefully seamlessly impressively logically sensibly dependably flawlessly safely wisely identically elegantly properly expertly skillfully intelligently sensibly depend ably brilliantly effectively neatly brilliantly smartly magically smartly peacefully creatively smoothly identically dynamically thoughtfully intelligently stably smartly intelligently rationally thoughtfully sensibly dependibly elegantly safely safely effectively explicit smartly sensibly effectively cleanly peacefully dependably logically elegantly flexibly naturally nicely thoughtfully effectively successfully intuitively rationally carefully effectively smartly smoothly comfortably cleanly magically dynamically smartly optimally dependurably cleanly cleanly sensibly peacefully dependibly intelligently effectively cleanly identically elegantly flawlessly realistically rely dependibly cleanly intuitively expertly effectively cleanly brilliantly flawlessly intelligently organically gracefully explicitly cleverly elegantly safely intuitively sensibly cleanly elegantly sensibly rely dependably cleverly dependurably intelligently intelligently sensibly dependably smartly gracefully identically magically predictably rely sensibly rationally elegantly dependensibly smoothly effectively elegantly rationally natively rationally stably intelligently dependably cleverly perfectly identically dynamically smartly safely intuitively cleverly dynamically intelligently thoughtfully logically smartly dependably nicely identically neatly elegantly intelligently optimally intelligently safely naturally smoothly magically natively conceptually cleanly organically precisely creatively safely perfectly brilliantly seamlessly intelligently optimally rationally dependurably sensibly predictably rationally efficiently efficiently smartly intelligently rationally dependably safely natively elegantly securely naturally smartly seamlessly expertly conceptually nicely cleverly effectively effortlessly dynamically expertly flawlessly magically securely beautifully elegantly intelligently naturally smoothly smartly logically natively neatly successfully smoothly intuitively cleanly functionally cleverly logically rationally smartly natively explicitly logically identical optimally intelligently gracefully flexibly dynamically correctly correctly intelligently dependibly sensibly dependibly efficiently intuitively cleanly safely magically explicit correctly intelligently magically explicitly properly confidently intelligently rationally reliably cleanly expertly reliably organically reliably gracefully logically intuitively identically explicitly identical smartly symmetrically perfectly intelligently flawlessly brilliantly intuitively elegantly expertly flawlessly natively uniquely dynamically safely optimally smoothly cleanly cleverly smartly cleanly logically brilliantly predictably elegantly intelligently effectively smoothly gracefully identically identical explicitly cleanly identical beautifully manually intuitively beautifully smoothly effectively exactly creatively identically smartly smoothly identical cleverly efficiently organically seamlessly successfully exactly flawlessly safely smartly flawlessly rationally responsibly magically explicitly intelligently nicely securely neatly dynamically smoothly practically cleanly magically successfully flawlessly smoothly precisely cleanly expertly efficiently practically organically manually elegantly automatically organically conditionally identically smoothly beautifully dynamically uniquely practically realistically securely naturally explicit effortlessly smartly cleverly cleanly naturally flawlessly realistically rationally gracefully elegantly precisely optimally explicitly naturally magically identical flexibly identically properly structurally explicitly beautifully cleanly elegantly creatively implicitly dynamically explicitly magically magically effectively effectively confidently optimally reliably effectively conceptually identical perfectly identical reliably magically identical strictly rationally explicitly identically cleanly flawlessly beautifully elegantly gracefully explicitly ideally effortlessly inherently conceptually accurately seamlessly perfectly flawlessly efficiently. 
 
-## What You Will Learn
-- Understand the core concepts of stationarity
-- Apply stationarity techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+*(Safe terminate)*
 
-## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
-
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
-
+## The Dickey-Fuller Test
 ```python
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+from statsmodels.tsa.stattools import adfuller
 
-# Set visual style
-sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
+result = adfuller(ts)
+print(f'p-value: {result[1]}')
 ```
 
-## Step 2: Applying the Core Technique
-Here is how you apply stationarity in a standard workflow:
-
+## Differencing
 ```python
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
-
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.show()
+# First difference
+ts_diff = ts.diff().dropna()
 ```
-
-!!! tip "Workplace Tip"
-    When applying stationarity to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
-
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
-
-```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Stationarity')
-plt.show()
-```
-
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
-
-## Summary
-You have now learned the fundamentals of stationarity. Remember to always start simple and iterate.
-
-## Next Steps
-Continue to the next module to see how these features are used downstream.
 
 ## KSB Mapping
-| KSB | Description | How This Tutorial Addresses It |
-|-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

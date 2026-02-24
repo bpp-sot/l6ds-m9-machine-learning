@@ -1,30 +1,18 @@
-# Explanation: Ml Vs Statistical Forecasting
+# ML vs Statistical Forecasting
 
-## Conceptual Overview
-Understanding ml vs statistical forecasting is critical for bridging the gap between technical execution and business impact. 
+> You can use XGBoost for time series, but it's fundamentally different from ARIMA.
 
-### Analogy
-Think of this process like organizing a messy filing cabinet. Before you can find insights (extract documents), you need a system (the algorithm or transformation).
+## Statistical Models (ARIMA, SARIMA)
+*   **How they work:** They explicitly mode time, autocorrelation (lags), and seasonality.
+*   **Pros:** Highly interpretable, very strong on small datasets, built-in confidence intervals.
+*   **Cons:** Require strict assumptions (stationarity), struggle with many exogenous (external) variables, can't naturally train across multiple different time series at once.
 
-## Formal Definition
+## Machine Learning Models (XGBoost, LSTMs)
+*   **How they work:** You have to extract time features (e.g., "is_weekend", "month_number", "lag_1", "lag_7") and feed them in as standard tabular machine learning.
+*   **Pros:** Can easily consume hundreds of external features (weather, price, holidays), often win mapping non-linear combinations of features.
+*   **Cons:** No built-in understanding of time (they just see rows of data), they cannot extrapolate trends (a tree can never predict a value higher than it saw in training).
 
-The underlying concept can be expressed mathematically. For instance, consider the fundamental equation of evaluation:
-
-\[
-J(\theta) = \frac{1}{2m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2
-\]
-
-## Workflow Diagram
-
-```mermaid
-graph TD
-    A[Raw Input] --> B{Requires Ml Vs Statistical Forecasting?}
-    B -->|Yes| C[Apply Transformation]
-    B -->|No| D[Bypass]
-    C --> E[Evaluate Metrics]
-    D --> E
-    E --> F[Final Output]
-```
-
-## Connection to Practice
-In your assessment, you must justify *why* you chose a particular approach. Use the principles outlined here to build your argument for the presentation.
+## KSB Mapping
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

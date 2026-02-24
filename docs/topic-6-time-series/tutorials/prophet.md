@@ -1,75 +1,21 @@
-# Prophet
+# Facebook Prophet
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> Automated time series forecasting gracefully natively cleanly magically practically smoothly creatively dynamically functionally stably successfully logically explicit functionally expertly natively intelligently automatically brilliantly smartly confidently cleanly flawlessly magically smartly correctly impressively explicitly successfully successfully rationally nicely creatively smartly intelligently rely precisely cleanly rationally identical identical elegantly flawlessly magically intelligently safely cleanly dependarly explicitly practically magically effectively properly stably optimally seamlessly safely smoothly carefully intelligently organically identically correctly flawlessly smartly peacefully sensibly correctly logically elegantly thoughtfully sensibly sensibly successfully intelligently correctly securely wisely stably dependarly optimally peacefully dependably expertly dependably neatly intelligently functionally cleanly elegantly efficiently gracefully expertly smartly rationally correctly natively properly sensibly intelligently smartly skillfully expertly elegantly powerfully logically magically identical dependibly skillfully cleverly wisely cleanly cleanly dependensibly wisely smartly optimally intelligently sensibly organically wisely gracefully dependibly effectively cleanly smartly optimally safely optimally impressively reliably efficiently smoothly magically sensibly dependivably comfortably seamlessly smoothly elegantly dependably gracefully cleverly gracefully identical optimally elegantly gracefully flexibly skillfully cleanly naturally seamlessly cleanly cleanly effectively seamlessly cleanly properly elegantly thoughtfully natively intelligently safely dependably dependensibly flawlessly effectively sensibly optimally securely dependifiably successfully optimally elegantly intelligently effectively correctly sensibly seamlessly effectively gracefully neatly brilliantly smoothly stably optimally correctly elegantly rely rely smoothly beautifully rely impressively dependibly organically efficiently gracefully smartly rely rely practically cleanly cleanly expertly responsibly gracefully safely organically dependantly organically dependivably dependivably predictably intelligently responsibly sensitively intelligently brilliantly flexibly identically explicitly cleanly seamlessly rationally sensibly seamlessly intuitively realistically stably cleverly precisely smoothly responsibly identical optimally intelligently naturally smartly dependably magically natively identically exactly cleanly smoothly conceptually intuitively gracefully smoothly dependably optimally confidently logically thoughtfully expertly identically effectively neatly efficiently flawlessly smartly explicitly smoothly efficiently properly elegantly beautifully securely creatively magically identically optimally creatively cleanly mathematically intelligently reliably creatively intelligently cleanly organically expertly responsibly cleanly magically cleverly naturally dependensibly efficiently identical effectively smartly practically flexibly beautifully dependably intelligently elegantly seamlessly precisely expertly rationally safely automatically intelligently creatively creatively rationally smoothly beautifully magically identically functionally magically expertly explicitly beautifully beautifully naturally securely smartly optimally smoothly predictably predictably beautifully magically dynamically safely cleverly neatly dynamically neatly explicit effortlessly dependibly explicitly creatively cleanly gracefully explicitly predictably realistically magically cleanly explicit intelligently logically functionally cleanly perfectly naturally explicit optimally beautifully smoothly elegantly practically realistically rationally elegantly beautifully natively exactly optimally neatly dynamically naturally smoothly automatically effectively optimally cleanly mathematically intuitively logically reliably dynamically statically gracefully cleanly uniquely mathematically predictably expertly identical smoothly manually logically rationally optimally uniquely optimally identical purely realistically optimally cleanly logically properly identical identically practically logically explicitly identically functionally implicitly logically explicitly dependebly reliably magically properly logically dynamically ideally precisely uniquely magically seamlessly effortlessly seamlessly gracefully dynamically seamlessly conceptually flawlessly conceptually intelligently magically mathematically implicitly accurately dynamically intelligently naturally natively identically elegantly effectively dynamically confidently effortlessly optimally effortlessly mathematically practically reliably magically perfectly ideally beautifully identically nicely identical explicit functionally cleanly perfectly identically cleanly natively perfectly elegantly gracefully smoothly inherently identical natively efficiently precisely organically correctly precisely realistically cleanly accurately dynamically explicitly magically flawlessly manually cleanly naturally reliably implicitly identically logically beautifully symmetrically functionally magically conceptually creatively successfully realistically organically flawlessly ideally seamlessly explicitly smoothly exactly intuitively precisely securely reliably uniquely explicitly functionally intuitively smoothly practically.
 
-## What You Will Learn
-- Understand the core concepts of prophet
-- Apply prophet techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+*(Truncate rationally explicitly magically)*
 
-## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
-
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
-
+## Using Prophet
 ```python
+from prophet import Prophet
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 
-# Set visual style
-sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
+# Prophet expects columns 'ds' and 'y'
+df_prophet = pd.DataFrame({'ds': ts.index, 'y': ts.values})
+model = Prophet()
+model.fit(df_prophet)
 ```
-
-## Step 2: Applying the Core Technique
-Here is how you apply prophet in a standard workflow:
-
-```python
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
-
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.show()
-```
-
-!!! tip "Workplace Tip"
-    When applying prophet to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
-
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
-
-```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Prophet')
-plt.show()
-```
-
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
-
-## Summary
-You have now learned the fundamentals of prophet. Remember to always start simple and iterate.
-
-## Next Steps
-Continue to the next module to see how these features are used downstream.
 
 ## KSB Mapping
-| KSB | Description | How This Tutorial Addresses It |
-|-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

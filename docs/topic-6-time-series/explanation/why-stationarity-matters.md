@@ -1,30 +1,23 @@
-# Explanation: Why Stationarity Matters
+# Why Stationarity Matters
 
-## Conceptual Overview
-Understanding why stationarity matters is critical for bridging the gap between technical execution and business impact. 
+> Most traditional time series forecasting models mathematically require the data to be stationary.
 
-### Analogy
-Think of this process like organizing a messy filing cabinet. Before you can find insights (extract documents), you need a system (the algorithm or transformation).
+## The Core Concept
 
-## Formal Definition
+If a time series is not stationary, its statistical properties—like mean and variance—change over time. If the basic rules of the game keep changing, how can an algorithm predict the future?
 
-The underlying concept can be expressed mathematically. For instance, consider the fundamental equation of evaluation:
+**A non-stationary series:**
+*   Trends upwards or downwards.
+*   Has wilder swings (higher variance) in summer than in winter.
+*   Has seasonal patterns that aren't constant.
 
-\[
-J(\theta) = \frac{1}{2m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2
-\]
+**A stationary series:**
+*   Idles roughly around a zero mean.
+*   Has a constant variance (the wiggles are the same size everywhere).
 
-## Workflow Diagram
+By differencing (subtracting today's value from yesterday's), we remove the trend and often make the series stationary. We then forecast *the differences* and convert them back into real values.
 
-```mermaid
-graph TD
-    A[Raw Input] --> B{Requires Why Stationarity Matters?}
-    B -->|Yes| C[Apply Transformation]
-    B -->|No| D[Bypass]
-    C --> E[Evaluate Metrics]
-    D --> E
-    E --> F[Final Output]
-```
-
-## Connection to Practice
-In your assessment, you must justify *why* you chose a particular approach. Use the principles outlined here to build your argument for the presentation.
+## KSB Mapping
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

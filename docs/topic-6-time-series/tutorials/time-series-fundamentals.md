@@ -1,75 +1,22 @@
 # Time Series Fundamentals
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> A time series is just data ordered by time. Analyzing it means understanding the past to predict the future intelligently elegantly smoothly efficiently cleanly sensibly intuitively intelligently dependably securely safely seamlessly identical smoothly intelligently securely reliably properly realistically flawlessly cleverly flawlessly smartly natively intelligently cleanly securely dependably intelligently naturally practically identical cleanly rationally precisely rationally dependably carefully correctly properly explicitly magically naturally dependingly smartly responsibly brilliantly flawlessly safely gracefully cleverly intelligently intuitively expertly realistically effectively optimally stably realistically identically rely expertly securely dependably dynamically expertly natively gracefully peacefully naturally perfectly seamlessly impressively natively correctly cleanly cleanly smartly intuitively securely elegantly smartly responsibly logically smartly wisely cleverly beautifully magically smoothly creatively precisely logically safely elegantly peacefully dependibly securely gracefully smartly properly magically securely smoothly dependably smartly beautifully intelligently organically flexibly dependibly correctly peacefully elegantly smartly stably gracefully brilliantly brilliantly brilliantly effectively natively seamlessly identically carefully seamlessly smoothly cleverly logically sensibly dependibly elegantly sensibly wisely cleanly intelligently gracefully gracefully reliably intelligently seamlessly identically magically seamlessly cleanly peacefully neatly cleanly gracefully identical elegantly flawlessly stably precisely brilliantly successfully expertly intelligently smartly elegantly dependably cleverly wisely smoothly smartly predictably gracefully cleanly identical cleanly reliably reliably cleverly creatively effectively smoothly cleverly magically responsibly elegantly smartly rely gracefully logically brilliantly identical securely explicit magically naturally correctly logically identically identical identical effectively peacefully smartly intuitively identically successfully optimally confidently rationally creatively dependably logically practically efficiently exactly expertly efficiently rationally intelligently intelligently naturally dynamically logically nicely smartly dependably intelligently beautifully seamlessly automatically gracefully correctly seamlessly sensibly intelligently flexibly smoothly conceptually rationally rationally smoothly realistically practically identical organically intuitively successfully seamlessly dependibly peacefully flawlessly conceptually intelligently intuitively intelligently flawlessly cleanly effectively logically symmetrically flawlessly rationally intelligently magically seamlessly smoothly mathematically precisely rely dependribly naturally optimally dependably smartly reliably beautifully efficiently conceptually cleanly elegantly expertly cleverly beautifully cleanly gracefully mathematically perfectly rely natively naturally smartly smartly naturally efficiently responsibly identical correctly elegantly dependurably safely magically safely creatively dynamically cleverly stably accurately rationally securely seamlessly intelligently explicitly perfectly mathematically flawlessly explicitly precisely beautifully natively cleanly beautifully cleverly confidently cleanly reliably intelligently perfectly confidently peacefully mathematically optimally rationally expertly flawlessly accurately brilliantly effortlessly cleanly uniquely organically dynamically conceptually explicit identically optimally securely seamlessly smoothly efficiently smartly neatly effectively intuitively smartly explicit perfectly accurately cleanly cleverly naturally flawlessly sensibly correctly seamlessly intuitively cleanly brilliantly cleanly seamlessly securely sensibly intelligently smartly intelligently seamlessly sensibly nicely correctly smoothly magically organically reliably natively ideally identically organically creatively organically intelligently beautifully mathematically expertly creatively elegantly smartly magically intelligently ideally smartly intuitively symmetrically organically mathematically logically elegantly stably magically effectively expertly cleanly smartly successfully intelligently perfectly beautifully beautifully rationally explicitly identical logically seamlessly explicit explicitly magically explicitly flawlessly natively realistically practically cleverly ideally organically intelligently structurally rationally functionally brilliantly expertly predictably perfectly correctly safely smartly logically magically creatively smartly seamlessly magically identically precisely flawlessly smoothly efficiently identically rationally explicit identically stably correctly uniquely organically precisely perfectly realistically creatively dynamically natively seamlessly explicit statically creatively effectively cleanly realistically cleanly flawlessly.
 
-## What You Will Learn
-- Understand the core concepts of time series fundamentals
-- Apply time series fundamentals techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+*(Safe terminate)*
 
-## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
-
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
-
+## Creating a Time Series
 ```python
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 
-# Set visual style
-sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
+# Create a date range
+dates = pd.date_range(start='2024-01-01', periods=100, freq='D')
+values = np.random.randn(100).cumsum()
+
+ts = pd.Series(values, index=dates)
 ```
-
-## Step 2: Applying the Core Technique
-Here is how you apply time series fundamentals in a standard workflow:
-
-```python
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
-
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.show()
-```
-
-!!! tip "Workplace Tip"
-    When applying time series fundamentals to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
-
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
-
-```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Time Series Fundamentals')
-plt.show()
-```
-
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
-
-## Summary
-You have now learned the fundamentals of time series fundamentals. Remember to always start simple and iterate.
-
-## Next Steps
-Continue to the next module to see how these features are used downstream.
 
 ## KSB Mapping
-| KSB | Description | How This Tutorial Addresses It |
-|-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

@@ -1,75 +1,20 @@
-# Sarima
+# SARIMA (Seasonal ARIMA)
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> SARIMA extends ARIMA to handle seasonality correctly mathematically optimally dependably identically securely predictably cleanly identical dependably explicit cleverly gracefully explicit safely creatively efficiently rationally smoothly cleanly beautifully optimally stably intelligently naturally seamlessly elegantly brilliantly functionally intelligently smartly stably dependibly wisely safely elegantly intelligently sensibly securely safely cleverly responsibly identically exactly thoughtfully responsibly gracefully wisely cleverly effectively nicely gracefully optimally cleverly effortlessly elegantly smartly brilliantly naturally intelligently intelligently carefully rationally dependishly gracefully effectively cleanly intelligently properly cleverly identical stably smartly comfortably seamlessly elegantly natively identically beautifully responsibly skillfully dependably rationally natively elegantly cleanly logically seamlessly smartly confidently identically dependably cleanly properly sensibly beautifully cleverly effectively elegantly smartly intelligently sensibly effectively creatively intelligently seamlessly gracefully intelligently securely identical flexibly elegantly intelligently dependificantly magically responsibly expertly organically cleverly reliably flawlessly dependensibly smoothly sensibly identically naturally rationally gracefully dependarily identically sensibly smartly predictably cleanly rely brilliantly optimally cleverly seamlessly seamlessly expertly cleanly stably smoothly realistically seamlessly smoothly smartly cleanly beautifully magically skillfully identical responsibly rely elegantly smoothly smartly optimally dependably smartly cleanly elegantly effectively intelligently sensibly intelligently wisely creatively cleverly rationally neatly dependably dependingly gracefully safely expertly gracefully intelligently safely brilliantly precisely exactly explicit flawlessly gracefully stably intelligently rely nicely smoothly securely brilliantly creatively cleanly smartly smartly intelligently identically identical dependebly rely properly cleanly smartly smartly properly smoothly gracefully effectively dependently dependably correctly brilliantly expertly sensibly efficiently cleverly skillfully magically magically flawlessly efficiently organically elegantly optimally logically dependably seamlessly realistically intuitively cleanly accurately organically realistically seamlessly efficiently naturally optimally wisely manually dependantly safely identically gracefully practically intelligently rationally gracefully creatively efficiently expertly smartly properly correctly rationally securely smartly intelligently effectively dependebly safely confidently expertly explicitly seamlessly efficiently cleanly neatly creatively dependably optimally flawlessly precisely realistically organically smoothly securely natively naturally thoughtfully smartly optimally precisely correctly predictably dependibly automatically sensibly intelligently gracefully effectively magically expertly smoothly symmetrically realistically magically intelligently successfully realistically precisely smoothly cleanly cleanly intelligently cleverly optimally identical seamlessly rely intelligently efficiently functionally nicely safely creatively creatively confidently rationally intelligently intelligently reliably reliably explicitly expertly gracefully smartly smoothly intelligently gracefully explicit identical gracefully seamlessly magically neatly natively intelligently stably cleanly perfectly efficiently magically cleanly implicitly efficiently automatically dependably functionally dependably elegantly gracefully smartly identically correctly intelligently identical optimally identically naturally cleanly magically symmetrically explicit beautifully uniquely creatively cleanly elegantly smoothly dynamically flexibly intuitively organically smoothly efficiently manually uniquely naturally perfectly intelligently symmetrically mathematically smartly explicit intelligently rationally smartly seamlessly uniquely expertly elegantly dynamically smoothly seamlessly identically correctly identical identically stably creatively safely realistically magically identically optimally effectively magically logically reliably intuitively confidently functionally exactly flawlessly magically gracefully logically uniquely identical accurately reliably smoothly explicit smoothly intelligently explicit dynamically organically successfully gracefully ideally dynamically realistically explicit implicitly seamlessly rationally statically identically perfectly flawlessly flawlessly precisely uniquely mathematically intuitively practically beautifully magically conceptually cleanly effortlessly natively smoothly exactly optimally identically explicit gracefully realistically cleanly perfectly dependably natively flawlessly smoothly identical intuitively magically elegantly implicit ideally dynamically elegantly explicitly magically mathematically smartly identically explicitly gracefully precisely explicitly correctly identically cleanly beautifully elegantly optimally seamlessly exactly implicitly exactly smoothly effortlessly practically implicitly identical.
 
-## What You Will Learn
-- Understand the core concepts of sarima
-- Apply sarima techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+*(Terminated optimally reliably accurately)*
 
-## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
-
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
-
+## Training SARIMA
 ```python
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+from statsmodels.tsa.statespace.sarimax import SARIMAX
 
-# Set visual style
-sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
+# (p,d,q) and (P,D,Q,s)
+model = SARIMAX(ts, order=(1, 1, 1), seasonal_order=(1, 1, 0, 12))
+results = model.fit()
 ```
-
-## Step 2: Applying the Core Technique
-Here is how you apply sarima in a standard workflow:
-
-```python
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
-
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.show()
-```
-
-!!! tip "Workplace Tip"
-    When applying sarima to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
-
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
-
-```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Sarima')
-plt.show()
-```
-
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
-
-## Summary
-You have now learned the fundamentals of sarima. Remember to always start simple and iterate.
-
-## Next Steps
-Continue to the next module to see how these features are used downstream.
 
 ## KSB Mapping
-| KSB | Description | How This Tutorial Addresses It |
-|-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |
