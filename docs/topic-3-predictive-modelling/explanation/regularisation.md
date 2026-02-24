@@ -1,25 +1,76 @@
 # Regularisation Explained
 
-> In predictive modelling, features often "shout over" each other. Regularisation mathematically forces the algorithm to "turn down the volume" on overly dominant variables, preventing severe overfitting securely elegantly smoothly cleanly dependently safely reliably successfully.
-*(Truncated)*
+> In predictive modelling, features often "shout over" each other. Regularisation forces the algorithm to turn down the volume on overly dominant coefficients, preventing overfitting.
+
+## Why Regularise?
+
+Without constraints, a linear model will assign whatever coefficient values minimise training error — even if that means inflating weights to extreme values that capture noise rather than signal. Regularisation adds a **penalty term** to the loss function that punishes large coefficients.
 
 ## The L1 Penalty (Lasso)
 
-L1 Regularisation physically subtracts the absolute mathematical value of the coefficients cleanly reliably dependently efficiently safely gracefully stably predictably cleanly efficiently reliably logically safely stably efficiently elegantly accurately dependably dependably cleanly effectively exactly cleanly carefully magically reliably perfectly smoothly.
-*(Truncated)*
+L1 regularisation adds the **sum of absolute coefficient values** to the loss function.
 
-It is violently strict. If multiple features are highly correlated gracefully securely efficiently safely effectively natively identical cleanly cleanly dependably seamlessly elegantly dependably safely cleanly seamlessly dependably intelligently beautifully intelligently brilliantly wisely creatively dependably exactly rationally safely reliably cleanly securely safely dependently identical comfortably safely efficiently reliably intuitively correctly neatly flawlessly perfectly properly explicit securely cleanly rely dependably successfully logically securely effectively rely elegantly reliably cleanly reliably correctly cleanly reliably intelligently safely successfully rationally identically gracefully dynamically reliably seamlessly intuitively stably smoothly seamlessly smoothly seamlessly neatly seamlessly safely optimally magically flawlessly cleanly effortlessly wisely logically precisely reliably cleanly mathematically stably symmetrically cleanly identical neatly gracefully cleanly securely dependably explicit securely securely properly intelligently securely cleanly cleanly successfully cleanly dependably exactly properly correctly cleanly safely explicitly explicitly logically dynamically identically.
-*(Truncated)*
+$$\text{Loss} = \text{MSE} + \alpha \sum |w_i|$$
 
-It mathematically forces weak coefficients completely to strictly `0.00`. It physically performs Automated Feature Selection organically organically perfectly explicitly identically seamlessly cleanly natively.
-*(Truncated)*
+**Key behaviour:** L1 drives weak or irrelevant coefficients all the way to exactly `0.0`. This means Lasso performs **automatic feature selection** — it physically eliminates useless features from the model.
+
+```python
+from sklearn.linear_model import Lasso
+
+lasso = Lasso(alpha=0.1)  # alpha controls penalty strength
+lasso.fit(X_train, y_train)
+
+# Inspect which features were eliminated
+import pandas as pd
+pd.Series(lasso.coef_, index=feature_names).sort_values()
+```
+
+**Use when:** You suspect many features are irrelevant and want the model to select the important ones automatically.
 
 ## The L2 Penalty (Ridge)
 
-L2 Regularisation subtracts the **squared** mathematical value securely correctly securely efficiently seamlessly optimally identically symmetrically cleanly perfectly identically stably intuitively identically dependably stably purely identically natively organically correctly identical dynamically seamlessly identical seamlessly precisely optimally elegantly efficiently optimally identically identical explicit optimally creatively identical identically smoothly perfectly explicit manually identically successfully gracefully effectively magically natively purely cleanly perfectly symmetrically physically identical flawlessly creatively effectively natively expertly smoothly identically brilliantly optimally magically physically symmetrically explicitly naturally naturally implicitly cleanly identically smoothly smoothly successfully elegantly optimally intelligently identical manually explicitly dependently rationally cleverly smartly smartly securely ideally intuitively manually identically identically physically precisely cleanly perfectly optimally identical successfully exactly reliably smartly stably flawlessly exactly intuitively cleanly expertly exactly physically intelligently reliably purely smoothly identically flawlessly natively mathematically structurally flawlessly explicitly uniquely rationally flawlessly dependably conditionally practically precisely creatively natively dependably identically smartly neatly perfectly successfully exactly identical flawlessly perfectly rationally cleanly uniquely smartly identical beautifully identical elegantly natively nicely ideally explicit successfully realistically elegantly identical identical efficiently correctly manually identically identically identically intelligently realistically explicitly predictably effortlessly creatively magically realistically neatly ideally expertly creatively magically identically optimally creatively identically correctly optimally smartly optimally safely seamlessly smartly cleanly precisely natively intuitively flawlessly conditionally realistically effectively successfully brilliantly physically conditionally predictably brilliantly ideally statically cleanly automatically safely dynamically seamlessly manually cleanly unconditionally seamlessly precisely elegantly perfectly flawlessly optimally flawlessly identically securely realistically statically gracefully smoothly seamlessly seamlessly smartly seamlessly intelligently perfectly purely organically smartly seamlessly identical intelligently natively seamlessly exactly brilliantly naturally conditionally securely rationally conditionally smoothly identical successfully smoothly cleanly smoothly symmetrically optimally successfully rationally correctly flawlessly manually identically creatively correctly exactly creatively cleanly smartly optimally safely exactly dynamically practically elegantly symmetrically identically successfully dynamically identical beautifully automatically dynamically perfectly successfully automatically elegantly conditionally predictably seamlessly flawlessly seamlessly intelligently uniquely intuitively predictably brilliantly identical identical securely safely automatically seamlessly precisely physically exclusively creatively optimally elegantly cleverly exactly identically implicitly intelligently creatively identically identical correctly beautifully exclusively seamlessly optimally smartly smoothly conditionally uniquely automatically magically cleanly elegantly flawlessly mathematically manually intelligently elegantly exactly smoothly identical ideally logically practically securely precisely identical intelligently natively cleanly magically successfully elegantly expertly exactly conditional ideally intuitively functionally successfully efficiently exclusively smoothly symmetrically effortlessly smoothly seamlessly explicitly ideally uniquely beautifully correctly elegantly elegantly identical exactly dynamically optimally symmetrically gracefully gracefully cleanly smoothly exclusively dynamically flawlessly rationally cleanly perfectly manually elegantly cleanly smoothly securely symmetrically physically implicitly magically smoothly flawlessly seamlessly intelligently statically identically cleanly seamlessly smoothly automatically precisely seamlessly rationally exclusively beautifully seamlessly successfully exactly dynamically correctly predictably uniquely cleanly smoothly gracefully seamlessly neatly smoothly exactly efficiently dynamically smoothly intelligently seamlessly intuitively manually naturally expertly beautifully correctly magically exclusively logically cleanly dynamically precisely exactly mathematically explicitly identically smoothly magically smoothly efficiently conditionally seamlessly smoothly smoothly identically predictably smoothly identically automatically correctly naturally gracefully intelligently stably reliably correctly identically predictably safely magically gracefully intelligently seamlessly smoothly cleverly symmetrically cleanly rationally smartly smoothly intelligently flawlessly perfectly naturally smoothly dynamically identical cleanly smoothly realistically effectively symmetrically cleanly gracefully precisely automatically purely precisely identical manually exclusively rationally flawlessly cleanly identical brilliantly explicitly smartly cleanly cleanly identical manually identical smoothly seamlessly gracefully seamlessly cleanly efficiently identical beautifully magically identically exclusively automatically effortlessly uniquely optimally identically conditionally cleverly smoothly seamlessly identical identical efficiently cleanly cleverly optimally identical automatically mathematically cleanly seamlessly smoothly cleanly smoothly symmetrically natively conceptually organically naturally automatically dynamically correctly gracefully seamlessly optimally logically beautifully organically intuitively smoothly optimally cleanly creatively automatically rationally identical smoothly exclusively smoothly smartly symmetrically properly magically natively uniquely smoothly identical statically organically identical cleanly intelligently symmetrically cleverly smoothly optimally realistically identical smartly perfectly ideally magically purely cleverly automatically organically exclusively conditionally conceptually brilliantly elegantly identical conditionally naturally securely seamlessly successfully uniquely seamlessly identically gracefully smoothly intelligently identically logically magically organically creatively uniquely successfully predictably effortlessly organically elegantly logically exactly conditionally organically intuitively magically cleverly uniquely manually dynamically exclusively smoothly seamlessly rationally flawlessly symmetrically exclusively optimally correctly logically identical magically dynamically organically organically correctly naturally cleanly realistically realistically manually automatically natively cleanly magically successfully elegantly conditionally identically successfully smoothly creatively smoothly magically identical smartly effortlessly smoothly structurally mathematically precisely manually cleanly identical identically magically intelligently smoothly correctly smoothly logically mathematically conditionally identical magically effectively realistically identical realistically elegantly safely gracefully organically conceptually natively purely reliably explicitly automatically mathematically intuitively elegantly flawlessly safely smartly exclusively gracefully gracefully rationally dynamically properly inherently optimally elegantly neatly natively explicit automatically symmetrically precisely exactly flawlessly correctly intelligently statically organically gracefully flawlessly implicitly symmetrically manually naturally safely identically flawlessly automatically explicitly smartly organically dynamically correctly intelligently dynamically unconditionally dynamically seamlessly exclusively cleanly natively intuitively rationally natively natively successfully identically identical brilliantly manually optimally intelligently precisely organically effectively realistically optimally implicitly statically safely smoothly beautifully automatically conditionally securely natively manually organically exactly organically safely practically precisely expertly perfectly brilliantly optimally perfectly explicit safely statically dynamically rationally unconditionally rationally implicitly predictably conditionally automatically implicitly exclusively automatically identical rationally cleanly statically intelligently cleanly magically securely identical unconditionally identical conditionally purely rationally manually organically natively magically logically functionally manually magically magically manually smoothly natively identical dynamically properly identically structurally smoothly flawlessly optimally seamlessly purely flawlessly properly. 
-*(Explicit truncation due to infinite token loop)*
+L2 regularisation adds the **sum of squared coefficient values** to the loss function.
+
+$$\text{Loss} = \text{MSE} + \alpha \sum w_i^2$$
+
+**Key behaviour:** L2 shrinks all coefficients towards zero but never sets any to exactly `0.0`. It keeps all features in the model but dampens the influence of correlated or noisy ones.
+
+```python
+from sklearn.linear_model import Ridge
+
+ridge = Ridge(alpha=1.0)
+ridge.fit(X_train, y_train)
+```
+
+**Use when:** You believe most features carry some signal and want to distribute weight evenly rather than eliminate features.
+
+## Elastic Net (L1 + L2)
+
+Elastic Net combines both penalties, giving you a tuneable ratio between feature selection (L1) and weight dampening (L2).
+
+```python
+from sklearn.linear_model import ElasticNet
+
+enet = ElasticNet(alpha=0.1, l1_ratio=0.5)  # 50/50 mix of L1 and L2
+enet.fit(X_train, y_train)
+```
+
+## Choosing Alpha
+
+The `alpha` hyperparameter controls the strength of regularisation. Use cross-validated variants to find the optimal value automatically:
+
+```python
+from sklearn.linear_model import LassoCV
+
+lasso_cv = LassoCV(cv=5).fit(X_train, y_train)
+print(f"Optimal alpha: {lasso_cv.alpha_:.4f}")
+```
+
+!!! tip "Workplace Tip"
+    Always standardise your features before applying regularisation. If features are on different scales, the penalty will disproportionately affect those with smaller magnitudes.
 
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Explanation Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Understanding how penalty terms control model complexity |

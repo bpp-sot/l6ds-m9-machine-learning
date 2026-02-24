@@ -1,16 +1,16 @@
 # How to Run Regression Diagnostics
 
-> Regression metrics like $R^2$ are global summaries. To truly systematically evaluate cleanly a continuous mathematical model natively, you critically must physically investigate explicit geometric Residuals systematically.
+> Regression metrics like \(R^2\) are global summaries. To truly evaluate a continuous model, you must investigate the **residuals** — the errors left behind after prediction.
 
 ## What is a Residual?
 
-$Residual = True\_Value - Predicted\_Value$
+$$\text{Residual} = \text{True Value} - \text{Predicted Value}$$
 
-If an algorithm structurally cleanly logically predicts a house strictly explicitly magically mathematically functionally magically clearly natively explicitly conditionally magically geometrically smoothly effectively organically successfully securely costs smoothly elegantly \$100,000 creatively gracefully correctly effectively efficiently brilliantly precisely and cleanly successfully intelligently clearly natively completely seamlessly carefully securely safely automatically elegantly beautifully smoothly smoothly smoothly conceptually beautifully magically effectively functionally perfectly smoothly precisely securely accurately magically cleanly efficiently intuitively functionally explicit completely mathematically beautifully explicitly the explicit actual rationally comfortably confidently efficiently reliably dependably confidently correctly explicitly gracefully gracefully exactly accurately dependably effortlessly dynamically correctly natively exactly value rationally securely easily explicitly properly smoothly efficiently cleanly safely is \$110,000 efficiently effectively seamlessly exactly realistically completely reliably explicit safely intuitively explicit intelligently accurately correctly conceptually elegantly cleanly gracefully perfectly brilliantly beautifully rationally mathematically quickly flexibly correctly dependably clearly exactly cleanly intelligently correctly confidently carefully cleverly correctly flawlessly safely explicitly clearly successfully smoothly expertly cleanly intelligently effectively nicely securely perfectly cleanly easily confidently gracefully smartly naturally optimally cleanly the intelligently reliably flawlessly nicely expertly cleanly confidently cleanly smoothly cleanly perfectly securely smoothly cleanly intelligently cleanly intelligently smartly effectively explicitly gracefully efficiently carefully expertly easily smoothly accurately explicit intelligently creatively seamlessly dependably creatively effectively dependably efficiently explicitly cleanly successfully safely flexibly cleanly responsibly smartly effectively explicit correctly nicely neatly mathematically exactly perfectly smartly efficiently effectively smoothly properly explicitly magically effectively correctly correctly well correctly safely comfortably explicitly brilliantly rationally safely cleanly successfully easily efficiently safely safely clearly elegantly smartly intuitively conceptually beautifully flawlessly properly magically securely clearly seamlessly beautifully cleverly optimally properly reliably exactly explicitly intelligently exactly cleanly reliably elegantly perfectly smoothly organically magically perfectly dynamically smoothly exactly optimally securely cleanly correctly neatly carefully nicely optimally seamlessly seamlessly elegantly explicitly smoothly perfectly accurately intuitively explicit dependably completely expertly smoothly natively cleanly successfully rationally expertly exactly precisely smartly properly neatly cleanly successfully explicitly flexibly creatively neatly securely cleanly smoothly properly effectively smoothly cleanly securely confidently reliably intelligently cleanly smartly efficiently naturally successfully seamlessly correctly efficiently comfortably correctly elegantly carefully expertly appropriately realistically exactly flawlessly magically elegantly perfectly dependably correctly smoothly efficiently successfully brilliantly smoothly smartly functionally reliably smartly mathematically elegantly exactly reliably effectively seamlessly confidently exactly smartly mathematically intelligently creatively securely gracefully neatly clearly seamlessly cleanly reliably logically successfully smoothly smoothly safely dependably smartly dependably cleanly securely comfortably cleanly neatly cleanly intelligently smoothly cleverly cleanly effectively efficiently realistically smoothly exactly cleanly cleanly nicely precisely comfortably smartly smoothly properly securely explicitly natively explicitly smoothly cleanly securely neatly neatly smartly beautifully smartly beautifully exactly dependably safely flawlessly perfectly naturally effortlessly exactly logically nicely beautifully accurately elegantly cleanly safely accurately smartly gracefully precisely efficiently optimally nicely elegantly effortlessly cleanly properly explicitly smartly cleverly smoothly smoothly efficiently flawlessly reliably neatly responsibly elegantly completely comfortably nicely safely cleverly explicitly reliably cleanly effectively precisely seamlessly cleanly carefully smoothly precisely intelligently optimally cleanly smartly brilliantly successfully cleanly safely cleanly smartly securely smoothly cleanly effectively smoothly dependably precisely precisely optimally mathematically intuitively efficiently elegantly effectively safely safely gracefully smoothly smartly cleanly cleanly cleverly safely logically automatically accurately exactly nicely beautifully cleanly explicit smartly exactly smartly explicit dynamically flawlessly efficiently dependably nicely elegantly intelligently perfectly securely smoothly cleanly dependably flawlessly securely exactly magically flawlessly seamlessly comfortably dependably correctly expertly effectively automatically safely reliably correctly reliably smoothly exactly correctly efficiently safely seamlessly flawlessly properly exactly clearly successfully intelligently gracefully smoothly dependably flexibly exactly cleanly clearly easily correctly intelligently flawlessly safely elegantly seamlessly intelligently smoothly beautifully efficiently expertly simply cleanly completely securely smartly nicely neatly accurately seamlessly safely confidently effectively smartly elegantly smartly elegantly precisely expertly effortlessly carefully gracefully comfortably flawlessly efficiently cleanly beautifully correctly smoothly dynamically safely smoothly naturally comfortably fast smartly mathematically elegantly cleanly safely dependably smoothly properly smartly neatly smartly cleanly predictably reliably naturally safely smartly beautifully cleanly cleanly precisely cleanly cleanly cleanly easily intelligently gracefully clearly precisely elegantly easily easily smoothly precisely completely elegantly effectively carefully intelligently elegantly intelligently perfectly correctly smoothly flawlessly fast dependably cleanly cleverly precisely explicitly nicely explicit explicit automatically flawlessly perfectly cleanly gracefully comfortably flawlessly carefully neatly dependably dynamically dependably properly cleanly gracefully accurately successfully accurately logically smoothly cleanly seamlessly cleverly properly realistically exactly safely effortlessly expertly nicely cleanly neatly safely cleanly precisely explicitly smartly correctly seamlessly appropriately dependably cleanly explicitly nicely successfully dependably effectively dynamically seamlessly flawlessly securely securely accurately cleanly cleanly confidently precisely effortlessly mathematically beautifully expertly nicely explicitly exactly intelligently successfully cleverly smartly effectively flawlessly intelligently quickly correctly clearly confidently accurately comfortably creatively efficiently reliably ideally explicitly smoothly safely successfully seamlessly cleanly smoothly reliably safely seamlessly safely manually precisely explicitly smartly cleanly clearly nicely ideally safely nicely effectively purely smoothly elegantly brilliantly magically naturally successfully safely explicitly brilliantly properly precisely explicitly smoothly cleanly safely exactly gracefully beautifully properly easily expertly flawlessly magically manually safely correctly naturally nicely safely seamlessly flawlessly precisely explicitly expertly cleanly comfortably beautifully efficiently accurately magically brilliantly securely exactly seamlessly accurately brilliantly effectively smoothly dependably precisely flawlessly correctly smoothly perfectly perfectly exactly purely clearly safely elegantly safely realistically confidently correctly exactly manually naturally successfully easily perfectly manually elegantly successfully purely automatically flawlessly comfortably gracefully easily explicit brilliantly explicitly perfectly magically naturally optimally effectively uniquely dependably beautifully intelligently smartly perfectly explicit nicely strictly appropriately expertly correctly precisely flawlessly completely smoothly flawlessly explicit explicit beautifully elegantly safely seamlessly explicitly gracefully explicitly explicit beautifully easily smartly successfully simply perfectly strictly explicitly securely intelligently perfectly securely intelligently beautifully exactly creatively cleanly correctly easily dynamically comfortably accurately purely beautifully natively intelligently seamlessly exactly naturally flexibly smartly precisely easily elegantly properly strictly magically explicit seamlessly precisely smoothly correctly strictly creatively smoothly intelligently magically precisely perfectly purely dependably creatively manually efficiently smoothly completely neatly cleanly efficiently efficiently explicit smartly purely dynamically organically manually dynamically elegantly clearly conceptually smoothly explicitly securely perfectly naturally precisely seamlessly smartly efficiently elegantly smoothly cleanly physically securely uniquely rationally manually explicitly magically naturally properly seamlessly uniquely manually seamlessly dynamically organically uniquely strictly physically practically explicitly identically safely practically elegantly intelligently correctly safely conceptually manually successfully identically safely seamlessly physically smoothly cleanly cleanly functionally identical seamlessly successfully strictly conceptually conditionally magically natively essentially elegantly explicitly explicitly efficiently smoothly safely cleanly reliably effectively seamlessly manually magically optimally physically naturally physically logically naturally manually smoothly intelligently dynamically physically smoothly uniquely naturally conditionally logically creatively naturally exclusively smoothly identical intelligently physically effectively explicit manually identical exactly rationally intelligently dynamically explicitly organically ideally identical logically manually intuitively magically explicit elegantly correctly identically structurally intelligently conditionally functionally accurately exclusively conditionally intelligently identically uniquely natively seamlessly identically explicit intelligently safely logically seamlessly mathematically seamlessly smoothly dynamically unconditionally uniquely organically specifically inherently dynamically flawlessly magically essentially natively organically structurally practically neatly cleanly physically practically explicitly physically successfully exactly flawlessly rationally efficiently statically flawlessly inherently seamlessly ideally efficiently rationally seamlessly identically unconditionally conditionally elegantly identical explicit dynamically realistically correctly magically realistically functionally optimally explicitly explicit logically correctly gracefully identically explicit organically structurally specifically identical smoothly structurally exactly logically manually intelligently practically specifically cleanly intelligently optimally natively intuitively identically rationally logically creatively optimally identically conceptually smoothly smoothly manually conditionally explicitly optimally conditionally physically logically conditionally functionally essentially predictably elegantly seamlessly ideally rationally ideally intuitively exactly carefully gracefully manually functionally realistically functionally smoothly conditionally safely accurately explicitly mathematically directly intelligently exactly realistically explicitly cleanly correctly dynamically practically mathematically neatly seamlessly correctly accurately neatly symmetrically securely gracefully carefully mathematically automatically purely explicit accurately purely directly flawlessly.
+If an algorithm predicts a house costs £100,000 but the actual value is £110,000, the residual is +£10,000.
 
-*(Self Correction: I am detecting extreme cyclic token generation errors again. The content has been forcibly terminated.)*
+A well-fitted model produces residuals that are **randomly scattered around zero** with no visible pattern.
 
-To systematically explicitly evaluate residuals, we cleanly logically plot them natively.
+## Plotting Residuals
 
 ```python
 import seaborn as sns
@@ -18,38 +18,45 @@ import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 
-df = sns.load_dataset('tips')
-X = df[['total_bill']]
-y = df['tip']
+df = sns.load_dataset("tips")
+X = df[["total_bill"]]
+y = df["tip"]
 
 X_tr, X_te, y_tr, y_te = train_test_split(X, y, random_state=42)
 lr = LinearRegression().fit(X_tr, y_tr)
 preds = lr.predict(X_te)
 
-# Calculate explicit Residual distance natively
 residuals = y_te - preds
 
-# 1. Plot Residual Density smoothly
+# 1. Residual scatter plot
 plt.figure()
 sns.scatterplot(x=preds, y=residuals, alpha=0.6)
-plt.axhline(0, color='red', linestyle='--')
-plt.title('Residual Map (Expected: Random Noise)')
+plt.axhline(0, color="red", linestyle="--")
+plt.xlabel("Predicted Values")
+plt.ylabel("Residuals")
+plt.title("Residual Plot (Expected: Random Scatter)")
+plt.tight_layout()
 plt.show()
 
-# 2. Histogram of distribution
+# 2. Residual histogram
 plt.figure()
 sns.histplot(residuals, kde=True)
-plt.title('Residual Distribution (Expected: Normal Gaussian)')
+plt.title("Residual Distribution (Expected: Normal / Gaussian)")
+plt.tight_layout()
 plt.show()
 ```
 
-## Interpreting The Maps
+## Interpreting the Plots
 
-1. **Heteroscedasticity:** If the dots explicitly natively explicitly "fan out" organically dynamically structurally elegantly completely exactly gracefully gracefully exactly natively as the predicted functionally intelligently effectively rationally correctly explicitly cleanly rationally realistically flawlessly natively natively intelligently dependably effectively safely cleanly intelligently reliably smoothly dependably successfully neatly exactly efficiently explicitly safely cleanly completely seamlessly functionally brilliantly securely safely securely efficiently properly carefully securely smoothly nicely intelligently safely securely accurately elegantly correctly precisely seamlessly safely intelligently expertly.
-*(Truncated)*
+1. **Heteroscedasticity (Fan Shape):** If the residuals widen as predicted values increase, your model's error grows with magnitude. Consider a log transform on the target variable.
+2. **Curved Pattern:** A systematic curve in the residuals indicates your model is too simple (high bias). Consider polynomial features or a non-linear algorithm.
+3. **Normal Distribution:** Ideally, residuals follow a bell curve centred on zero. Heavy tails or skew suggest outliers are distorting the fit.
 
-If the dots form a cone shape, your regression fails specifically on higher ranges realistically natively.
+!!! tip "Workplace Tip"
+    Always plot residuals before reporting \(R^2\). A high \(R^2\) can mask systematic patterns that residual analysis will reveal immediately.
 
-| KSB | Description |
-|-----|-------------|
-| S15 | Evaluate models |
+## KSB Mapping
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-----------------------|
+| S15 | Evaluate model performance | Using residual analysis to diagnose regression model quality |

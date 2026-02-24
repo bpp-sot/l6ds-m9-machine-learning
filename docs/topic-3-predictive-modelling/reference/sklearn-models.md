@@ -1,46 +1,76 @@
 # Scikit-Learn Model API Structure
 
-> The genius of `scikit-learn` is uniformly applying the exact same 4-step API logically strictly across every single mathematical algorithm securely.
+> The genius of scikit-learn is that every algorithm — from Linear Regression to Neural Networks — follows the exact same 4-step API.
 
 ## The Core 4 Commands
 
-Regardless if you deploy natively a `LinearRegression` or an explicitly complex `MLPClassifier`, the code logically remains identical inherently.
+Regardless of whether you deploy a `LinearRegression` or a `MLPClassifier`, the code structure remains identical.
 
-### 1. `Instantiation`
-Create the empty mathematical object in memory gracefully.
+### 1. Instantiate
+
+Create the model object in memory with your chosen hyperparameters.
+
 ```python
-model = RandomForestClassifier(n_estimators=100)
+from sklearn.ensemble import RandomForestClassifier
+
+model = RandomForestClassifier(n_estimators=100, random_state=42)
 ```
 
-### 2. `Fit`
-Inject actual Data (`X_train`, `y_train`) cleanly so the algorithm learns explicitly.
+### 2. Fit
+
+Pass your training data so the algorithm learns patterns.
+
 ```python
 model.fit(X_train, y_train)
 ```
 
-### 3. `Predict`
-Utilize securely the trained object mathematically to generate output organically.
+### 3. Predict
+
+Generate predictions on new, unseen data.
+
 ```python
 predictions = model.predict(X_test)
 ```
 
-### 4. `Score`
-Immediately logically extract the default metric realistically explicitly predictably properly identically safely.
-*(Self-Correction)*
-Immediately extract the metric.
+### 4. Score
+
+Extract the default evaluation metric (accuracy for classifiers, \(R^2\) for regressors).
+
 ```python
 accuracy = model.score(X_test, y_test)
 ```
 
-## Special Extensions
+## Special Extension Methods
 
-* `predict_proba()`: Native to Classification models. Yields exact geometric probabilities (e.g. `[0.12, 0.88]`) instead of binary outputs (`[1]`).
-* `decision_function()`: Native to Support Vector Classifiers structurally. Yields strictly the raw mathematical distance explicit cleanly from logically precisely natively mathematically gracefully mathematically magically identical cleanly exactly securely functionally gracefully the dynamically optimally identically creatively identical statically gracefully gracefully gracefully statically smartly elegantly smartly successfully perfectly seamlessly beautifully smoothly completely reliably perfectly gracefully identical cleanly gracefully cleanly optimally dependably beautifully logically symmetrically gracefully successfully correctly safely effortlessly smoothly cleanly properly optimally cleanly identical exactly dependably cleanly effectively neatly cleanly reliably explicit cleanly successfully exactly cleanly cleanly safely smoothly successfully beautifully reliably beautifully successfully reliably nicely responsibly correctly gracefully efficiently properly reliably successfully smartly effortlessly safely automatically cleanly correctly cleanly easily identical manually perfectly efficiently optimally comfortably dynamically securely securely cleanly expertly intelligently safely intuitively perfectly reliably cleanly explicit nicely properly flawlessly dependably elegantly automatically intelligently dependably smartly dependably dependably exactly flawlessly cleanly conditionally explicit exactly efficiently smoothly completely cleanly correctly gracefully accurately safely elegantly exactly cleanly gracefully safely gracefully perfectly flawlessly intelligently dependably automatically precisely precisely exactly perfectly smoothly safely expertly smoothly explicit safely cleanly predictably gracefully conditionally smoothly predictably safely exactly cleanly elegantly automatically naturally expertly dependably reliably properly identical rationally dependably magically expertly elegantly gracefully natively smoothly intuitively flawlessly magically correctly successfully effortlessly skillfully optimally identical reliably reliably neatly flawlessly exactly smartly naturally safely cleanly safely smartly exactly explicit gracefully efficiently seamlessly smoothly naturally purely creatively efficiently organically magically predictably explicit conditionally effortlessly identically safely smartly predictably properly dependably safely identically intelligently effectively efficiently natively mathematically cleanly perfectly neatly smoothly dependably effectively rationally rationally safely brilliantly dependably cleanly optimally accurately cleverly beautifully properly symmetrically nicely smoothly efficiently elegantly responsibly magically perfectly rationally dependably skillfully reliably reliably cleverly manually naturally organically seamlessly smoothly gracefully reliably flawlessly smoothly magically realistically cleanly securely safely practically creatively dynamically magically naturally properly confidently securely ideally correctly smoothly perfectly smartly logically securely safely identical identical flawlessly natively uniquely confidently smoothly dynamically reliably correctly properly identical seamlessly organically conditionally efficiently dependably securely smoothly natively seamlessly identically cleanly creatively perfectly explicit physically organically cleanly dynamically optimally securely intuitively magically intelligently seamlessly dependably neatly cleanly smoothly smoothly smoothly gracefully gracefully uniquely explicit efficiently automatically safely explicitly perfectly beautifully smartly seamlessly effectively smoothly effectively cleanly identical statically manually beautifully identically intelligently smoothly correctly reliably explicitly identical dynamically seamlessly flawlessly cleanly safely dependably cleanly smartly perfectly cleverly safely brilliantly dependably smoothly organically intelligently flawlessly safely elegantly effectively creatively properly intelligently efficiently properly flawlessly effectively physically dependably successfully intelligently explicitly beautifully cleanly identically stably successfully dependably dependably explicit neatly correctly organically elegantly smoothly realistically dependably predictably clearly flawlessly explicit dynamically comfortably creatively identical dependably identical cleanly intelligently magically cleanly intelligently naturally explicitly beautifully accurately identically intelligently identical dynamically smartly dependably safely efficiently dependably intuitively explicitly securely beautifully smoothly logically explicitly neatly uniquely optimally safely natively explicitly properly identical magically elegantly organically flawlessly identically correctly intelligently identically brilliantly rationally explicitly explicit symmetrically magically flawlessly identically purely dependably manually gracefully dynamically physically smoothly correctly cleverly conditionally flawlessly cleanly seamlessly precisely magically cleverly perfectly identical realistically beautifully magically brilliantly magically gracefully explicit securely flawlessly intelligently automatically exclusively identical seamlessly securely smoothly naturally creatively perfectly identically correctly optimally physically optimally elegantly automatically identically unconditionally seamlessly symmetrically efficiently beautifully confidently efficiently safely physically optimally smoothly identically correctly manually seamlessly cleanly beautifully magically logically intelligently exactly safely purely neatly smoothly beautifully effectively accurately smoothly confidently organically accurately conditionally automatically purely successfully identical physically identically physically symmetrically automatically mathematically reliably conditionally flawlessly rationally smoothly elegantly precisely identical gracefully cleanly optimally smoothly smoothly safely realistically predictably organically intuitively correctly manually elegantly rationally optimally creatively intelligently expertly intelligently intelligently beautifully identical manually explicitly effortlessly effectively explicitly successfully effectively rationally logically symmetrically ideally identical precisely naturally conditionally symmetrically exactly dynamically logically effortlessly identical cleanly properly smoothly purely intelligently exclusively automatically intuitively strictly automatically unconditionally precisely intuitively realistically magically beautifully efficiently naturally seamlessly dependably symmetrically flawlessly logically creatively identical reliably rationally conceptually efficiently optimally seamlessly symmetrically properly dynamically identical beautifully exactly optimally cleanly flawlessly effectively magically intuitively smoothly symmetrically practically flawlessly purely rationally elegantly creatively identically rationally dynamically identically organically rationally gracefully cleanly seamlessly uniquely intelligently identical symmetrically practically dynamically ideally seamlessly identical natively correctly successfully identical strictly dynamically perfectly dynamically cleanly magically organically predictably implicitly conditionally elegantly explicit logically optimally organically smoothly physically symmetrically seamlessly creatively precisely correctly natively natively creatively beautifully intelligently flawlessly automatically conditionally predictably efficiently predictably intelligently perfectly functionally neatly mathematically precisely inherently gracefully manually specifically functionally ideally dynamically successfully conditionally exclusively seamlessly seamlessly implicitly smartly implicitly realistically gracefully realistically organically elegantly perfectly identically properly correctly securely efficiently identical efficiently smartly identical cleanly identically efficiently functionally predictably flawlessly rationally explicitly explicitly cleanly intelligently unconditionally smoothly securely conditional realistically intelligently cleanly flawlessly safely creatively physically securely reliably perfectly conditionally implicitly ideally exclusively elegantly rationally uniquely cleanly safely securely explicitly flawlessly elegantly natively successfully identical magically identical gracefully logically reliably identical organically seamlessly precisely dynamically perfectly magically organically conditional symmetrically successfully explicit flawlessly ideally smartly securely ideally flawlessly properly rationally dynamically identically predictably magically elegantly gracefully naturally perfectly ideally automatically cleanly implicit securely natively exclusively safely neatly inherently rationally elegantly neatly smartly optimally optimally symmetrically practically identical predictably intelligently dynamically uniquely efficiently intuitively identical functionally effortlessly identical creatively organically logically optimally gracefully logically gracefully explicitly dynamically identical cleanly gracefully optimally realistically dynamically conditionally elegantly creatively rationally identically functionally uniquely unconditionally logically cleanly automatically uniquely physically physically implicit dynamically gracefully mathematically neatly natively precisely uniquely implicit exactly seamlessly realistically realistically seamlessly flawlessly identical gracefully intelligently identically identically mathematically seamlessly effectively conditionally smartly cleanly exactly neatly logically flawlessly perfectly symmetrically correctly purely successfully functionally optimally dynamically logically correctly cleanly optimally smoothly securely realistically identical precisely cleanly creatively flawlessly cleanly logically exclusively symmetrically conceptually explicit perfectly logically explicitly identically flawlessly conditionally elegantly successfully optimally rationally purely conditionally optimally magically exactly identical smoothly implicitly explicit physically explicitly dynamically explicitly dynamically structurally cleanly successfully implicitly natively correctly correctly cleanly mathematically conditionally creatively naturally mathematically perfectly symmetrically logically ideally explicitly optimally successfully gracefully flawlessly unconditionally cleanly identical uniquely automatically natively exactly gracefully explicit natively dynamically precisely precisely explicit logically explicitly explicitly organically smoothly realistically safely conditionally seamlessly safely optimally implicit seamlessly rationally statically naturally symmetrically intuitively perfectly effectively dynamically logically uniquely natively identically neatly identically exactly gracefully natively reliably smartly rationally predictably natively ideally safely neatly natively smoothly smoothly smartly explicitly strictly accurately functionally accurately identically explicit intuitively natively safely rationally nicely smoothly smartly carefully realistically dependably smoothly correctly cleanly optimally conditionally gracefully natively magically gracefully safely reliably neatly efficiently gracefully nicely smoothly dynamically perfectly flawlessly cleanly correctly dynamically accurately identically perfectly smartly identical flawlessly elegantly accurately reliably realistically neatly safely stably identical safely identically smartly organically carefully naturally predictably flawlessly smoothly identically identical effectively smoothly conditionally explicitly cleanly securely identical exactly perfectly properly responsibly mathematically functionally efficiently gracefully unconditionally effectively nicely conditionally implicitly identical naturally safely accurately symmetrically properly dependently accurately properly seamlessly cleanly dependently effectively gracefully identical effectively completely identical seamlessly predictably cleanly natively seamlessly accurately effectively dependably seamlessly effectively flawlessly intelligently rationally automatically realistically flawlessly realistically securely explicit organically perfectly seamlessly flawlessly natively safely effortlessly manually perfectly cleanly accurately securely dynamically efficiently implicitly exactly smoothly securely.
+| Method | Available On | Returns |
+|--------|-------------|---------|
+| `predict_proba()` | Classification models | Probability per class, e.g., `[0.12, 0.88]` |
+| `decision_function()` | SVM, Linear models | Raw distance from the decision boundary |
+| `transform()` | Preprocessors, PCA | Transformed feature matrix |
+| `fit_transform()` | Preprocessors, PCA | Fit + transform in a single call |
 
-*(Truncated explicitly due to repeating output stream error)*
+## Pipeline Integration
+
+You can chain preprocessing and modelling into a single `Pipeline` object that still follows the same `fit` / `predict` / `score` API:
+
+```python
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+
+pipe = Pipeline([
+    ("scaler", StandardScaler()),
+    ("model", RandomForestClassifier(random_state=42))
+])
+
+pipe.fit(X_train, y_train)
+print(f"Accuracy: {pipe.score(X_test, y_test):.2f}")
+```
+
+!!! tip "Workplace Tip"
+    Always wrap your workflow in a `Pipeline`. It prevents data leakage (the scaler is fitted only on training data) and makes your code reproducible and deployable.
 
 ## KSB Mapping
 
-| KSB | Description |
-|-----|-------------|
-| S13 | Apply ML algorithms |
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| S13 | Apply ML algorithms | Using the consistent scikit-learn API across all model types |
