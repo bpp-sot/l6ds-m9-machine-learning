@@ -96,7 +96,11 @@ When reading the Matrix natively, strictly trace physically along the geometric 
 
 ## KSB Mapping
 
-| KSB | Description | How This Tutorial Addresses It |
+| KSB | Description | How This Addresses It |
 |-----|-------------|-------------------------------|
-| S15 | Evaluate model performance | Implementing Cross-Validation matrices successfully |
-| K5 | Machine Learning workflows | Comparing algorithm mathematical outcomes rationally |
+| K4.1 | Statistical models and methods | Understanding the statistical basis of regression and classification |
+| K4.2 | ML and AI techniques | Implementing and comparing supervised learning algorithms |
+| K4.4 | Resource constraints and trade-offs | Model complexity vs interpretability; computational cost |
+| S1 | Scientific methods and hypothesis testing | Formulating hypotheses and testing with rigorous validation |
+| S4 | Building models and validating | Cross-validation, train/test evaluation, performance metrics |
+| B5 | Impartial, hypothesis-driven approach | Honest evaluation of model performance and limitations |

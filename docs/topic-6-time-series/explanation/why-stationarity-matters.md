@@ -18,6 +18,12 @@ If a time series is not stationary, its statistical properties—like mean and v
 By differencing (subtracting today's value from yesterday's), we remove the trend and often make the series stationary. We then forecast *the differences* and convert them back into real values.
 
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K4.1 | Statistical models and methods | ARIMA, SARIMA, and exponential smoothing foundations |
+| K4.2 | Predictive analytics and ML techniques | Time series forecasting and model comparison |
+| K5.3 | Common patterns in real-world data | Identifying trends, seasonality, and stationarity |
+| S1 | Scientific methods and hypothesis testing | Stationarity testing, model diagnostics, forecast validation |
+| S4 | Analysis and models to inform outcomes | Building forecasts to support business planning |
+| B5 | Impartial, hypothesis-driven approach | Honest evaluation of forecast accuracy and limitations |

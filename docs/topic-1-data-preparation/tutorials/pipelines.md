@@ -140,8 +140,9 @@ Notice the system flawlessly inflated our raw categories out to 22 dimensions, i
 
 ## KSB Mapping
 
-| KSB | Description | How This Tutorial Addresses It |
+| KSB | Description | How This Addresses It |
 |-----|-------------|-------------------------------|
-| S13 | Apply appropriate machine learning algorithms | Compiling reproducible execution nodes via strict Pipelines |
-| K5 | Machine Learning workflows | Building structured ML DAG structures eliminating Data Leakage |
-| B2 | Logical and analytical approach | Segregating execution logic categorically into numeric vs categorical streams |
+| K5.3 | Common patterns in real-world data | Identifying missing values, duplicates, outliers, and class imbalance |
+| S2 | Data engineering and governance | Systematic data cleaning, transformation, and quality assessment |
+| S3 | Programming for data manipulation | pandas pipelines for data preparation |
+| B3 | Adaptability and pragmatism | Handling imperfect real-world datasets |

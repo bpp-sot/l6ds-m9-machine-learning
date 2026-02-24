@@ -64,7 +64,9 @@ Now, your data cleanly adheres to the rule: 1 Observation = 1 Row. You can succe
 
 ## KSB Mapping
 
-| KSB | Description | How This Explanation Addresses It |
+| KSB | Description | How This Addresses It |
 |-----|-------------|-------------------------------|
-| K2 | Internal and External data structures | Identifying the structural geometric constraints of tabular schemas |
-| S4 | Import, cleanse, transform data | Flattening matrix arrays utilizing logical pivoting algorithms |
+| K5.3 | Common patterns in real-world data | Identifying missing values, duplicates, outliers, and class imbalance |
+| S2 | Data engineering and governance | Systematic data cleaning, transformation, and quality assessment |
+| S3 | Programming for data manipulation | pandas pipelines for data preparation |
+| B3 | Adaptability and pragmatism | Handling imperfect real-world datasets |

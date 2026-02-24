@@ -96,7 +96,9 @@ print(df[['City', 'City_Target_Encoded']].drop_duplicates())
 
 ## KSB Mapping
 
-| KSB | Description | How This Guide Addresses It |
+| KSB | Description | How This Addresses It |
 |-----|-------------|-------------------------------|
-| S12 | Feature engineering | Mitigating Curse of Dimensionality utilizing dense algebraic encoding methodologies |
-| K6 | Data analytics and visualisation | Profiling class imbalances and distributions statistically |
+| K5.3 | Common patterns in real-world data | Identifying missing values, duplicates, outliers, and class imbalance |
+| S2 | Data engineering and governance | Systematic data cleaning, transformation, and quality assessment |
+| S3 | Programming for data manipulation | pandas pipelines for data preparation |
+| B3 | Adaptability and pragmatism | Handling imperfect real-world datasets |

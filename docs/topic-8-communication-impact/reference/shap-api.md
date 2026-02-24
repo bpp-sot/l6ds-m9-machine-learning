@@ -25,6 +25,10 @@
 *   `shap.plots.bar(shap_values)`: Standard global feature importance.
 
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| S5 | Deployment, value assessment, and ROI | Translating model performance into business impact |
+| S6 | Communicate through storytelling and visualisation | Presenting ML results to non-technical stakeholders |
+| B4 | Consideration of organisational goals | Framing technical results in terms of business objectives |
+| B1 | Inquisitive approach | Exploring creative ways to explain model behaviour |

@@ -11,6 +11,10 @@ Building an accurate model is only 20% of the battle. The remaining 80% is getti
 3.  **Feedback Loops:** Every prediction the model makes needs a real-world outcome attached to it eventually to know if it was right. If a user overrides a model recommendation, you need to capture *why* they overrode it to retrain the model later.
 
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| S5 | Deployment, value assessment, and ROI | Translating model performance into business impact |
+| S6 | Communicate through storytelling and visualisation | Presenting ML results to non-technical stakeholders |
+| B4 | Consideration of organisational goals | Framing technical results in terms of business objectives |
+| B1 | Inquisitive approach | Exploring creative ways to explain model behaviour |

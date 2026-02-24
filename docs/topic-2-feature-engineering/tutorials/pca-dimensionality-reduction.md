@@ -132,8 +132,10 @@ plt.show()
 
 ## KSB Mapping
 
-| KSB | Description | How This Tutorial Addresses It |
+| KSB | Description | How This Addresses It |
 |-----|-------------|-------------------------------|
-| S12 | Feature engineering | Constructing hyper-dimensionality compression arrays geometrically |
-| K5 | Machine Learning workflows | Eliminating curse of dimensionality vectors utilizing PCA |
-| B2 | Logical and analytical approach | Validating dimensional tracking analytically via variance ratios |
+| K4.2 | Advanced analytics and ML techniques | Feature selection algorithms and dimensionality reduction |
+| K5.2 | Data formats and structures | Encoding categorical variables, handling mixed feature types |
+| S2 | Data engineering | Creating and transforming features from raw data |
+| S4 | Feature selection and ML | Applying feature selection methods and PCA |
+| B1 | Inquisitive approach | Exploring creative feature engineering strategies |

@@ -55,4 +55,8 @@ print(classification_report(y_te, nb.predict(X_te)))
 
 | KSB | Description | How This Addresses It |
 |-----|-------------|-------------------------------|
-| K5 | Machine Learning workflows | Implementing a probabilistic classifier and understanding its assumptions |
+| K4.2 | Advanced ML techniques | Tree-based models, ensemble methods, KNN, SVM |
+| K4.4 | Trade-offs in selecting algorithms | Comparing parametric vs non-parametric approaches |
+| S4 | ML and optimisation | Hyperparameter tuning, ensemble construction, model selection |
+| B1 | Curiosity and creativity | Exploring when non-parametric methods outperform parametric ones |
+| B5 | Integrity in presenting conclusions | Avoiding overfitting; honest reporting of generalisation performance |

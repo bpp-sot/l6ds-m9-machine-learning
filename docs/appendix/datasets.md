@@ -51,6 +51,8 @@ X, y = make_classification(n_samples=1000, n_features=20, n_informative=10, rand
 
 ## KSB Mapping
 
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K1 | Context of Data Science | Understanding where ML sits within the broader discipline |
+| S3 | Programming languages and tools | Setting up the development environment and dependencies |
+| B6 | Commitment to keeping up to date | Engaging with current ML resources and research |

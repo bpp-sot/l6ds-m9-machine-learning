@@ -77,7 +77,9 @@ print(customer_profile)
 
 ## KSB Mapping
 
-| KSB | Description | How This Guide Addresses It |
+| KSB | Description | How This Addresses It |
 |-----|-------------|-------------------------------|
-| S4 | Import, cleanse, transform data | Flattening granular dimensions using groupby heuristics |
-| B2 | Logical approach | Framing algorithmic structures symmetrically mapped to discrete business objectives |
+| K5.3 | Common patterns in real-world data | Identifying missing values, duplicates, outliers, and class imbalance |
+| S2 | Data engineering and governance | Systematic data cleaning, transformation, and quality assessment |
+| S3 | Programming for data manipulation | pandas pipelines for data preparation |
+| B3 | Adaptability and pragmatism | Handling imperfect real-world datasets |

@@ -59,5 +59,9 @@ This gives you interpretable core features enriched by algorithmically discovere
 ## KSB Mapping
 
 | KSB | Description | How This Addresses It |
-|-----|-------------|-----------------------|
-| B2 | Logical and analytical approach | Combining business expertise with algorithmic exploration to maximise feature quality |
+|-----|-------------|-------------------------------|
+| K4.2 | Advanced analytics and ML techniques | Feature selection algorithms and dimensionality reduction |
+| K5.2 | Data formats and structures | Encoding categorical variables, handling mixed feature types |
+| S2 | Data engineering | Creating and transforming features from raw data |
+| S4 | Feature selection and ML | Applying feature selection methods and PCA |
+| B1 | Inquisitive approach | Exploring creative feature engineering strategies |

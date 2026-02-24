@@ -14,6 +14,10 @@ If you are predicting whether a user will click an ad, use the most accurate bla
 If you are diagnosing cancer, or denying mortgages, the law or regulators often *require* interpretability. You might have to sacrifice 2% accuracy to use a model that provides a clear "why".
 
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| S5 | Deployment, value assessment, and ROI | Translating model performance into business impact |
+| S6 | Communicate through storytelling and visualisation | Presenting ML results to non-technical stakeholders |
+| B4 | Consideration of organisational goals | Framing technical results in terms of business objectives |
+| B1 | Inquisitive approach | Exploring creative ways to explain model behaviour |

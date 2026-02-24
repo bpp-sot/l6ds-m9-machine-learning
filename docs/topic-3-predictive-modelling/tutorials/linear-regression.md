@@ -98,7 +98,11 @@ Our simple model miscalculates explicit tips mathematically by `£0.85` inherent
 
 ## KSB Mapping
 
-| KSB | Description | How This Tutorial Addresses It |
+| KSB | Description | How This Addresses It |
 |-----|-------------|-------------------------------|
-| S13 | Apply ML algorithms | Deploying strictly linear computational topologies |
-| K5 | Machine Learning workflows | Computing explicitly formal test-set objective metrics |
+| K4.1 | Statistical models and methods | Understanding the statistical basis of regression and classification |
+| K4.2 | ML and AI techniques | Implementing and comparing supervised learning algorithms |
+| K4.4 | Resource constraints and trade-offs | Model complexity vs interpretability; computational cost |
+| S1 | Scientific methods and hypothesis testing | Formulating hypotheses and testing with rigorous validation |
+| S4 | Building models and validating | Cross-validation, train/test evaluation, performance metrics |
+| B5 | Impartial, hypothesis-driven approach | Honest evaluation of model performance and limitations |

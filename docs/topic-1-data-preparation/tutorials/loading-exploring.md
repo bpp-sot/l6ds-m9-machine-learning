@@ -170,9 +170,9 @@ plt.show()
 
 ## KSB Mapping
 
-| KSB | Description | How This Tutorial Addresses It |
+| KSB | Description | How This Addresses It |
 |-----|-------------|-------------------------------|
-| K6 | Data analytics and visualisation | EDA visualisations and statistical heatmaps |
-| S4 | Import, cleanse, transform data | Systematic data quality assessment and loading |
-| S7 | Analyse data to generate insights | Interpreting distributions and correlations |
-| B2 | Logical and analytical approach | Structured, documented exploration process |
+| K5.3 | Common patterns in real-world data | Identifying missing values, duplicates, outliers, and class imbalance |
+| S2 | Data engineering and governance | Systematic data cleaning, transformation, and quality assessment |
+| S3 | Programming for data manipulation | pandas pipelines for data preparation |
+| B3 | Adaptability and pragmatism | Handling imperfect real-world datasets |

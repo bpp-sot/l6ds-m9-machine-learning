@@ -68,7 +68,11 @@ If `Income` ranges up to strictly `100,000` and `Age` tops out at `90`, the netw
 
 ## KSB Mapping
 
-| KSB | Description | How This Tutorial Addresses It |
+| KSB | Description | How This Addresses It |
 |-----|-------------|-------------------------------|
-| S13 | Apply ML algorithms | Deploying explicit Multi-Layer Perceptrons |
-| K5 | Machine Learning workflows | Selecting algorithm complexity corresponding strictly to explicit scale |
+| K4.1 | Statistical models and methods | Understanding the statistical basis of regression and classification |
+| K4.2 | ML and AI techniques | Implementing and comparing supervised learning algorithms |
+| K4.4 | Resource constraints and trade-offs | Model complexity vs interpretability; computational cost |
+| S1 | Scientific methods and hypothesis testing | Formulating hypotheses and testing with rigorous validation |
+| S4 | Building models and validating | Cross-validation, train/test evaluation, performance metrics |
+| B5 | Impartial, hypothesis-driven approach | Honest evaluation of model performance and limitations |

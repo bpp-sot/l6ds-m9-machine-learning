@@ -139,12 +139,14 @@ A model can now instantly separate extreme anger (Review 1) from general satisfa
     df['month_cos'] = np.cos(2 * np.pi * df['timestamp'].dt.month / 12)
     ```
     
-    Now, Dec (Month 12) and Jan (Month 1) share highly identical geometric spatial coordinates natively on the mapped algorithm axis! Research explicitly why this works for Neural Networks dealing with 24-hour retail sales metrics. 
+    Now, Dec (Month 12) and Jan (Month 1) share highly identical geometric spatial coordinates natively on the mapped algorithm axis! Research explicitly why this works for Neural Networks dealing with 24-hour retail sales metrics.
 
 ## KSB Mapping
 
-| KSB | Description | How This Tutorial Addresses It |
+| KSB | Description | How This Addresses It |
 |-----|-------------|-------------------------------|
-| S4 | Import, cleanse, transform data | Typecasting primitive strings into functional datetime arrays |
-| S12 | Feature engineering | Extracting metadata dimensions efficiently from time bounds |
-| K5 | Machine Learning workflows | Bypassing dimensionality traps via manual NLP metadata encoding |
+| K4.2 | Advanced analytics and ML techniques | Feature selection algorithms and dimensionality reduction |
+| K5.2 | Data formats and structures | Encoding categorical variables, handling mixed feature types |
+| S2 | Data engineering | Creating and transforming features from raw data |
+| S4 | Feature selection and ML | Applying feature selection methods and PCA |
+| B1 | Inquisitive approach | Exploring creative feature engineering strategies |

@@ -16,6 +16,10 @@ If we use 5-Folds:
 Every single data point in your dataset gets to be in the test set exactly once. By averaging the 5 scores, you get a highly robust, "luck-free" estimate of how the model will perform in reality.
 
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K4.4 | Resource constraints and trade-offs | Balancing model complexity, performance, and computational cost |
+| S1 | Scientific methods and hypothesis testing | Rigorous cross-validation and statistical model comparison |
+| S4 | Building models and validating | Systematic hyperparameter tuning and performance evaluation |
+| B5 | Impartial, hypothesis-driven approach | Preventing overfitting; honest reporting of generalisation metrics |

@@ -13,6 +13,10 @@ Models do not have morals. They pattern-match history. If historical data contai
 As a data scientist, you are the last line of defence. It is your job to slice your validation metrics by demographic groups to ensure the model performs equally well (or equally badly) for all protected classes.
 
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| S5 | Deployment, value assessment, and ROI | Translating model performance into business impact |
+| S6 | Communicate through storytelling and visualisation | Presenting ML results to non-technical stakeholders |
+| B4 | Consideration of organisational goals | Framing technical results in terms of business objectives |
+| B1 | Inquisitive approach | Exploring creative ways to explain model behaviour |

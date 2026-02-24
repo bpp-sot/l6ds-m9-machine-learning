@@ -125,8 +125,10 @@ The model calculated the mean importance of all columns was `0.250`. Consequentl
 
 ## KSB Mapping
 
-| KSB | Description | How This Tutorial Addresses It |
+| KSB | Description | How This Addresses It |
 |-----|-------------|-------------------------------|
-| S13 | Apply ML algorithms | Operating analytical models mechanically capable of self-filtering features |
-| K6 | Data analytics and visualisation | Generating internal Gini node distributions across topological plots |
-| B2 | Logical and analytical approach | Optimizing dimensionality purely natively rather than via arbitrary statistical wrappers |
+| K4.2 | Advanced analytics and ML techniques | Feature selection algorithms and dimensionality reduction |
+| K5.2 | Data formats and structures | Encoding categorical variables, handling mixed feature types |
+| S2 | Data engineering | Creating and transforming features from raw data |
+| S4 | Feature selection and ML | Applying feature selection methods and PCA |
+| B1 | Inquisitive approach | Exploring creative feature engineering strategies |

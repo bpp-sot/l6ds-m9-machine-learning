@@ -94,7 +94,11 @@ If Feature 1 is measured in Millimetres (0-10) and Feature 2 is measured in Kilo
 
 ## KSB Mapping
 
-| KSB | Description | How This Tutorial Addresses It |
+| KSB | Description | How This Addresses It |
 |-----|-------------|-------------------------------|
-| S13 | Apply ML algorithms | Operating Euclidean mapping vector machines |
-| K5 | Machine Learning workflows | Prioritizing preprocessing scalar standardisation explicitly |
+| K4.1 | Statistical models and methods | Understanding the statistical basis of regression and classification |
+| K4.2 | ML and AI techniques | Implementing and comparing supervised learning algorithms |
+| K4.4 | Resource constraints and trade-offs | Model complexity vs interpretability; computational cost |
+| S1 | Scientific methods and hypothesis testing | Formulating hypotheses and testing with rigorous validation |
+| S4 | Building models and validating | Cross-validation, train/test evaluation, performance metrics |
+| B5 | Impartial, hypothesis-driven approach | Honest evaluation of model performance and limitations |

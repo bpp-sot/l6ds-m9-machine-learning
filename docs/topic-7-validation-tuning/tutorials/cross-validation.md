@@ -60,4 +60,7 @@ print(f"50-fold Mean: {scores.mean():.4f} ± {scores.std():.4f}")
 
 | KSB | Description | How This Addresses It |
 |-----|-------------|-------------------------------|
-| K5 | Machine Learning workflows | Robust model evaluation using cross-validation |
+| K4.4 | Resource constraints and trade-offs | Balancing model complexity, performance, and computational cost |
+| S1 | Scientific methods and hypothesis testing | Rigorous cross-validation and statistical model comparison |
+| S4 | Building models and validating | Systematic hyperparameter tuning and performance evaluation |
+| B5 | Impartial, hypothesis-driven approach | Preventing overfitting; honest reporting of generalisation metrics |
