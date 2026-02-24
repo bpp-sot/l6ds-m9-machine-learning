@@ -17,27 +17,40 @@ Non-parametric models make fewer assumptions about the underlying data distribut
 
 Section A — non-parametric methods (especially tree-based) are often the strongest choice for tabular workplace data.
 
-## Content
+## 📘 Tutorials
 
-=== "Tutorials"
+Step-by-step guides to implementing models:
 
-    - [k-Nearest Neighbours](tutorials/knn.md)
-    - [SVM & Kernel Methods](tutorials/svm-kernels.md)
-    - [Advanced Tree-Based Methods](tutorials/advanced-trees.md)
-    - [XGBoost & LightGBM](tutorials/xgboost-lightgbm.md)
+-   [k-Nearest Neighbours (k-NN)](tutorials/knn.md)
+-   [Naive Bayes](tutorials/naive-bayes.md)
+-   [SVM and Kernel Methods](tutorials/svm-kernels.md)
+-   [Advanced Tree-Based Methods](tutorials/advanced-trees.md)
+-   [XGBoost & LightGBM](tutorials/xgboost-lightgbm.md)
 
-=== "How-to Guides"
+---
 
-    - [Choose the Right k Value](how-to/choose-k-value.md)
-    - [Select the Right Kernel](how-to/kernel-selection.md)
-    - [Prune and Regularise Trees](how-to/tree-pruning.md)
+## 🛠️ How-To Guides
 
-=== "Reference"
+Practical, goal-oriented instructions:
 
-    - [Non-Parametric Methods Comparison](reference/nonparametric-comparison.md)
-    - [XGBoost Parameter Reference](reference/xgboost-parameters.md)
+-   [How to Choose the Right $k$ Value](how-to/choose-k-value.md)
+-   [How to Select an SVM Kernel](how-to/kernel-selection.md)
+-   [How to Prune and Regularise Decision Trees](how-to/tree-pruning.md)
 
-=== "Explanation"
+---
 
-    - [Parametric vs Non-Parametric](explanation/parametric-vs-nonparametric.md)
-    - [The No Free Lunch Theorem](explanation/no-free-lunch.md)
+## 📖 Reference
+
+Quick lookups and technical specifications:
+
+-   [Non-Parametric Comparison](reference/nonparametric-comparison.md)
+-   [XGBoost & LightGBM Parameters](reference/xgboost-parameters.md)
+
+---
+
+## 🧠 Explanation
+
+Deep dives into fundamental concepts:
+
+-   [Parametric vs. Non-Parametric Models](explanation/parametric-vs-nonparametric.md)
+-   [The No Free Lunch Theorem](explanation/no-free-lunch.md)
