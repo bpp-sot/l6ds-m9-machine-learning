@@ -1,30 +1,19 @@
-# Explanation: Responsible Ai
+# Responsible AI Principles
 
-## Conceptual Overview
-Understanding responsible ai is critical for bridging the gap between technical execution and business impact. 
+> Frameworks for building AI that benefits, rather than harms, society.
 
-### Analogy
-Think of this process like organizing a messy filing cabinet. Before you can find insights (extract documents), you need a system (the algorithm or transformation).
+## Core Pillars of Responsible AI
 
-## Formal Definition
+Many large tech companies (Microsoft, Google, IBM) have published Responsible AI guidelines. They generally orbit the following concepts:
 
-The underlying concept can be expressed mathematically. For instance, consider the fundamental equation of evaluation:
+1.  **Fairness:** AI systems should treat all people fairly. They should not allocate opportunities or resources differently based on protected characteristics like race, gender, or age.
+2.  **Reliability & Safety:** AI systems should perform reliably and safely. They should have clear operational boundaries and gracefully handle situations outside their training data.
+3.  **Privacy & Security:** AI systems should respect user privacy and adhere to data protection laws (like GDPR). Models should not be able to "leak" the personal training data they consumed.
+4.  **Inclusiveness:** AI systems should empower everyone and engage people. The teams building the models should be diverse to spot blind spots in the data.
+5.  **Transparency:** AI systems should be understandable. Stakeholders should understand how and why models make their decisions.
+6.  **Accountability:** People must remain accountable for AI systems. An algorithm cannot be fired; the person or company who deployed it holds the ultimate responsibility.
 
-\[
-J(\theta) = \frac{1}{2m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2
-\]
-
-## Workflow Diagram
-
-```mermaid
-graph TD
-    A[Raw Input] --> B{Requires Responsible Ai?}
-    B -->|Yes| C[Apply Transformation]
-    B -->|No| D[Bypass]
-    C --> E[Evaluate Metrics]
-    D --> E
-    E --> F[Final Output]
-```
-
-## Connection to Practice
-In your assessment, you must justify *why* you chose a particular approach. Use the principles outlined here to build your argument for the presentation.
+## KSB Mapping
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

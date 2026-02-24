@@ -1,30 +1,41 @@
-# Reference: Lime Api
+# LIME Library Reference
 
-This page contains quick-lookup information for lime api.
+> LIME explains the predictions of any classifier in an interpretable and faithful manner by learning an interpretable model locally around the prediction.
 
-## Key Methods and Parameters
+## Quick API (Tabular Data)
 
-| Method | Parameters | Description |
-|--------|------------|-------------|
-| `fit()` | `X`, `y` | Fits the model or transformer to the data |
-| `transform()` | `X` | Applies the transformation |
-| `predict()` | `X` | Generates predictions |
-
-## Common Syntax
+The core object is the `LimeTabularExplainer`. You must initialize it with the training data.
 
 ```python
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
+import lime.lime_tabular
 
-# Standard boilerplate
-pipeline = make_pipeline(StandardScaler(), ...)
-pipeline.fit(X_train, y_train)
+explainer = lime.lime_tabular.LimeTabularExplainer(
+    training_data=np_array_of_training_data,
+    feature_names=['age', 'income', 'credit_score'],
+    class_names=['Deny', 'Approve'],
+    mode='classification' # or 'regression'
+)
 ```
 
-## Comparison Metrics
+## Extracting an Explanation
 
-When comparing approaches for lime api, consider:
+You explain a single instance (row) by passing the data and the model's prediction function.
 
-1. **Accuracy**: How well does it perform?
-2. **Interpretability**: How easily can you explain it?
-3. **Speed**: How fast does it run?
+```python
+exp = explainer.explain_instance(
+    data_row=single_np_array_row, 
+    predict_fn=model.predict_proba, # Must output probabilities for classification!
+    num_features=5 # How many features to show in the explanation
+)
+
+# Render in a Jupyter notebook
+exp.show_in_notebook(show_table=True)
+
+# Or print as a list
+print(exp.as_list())
+```
+
+## KSB Mapping
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

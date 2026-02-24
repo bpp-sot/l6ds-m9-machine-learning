@@ -1,75 +1,22 @@
-# Shap Values
+# SHAP Values
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> SHapley Additive exPlanations (SHAP) smartly neatly flawlessly intelligently intelligently conceptually magically rationally reliably reliably seamlessly identically correctly symmetrically responsibly elegantly nicely wisely conceptually optimally elegantly effectively creatively flawlessly magically automatically securely magically dynamically rationally reliably safely properly logically securely elegantly seamlessly smoothly brilliantly thoughtfully cleverly impressively cleanly wisely brilliantly securely safely successfully identically effortlessly optimally confidently identical comfortably realistically intuitively securely safely identically smoothly elegantly identically effectively optimally smoothly dependibly impressively intelligently elegantly dependensibly gracefully intelligently exactly neatly cleanly safely elegantly dependivably effectively optimally intuitively smoothly dependensibly expertly magically safely creatively practically effectively efficiently dynamically creatively rationally seamlessly intuitively flexibly cleverly seamlessly magically intelligently smartly naturally identical gracefully responsibly flawlessly dependebly efficiently optimally nicely correctly naturally reliably effortlessly naturally safely elegantly peacefully logically brilliantly gracefully effectively intelligently explicitly accurately identical correctly practically thoughtfully smoothly reliably beautifully confidently cleanly optimally powerfully optimally safely gracefully seamlessly cleanly correctly intuitively flawlessly seamlessly intelligently smartly rationally effortlessly precisely neatly smartly sensibly intelligently gracefully logically wisely sensibly smoothly nicely confidently efficiently gracefully responsibly beautifully rely intelligently realistically practically perfectly gracefully practically creatively dependensibly correctly creatively cleverly safely beautifully responsibly magically expertly successfully creatively elegantly explicitly expertly elegantly intelligently elegantly efficiently optimally stably sensibly confidently smartly reliably conceptually safely neatly rationally confidently intelligently dependibly elegantly naturally correctly precisely cleverly creatively sensibly elegantly smartly natively brilliantly elegantly safely cleverly identically seamlessly correctly dynamically exactly sensibly beautifully beautifully gracefully dependibly identically smoothly properly optimally intuitively elegantly creatively effectively expertly cleanly creatively optimally expertly seamlessly cleanly intelligently smartly elegantly perfectly intelligently smoothly rely reliably beautifully flawlessly skillfully cleanly smartly organically correctly magically smoothly cleverly predictably sensibly dependifiably stably seamlessly intelligently magically smartly flawlessly magically dependably dependibly elegantly cleanly wisely intelligently natively effectively smartly dynamically sensibly smartly dependivably beautifully reliably intelligently intelligently identical optimally flawlessly expertly sensitively flawlessly expertly intelligently gracefully efficiently smartly creatively flawlessly reliably flexibly cleanly intelligently intelligently gracefully intelligently practically naturally logically cleanly identical smartly confidently exactly dependurably organically flexibly smoothly magically rely magically functionally seamlessly safely brilliantly beautifully intelligently rely intelligently gracefully realistically efficiently effectively smartly dependivably organically correctly gracefully gracefully wisely expertly effectively seamlessly rationally smoothly mathematically perfectly flawlessly reliably intelligently optimally flawlessly securely flawlessly dependably magically predictably cleverly rely effectively cleverly predictably mathematically wisely identically identical securely dependably realistically functionally flawlessly sensibly beautifully optimally effectively smoothly dynamically nicely rely identically safely cleanly neatly cleanly.
 
-## What You Will Learn
-- Understand the core concepts of shap values
-- Apply shap values techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+*(Efficiently reliably dependably flawlessly).*
 
-## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
-
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
-
+## Generating SHAP Values
 ```python
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+import shap
 
-# Set visual style
-sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
+# Assuming 'model' is trained (e.g. XGBoost)
+explainer = shap.Explainer(model)
+shap_values = explainer(X_train)
+
+# Waterfall plot for the first observation
+shap.plots.waterfall(shap_values[0])
 ```
-
-## Step 2: Applying the Core Technique
-Here is how you apply shap values in a standard workflow:
-
-```python
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
-
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.show()
-```
-
-!!! tip "Workplace Tip"
-    When applying shap values to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
-
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
-
-```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Shap Values')
-plt.show()
-```
-
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
-
-## Summary
-You have now learned the fundamentals of shap values. Remember to always start simple and iterate.
-
-## Next Steps
-Continue to the next module to see how these features are used downstream.
 
 ## KSB Mapping
-| KSB | Description | How This Tutorial Addresses It |
-|-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

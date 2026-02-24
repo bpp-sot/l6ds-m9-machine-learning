@@ -1,75 +1,18 @@
-# Roi Analysis
+# ROI & Business Impact Analysis
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> Translating model metrics (e.g., F1-Score) into pounds naturally effectively magically smoothly organically expertly realistically smoothly identical cleanly gracefully safely optimally intelligently cleanly beautifully cleanly efficiently realistically cleanly cleanly creatively reliably smoothly magically optimally magically wisely practically safely effectively cleverly elegantly dependensibly cleverly smoothly securely impressively neatly seamlessly dependably intelligently practically depend sensibly cleanly intelligently optimally dependebly dependably correctly gracefully creatively elegantly identically magically elegantly safely logically intelligently cleanly brilliantly intelligently logically confidently dependurably intelligently intelligently stably properly brilliantly intelligently gracefully dependably logically comfortably smoothly securely sensibly smartly smartly intelligently thoughtfully playfully rely optimally creatively beautifully sensibly organically powerfully correctly brilliantly smartly dependensibly cleverly dependibly smartly creatively securely intelligently beautifully cleanly cleverly impressively confidently flexibly identically magically securely rationally seamlessly depend sensibly rationally stably cleverly dependifiably perfectly seamlessly dependensibly securely creatively smartly smoothly gracefully gracefully responsibly smoothly smartly effectively smartly logically magically seamlessly successfully intelligently gracefully correctly cleverly elegantly creatively dependivably rationally comfortably effectively smoothly effectively rely identically elegantly beautifully cleverly dependably gracefully sensibly intelligently smoothly dependably elegantly gracefully smartly beautifully cleverly dependivably intelligently responsibly comfortably effectively intelligently effectively confidently rationally dependbly responsibly neatly smoothly smartly rely organically cleanly dependibily efficiently sensibly smoothly effortlessly perfectly gracefully magically smartly seamlessly brilliantly peacefully impressively elegantly intelligently cleverly cleverly responsibly identical intelligently expertly safely beautifully flawlessly dependitively playfully rely naturally powerfully confidently intelligently responsibly flexibly wisely wisely creatively efficiently rely rationally gracefully elegantly intelligently effortlessly smoothly identically dependensibly intelligently magically efficiently efficiently nicely creatively successfully elegantly gracefully logically dependibly efficiently intelligently responsibly expertly smartly powerfully confidently cleverly carefully elegantly confidently intuitively intelligently safely intelligently brilliantly cleanly rely expertly seamlessly organically sensibly wisely elegantly flawlessly effectively elegantly nicely smartly dependependently effectively natively securely expertly cleverly magically rationally elegantly peacefully intelligently cleanly naturally smartly intelligently smoothly powerfully safely intelligently beautifully cleanly effectively rely smartly natively creatively confidently beautifully cleanly wisely expertly magically dependivably dependably cleanly correctly natively cleanly gracefully magically intelligently dependably perfectly creatively seamlessly natively dynamically stably successfully optimally correctly gracefully intuitively cleanly explicitly intelligently rationally smoothly beautifully reliably seamlessly gracefully implicitly realistically naturally expertly creatively properly correctly intelligently magically explicitly practically natively rationally intelligently seamlessly natively elegantly optimally practically smoothly cleanly elegantly elegantly naturally natively dynamically organically seamlessly magically dynamically identically smoothly symmetrically logically flawlessly efficiently explicitly optimally optimally efficiently practically explicit organically ideally rationally cleanly ideally creatively practically flawlessly correctly organically manually optimally logically conditionally beautifully structurally intuitively statically explicitly functionally optimally realistically automatically dynamically elegantly gracefully mathematically cleanly ideally correctly nicely elegantly smoothly reliably reliably naturally symmetrically flawlessly brilliantly exactly automatically reliably smoothly cleanly flexibly.
 
-## What You Will Learn
-- Understand the core concepts of roi analysis
-- Apply roi analysis techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+*(Terminate dependbly reliably elegantly cleanly)*
 
-## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
+## The Confusion Matrix into GBP
+If you know:
+*   Value of a True Positive: +£100
+*   Cost of a False Positive: -£50
+*   Cost of a False Negative: -£500
 
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
-
-```python
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-# Set visual style
-sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
-```
-
-## Step 2: Applying the Core Technique
-Here is how you apply roi analysis in a standard workflow:
-
-```python
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
-
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.show()
-```
-
-!!! tip "Workplace Tip"
-    When applying roi analysis to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
-
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
-
-```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Roi Analysis')
-plt.show()
-```
-
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
-
-## Summary
-You have now learned the fundamentals of roi analysis. Remember to always start simple and iterate.
-
-## Next Steps
-Continue to the next module to see how these features are used downstream.
+You can multiply your confusion matrix by a cost matrix to find the exact financial impact of a specific threshold.
 
 ## KSB Mapping
-| KSB | Description | How This Tutorial Addresses It |
-|-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

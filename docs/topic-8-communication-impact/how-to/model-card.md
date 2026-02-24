@@ -1,29 +1,17 @@
-# How-to: Model Card
+# Create a Model Card
 
-## The Problem
-In your workplace projects, you will frequently encounter the need to model card. This guide provides a direct solution.
+> A model card is like a nutrition label for your machine learning model. It provides transparency.
 
-## The Solution
-Use the following approach:
+## What goes in a Model Card?
 
-```python
-import pandas as pd
-import numpy as np
+1. **Model Details:** Algorithm type (e.g., Random Forest), date created, developer, version.
+2. **Intended Use:** What is this built for? (e.g., "Predicting default risk on unsecured personal loans.")
+3. **Out of Scope:** What should it NOT be used for? (e.g., "Not intended for business loans or mortgages.")
+4. **Metrics:** Performance across different slices (e.g., Accuracy is 88% overall, but 85% for group A and 90% for group B). Disclosing these differences is crucial for fairness.
+5. **Training Data:** A brief overview of the dataset. "Trained on 50,000 anonymised loan applications from 2018-2022."
+6. **Ethical Considerations:** Known limitations or potential biases. "Historically, younger applicants have fewer data points, leading to higher false-positive rates in the 18-21 age bracket."
 
-def resolve_model_card(data):
-    # Apply transformation
-    result = data.copy()
-    # Your business logic here
-    return result
-
-# Example usage:
-# df_clean = resolve_model_card(df_raw)
-```
-
-## Discussion
-### When to use this approach?
-Use this when your dataset explicitly requires model card. It is particularly useful for messy organizational data.
-
-### Caveats
-- Computationally expensive for large datasets.
-- Ensure you have handled missing values prior to this step.
+## KSB Mapping
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

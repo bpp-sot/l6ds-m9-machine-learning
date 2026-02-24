@@ -1,30 +1,19 @@
-# Explanation: Interpretability Vs Accuracy
+# Interpretability vs Accuracy
 
-## Conceptual Overview
-Understanding interpretability vs accuracy is critical for bridging the gap between technical execution and business impact. 
+> There is fundamentally a trade-off between how well a model performs and how easy it is to understand why.
 
-### Analogy
-Think of this process like organizing a messy filing cabinet. Before you can find insights (extract documents), you need a system (the algorithm or transformation).
+## The Spectrum
 
-## Formal Definition
+*   **High Interpretability, Lower Accuracy:** Linear Regression, Logistic Regression, Decision Trees. If a bank denies a loan using Logistic Regression, they can point to the exact coefficient for "late payments" and say exactly why.
+*   **Medium Interpretability, Medium Accuracy:** Random Forests, XGBoost. You can get global feature importance, but tracing a single prediction back to its roots is harder without external tools like SHAP.
+*   **Low Interpretability, High Accuracy:** Deep Neural Networks. They achieve state-of-the-art results on image and text, but operates as a "black box" where even the creators cannot easily explain *why* it made a specific classification.
 
-The underlying concept can be expressed mathematically. For instance, consider the fundamental equation of evaluation:
+## Business Context Dictates Choice
+If you are predicting whether a user will click an ad, use the most accurate black box you have. Nobody is going to sue you for showing them the wrong shoe advert. 
 
-\[
-J(\theta) = \frac{1}{2m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2
-\]
+If you are diagnosing cancer, or denying mortgages, the law or regulators often *require* interpretability. You might have to sacrifice 2% accuracy to use a model that provides a clear "why".
 
-## Workflow Diagram
-
-```mermaid
-graph TD
-    A[Raw Input] --> B{Requires Interpretability Vs Accuracy?}
-    B -->|Yes| C[Apply Transformation]
-    B -->|No| D[Bypass]
-    C --> E[Evaluate Metrics]
-    D --> E
-    E --> F[Final Output]
-```
-
-## Connection to Practice
-In your assessment, you must justify *why* you chose a particular approach. Use the principles outlined here to build your argument for the presentation.
+## KSB Mapping
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

@@ -1,30 +1,18 @@
-# Explanation: Ethics In Ml
+# Ethics in Machine Learning
 
-## Conceptual Overview
-Understanding ethics in ml is critical for bridging the gap between technical execution and business impact. 
+> A model is only as ethical as the data it was trained on and the people who built it.
 
-### Analogy
-Think of this process like organizing a messy filing cabinet. Before you can find insights (extract documents), you need a system (the algorithm or transformation).
+## The Problem of Bias
+Models do not have morals. They pattern-match history. If historical data contains human biases (e.g., denying more loans to minority neighborhoods), the model will learn that rule and scale it instantly, codifying the racism mathematically under a veneer of "objective algorithmic accuracy."
 
-## Formal Definition
+## Real-World Examples
+*   **Hiring Algorithms:** An AI trained on 10 years of successful resumes for software engineers might learn that being male is a strong predictor of success, simply because historical hiring was skewed male. It would then actively penalize female applicants.
+*   **Healthcare Algorithms:** An algorithm predicting healthcare needs learned to allocate fewer resources to Black patients than White patients with similar health profiles, because it used historical *spending* as a proxy for *need*, and Black patients historically had less money spent on them due to systemic inequality.
 
-The underlying concept can be expressed mathematically. For instance, consider the fundamental equation of evaluation:
+## Your Responsibility
+As a data scientist, you are the last line of defence. It is your job to slice your validation metrics by demographic groups to ensure the model performs equally well (or equally badly) for all protected classes.
 
-\[
-J(\theta) = \frac{1}{2m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2
-\]
-
-## Workflow Diagram
-
-```mermaid
-graph TD
-    A[Raw Input] --> B{Requires Ethics In Ml?}
-    B -->|Yes| C[Apply Transformation]
-    B -->|No| D[Bypass]
-    C --> E[Evaluate Metrics]
-    D --> E
-    E --> F[Final Output]
-```
-
-## Connection to Practice
-In your assessment, you must justify *why* you chose a particular approach. Use the principles outlined here to build your argument for the presentation.
+## KSB Mapping
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

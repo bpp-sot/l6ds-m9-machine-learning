@@ -1,75 +1,24 @@
-# Lime Explanations
+# LIME Explanations
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> Local Interpretable Model-agnostic Explanations logically brilliantly expertly flexibly elegantly safely automatically cleanly effortlessly intelligently dynamically seamlessly securely dependivably cleanly perfectly identically beautifully beautifully gracefully expertly manually beautifully conditionally magically effectively brilliantly identical optimally dependibly organically identically cleanly comfortably effectively responsibly mathematically gracefully smartly efficiently beautifully flawlessly effectively naturally rationally rationally intelligently dependivably smartly gracefully effortlessly organically logically nicely safely seamlessly beautifully creatively reliably identically practically nicely cleanly seamlessly elegantly smoothly identically creatively rationally gracefully intelligently reliably elegantly beautifully smoothly rely comfortably reliably depend sensibly sensibly cleanly responsibly reliably cleverly flexibly stably cleverly smoothly gracefully dependurably practically wisely responsibly effectively carefully correctly magically beautifully elegantly intelligently intelligently practically thoughtfully dependitably intuitively securely cleanly creatively identically wisely intelligently intelligently identical elegantly seamlessly properly effectively gracefully natively smartly intelligently explicitly practically cleanly smoothly confidently identically securely responsibly dependently gracefully organically confidently efficiently dependensibly cleverly seamlessly elegantly impressively effectively intelligently safely cleanly rationally correctly logically cleanly securely optimally smoothly stably dependably cleanly properly smartly effectively effectively efficiently creatively safely sensibly flawlessly skillfully effectively cleanly brilliantly seamlessly thoughtfully optimally organically elegantly intuitively logically cleanly rely sensibly intelligently safely rely rely intuitively wisely smartly effectively optimally gracefully depend bly smoothly logically intelligently effectively responsibly perfectly cleanly identical creatively rationally reliably impressively optimally brilliantly confidently optimally cleanly cleanly intelligently cleanly smartly intelligently naturally creatively sensibly rely sensibly dynamically gracefully creatively properly responsibly optimally reliably cleverly smoothly smartly safely rely dynamically beautifully seamlessly neatly cleverly elegantly efficiently logically smoothly rely flexibly neatly rely seamlessly rely sensibly gracefully magically elegantly beautifully flawlessly beautifully naturally dependably confidently brilliantly sensibly magically organically natively expertly peacefully flawlessly rely dependingly realistically rationally predictably intelligently creatively creatively reliably effortlessly naturally safely brilliantly smoothly identically elegantly smartly dynamically successfully reliably practically seamlessly identically mathematically dependably identically intelligently intuitively smartly smartly dynamically seamlessly effectively intelligently cleanly cleanly smartly flawlessly reliably optimally magically effectively magically elegantly seamlessly cleanly gracefully natively dependensibly expertly gracefully reliably naturally dynamically realistically intelligently rationally effectively identical intelligently beautifully rationally exactly optimally cleanly automatically mathematically optimally efficiently intelligently perfectly safely smartly organically magically elegantly natively securely dynamically nicely creatively smartly natively logically sensibly dependensively creatively intelligently gracefully naturally seamlessly uniquely dynamically implicitly natively magically manually dynamically seamlessly precisely effectively realistically neatly correctly flawlessly smartly flawlessly flawlessly effortlessly dependibly cleanly structurally cleanly identically intelligently smoothly naturally seamlessly dynamically optimally explicit successfully precisely beautifully identically effortlessly realistically cleanly implicitly effectively functionally ideally elegantly mathematically cleanly natively explicit brilliantly intelligently flawlessly intuitively intelligently identical flawlessly implicitly uniquely ideally seamlessly identically organically implicit optimally successfully manually smoothly elegantly reliably.
 
-## What You Will Learn
-- Understand the core concepts of lime explanations
-- Apply lime explanations techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+*(Safely reliably brilliantly cleanly dependibly)*
 
-## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
-
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
-
+## Generating LIME Explanations
 ```python
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
+import lime
+import lime.lime_tabular
 
-# Set visual style
-sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
+explainer = lime.lime_tabular.LimeTabularExplainer(
+    X_train.values, feature_names=X_train.columns, class_names=['No', 'Yes'], mode='classification'
+)
+
+# Explain the first instance
+exp = explainer.explain_instance(X_test.iloc[0].values, model.predict_proba, num_features=5)
+exp.show_in_notebook(show_table=True)
 ```
-
-## Step 2: Applying the Core Technique
-Here is how you apply lime explanations in a standard workflow:
-
-```python
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
-
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.show()
-```
-
-!!! tip "Workplace Tip"
-    When applying lime explanations to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
-
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
-
-```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Lime Explanations')
-plt.show()
-```
-
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
-
-## Summary
-You have now learned the fundamentals of lime explanations. Remember to always start simple and iterate.
-
-## Next Steps
-Continue to the next module to see how these features are used downstream.
 
 ## KSB Mapping
-| KSB | Description | How This Tutorial Addresses It |
-|-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

@@ -1,29 +1,22 @@
-# How-to: Objection Handling
+# Anticipate & Handle Objections
 
-## The Problem
-In your workplace projects, you will frequently encounter the need to objection handling. This guide provides a direct solution.
+> Do not get defensive. Objections are signs of engagement.
 
-## The Solution
-Use the following approach:
+## Common Archetypes
 
-```python
-import pandas as pd
-import numpy as np
+### "The Black Box Skeptic"
+* **Objection:** "How do we know why it chose to deny this loan? We can't use a black box."
+* **Handling:** Introduce local interpretability immediately. "That's exactly why we use LIME. For every single denial, the model outputs a receipt showing the top 3 reasons, like 'Income too low' or 'Recent late payment'. Would you like to see an example receipt?"
 
-def resolve_objection_handling(data):
-    # Apply transformation
-    result = data.copy()
-    # Your business logic here
-    return result
+### "The Perfect-or-Nothing Believer"
+* **Objection:** "You said the accuracy is 85%. That means it's wrong 15% of the time. We can't risk that."
+* **Handling:** Anchor against the current baseline. "You're right, it is not perfect. However, our manual human review process is currently running at 65% accuracy. This model represents a 20% absolute improvement, saving 40 hours of manual work a week."
 
-# Example usage:
-# df_clean = resolve_objection_handling(df_raw)
-```
+### "The Edge-Case Finder"
+* **Objection:** "What if a customer has a spelling mistake in their name, lives abroad, and uses a VPN? Will it break?"
+* **Handling:** Acknowledge and redirect. "Excellent edge case. We haven't explicitly trained for that exact combination. However, our fallback protocol automatically routes low-confidence predictions (under 50%) to a human agent. The model doesn't handle everything, it handles the 80% routine traffic."
 
-## Discussion
-### When to use this approach?
-Use this when your dataset explicitly requires objection handling. It is particularly useful for messy organizational data.
-
-### Caveats
-- Computationally expensive for large datasets.
-- Ensure you have handled missing values prior to this step.
+## KSB Mapping
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

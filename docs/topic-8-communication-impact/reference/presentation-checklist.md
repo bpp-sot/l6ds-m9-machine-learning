@@ -1,30 +1,18 @@
-# Reference: Presentation Checklist
+# Presentation Quality Checklist
 
-This page contains quick-lookup information for presentation checklist.
+> Before presenting your machine learning project to stakeholders, check these boxes.
 
-## Key Methods and Parameters
+## The Checklist
 
-| Method | Parameters | Description |
-|--------|------------|-------------|
-| `fit()` | `X`, `y` | Fits the model or transformer to the data |
-| `transform()` | `X` | Applies the transformation |
-| `predict()` | `X` | Generates predictions |
+- [ ] **The "So What" is on Slide 1:** Is the core business value stated immediately?
+- [ ] **No Raw Code:** Have you removed all Python snippets from the main deck? (Put them in the appendix).
+- [ ] **No Confusion Matrices:** If you must show performance, translate it into monetary value, time saved, or user satisfaction.
+- [ ] **Baseline Comparison:** Did you clearly state what the model is beating? (e.g., replacing manual sorting).
+- [ ] **Visual Clarity:** Do all graphs have large titles, labelled axes, and a clear takeaway sentence printed directly on the slide?
+- [ ] **Limitations Acknowledged:** Did you briefly explain where the model struggles so nobody discovers it mid-meeting?
+- [ ] **Clear Next Steps:** Are you asking for a specific decision (e.g., "approve budget for A/B test", "sign off on API deployment")?
 
-## Common Syntax
-
-```python
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
-
-# Standard boilerplate
-pipeline = make_pipeline(StandardScaler(), ...)
-pipeline.fit(X_train, y_train)
-```
-
-## Comparison Metrics
-
-When comparing approaches for presentation checklist, consider:
-
-1. **Accuracy**: How well does it perform?
-2. **Interpretability**: How easily can you explain it?
-3. **Speed**: How fast does it run?
+## KSB Mapping
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

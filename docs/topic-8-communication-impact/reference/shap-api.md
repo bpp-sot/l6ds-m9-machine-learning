@@ -1,30 +1,30 @@
-# Reference: Shap Api
+# SHAP Library Reference
 
-This page contains quick-lookup information for shap api.
+> SHAP connects game theory with machine learning to provide robust, globally consistent explanations.
 
-## Key Methods and Parameters
+## Quick API
 
-| Method | Parameters | Description |
-|--------|------------|-------------|
-| `fit()` | `X`, `y` | Fits the model or transformer to the data |
-| `transform()` | `X` | Applies the transformation |
-| `predict()` | `X` | Generates predictions |
+*   **TreeExplainer:** Optimised specifically for Tree-based models (XGBoost, Random Forest). Extremely fast.
+    ```python
+    explainer = shap.TreeExplainer(model)
+    ```
+*   **LinearExplainer:** For linear models (Logistic Regression, Linear Regression).
+    ```python
+    explainer = shap.LinearExplainer(model, X_train)
+    ```
+*   **KernelExplainer:** The fallback for *any* model (including neural networks or complex ensembles). Very slow.
+    ```python
+    explainer = shap.KernelExplainer(model.predict, X_train_summary)
+    ```
 
-## Common Syntax
+## Standard Plots
 
-```python
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
+*   `shap.plots.waterfall(shap_values[0])`: Explains a single prediction.
+*   `shap.plots.force(shap_values[0])`: Alternative horizontal view for a single prediction.
+*   `shap.plots.beeswarm(shap_values)`: Global view showing feature intensity and impact across the whole dataset.
+*   `shap.plots.bar(shap_values)`: Standard global feature importance.
 
-# Standard boilerplate
-pipeline = make_pipeline(StandardScaler(), ...)
-pipeline.fit(X_train, y_train)
-```
-
-## Comparison Metrics
-
-When comparing approaches for shap api, consider:
-
-1. **Accuracy**: How well does it perform?
-2. **Interpretability**: How easily can you explain it?
-3. **Speed**: How fast does it run?
+## KSB Mapping
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

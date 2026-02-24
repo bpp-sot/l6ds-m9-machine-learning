@@ -1,29 +1,25 @@
-# How-to: Stakeholder Presentation
+# Build a Stakeholder Presentation
 
-## The Problem
-In your workplace projects, you will frequently encounter the need to stakeholder presentation. This guide provides a direct solution.
+> Your slides should support what you say, not act as a transcript you read aloud.
 
-## The Solution
-Use the following approach:
+## The Narrative Arc (10-15 mins)
 
-```python
-import pandas as pd
-import numpy as np
+**1. The Hook (1 min)**
+Remind them of the problem. "Last quarter, supply chain delays cost us £500k in penalties."
 
-def resolve_stakeholder_presentation(data):
-    # Apply transformation
-    result = data.copy()
-    # Your business logic here
-    return result
+**2. The Vision (2 mins)**
+Show the ultimate goal. "Imagine if the system flagged a likely delay *before* the ship even left the port. That's what we've built."
 
-# Example usage:
-# df_clean = resolve_stakeholder_presentation(df_raw)
-```
+**3. The Validation (3 mins)**
+Prove it works, using business metrics. "On historical data, this model flags 80% of severe delays. If we had this last year, we would have saved £400k." Include a simple visualisation (e.g., a bar chart, not an ROC curve).
 
-## Discussion
-### When to use this approach?
-Use this when your dataset explicitly requires stakeholder presentation. It is particularly useful for messy organizational data.
+**4. The 'Under the Hood' (2 mins)**
+Keep it extremely high-level. "It learns from the last 5 years of weather, port traffic, and supplier history. The number one driver of delays turned out to be heavy rain in Rotterdam." (Use a simple SHAP summary plot here).
 
-### Caveats
-- Computationally expensive for large datasets.
-- Ensure you have handled missing values prior to this step.
+**5. Next Steps & The Ask (2 mins)**
+"We are ready for a live trial in Region C. We need Marketing to agree on the intervention strategy by Friday."
+
+## KSB Mapping
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |
