@@ -1,0 +1,256 @@
+/* ==========================================================================
+   BPP Hub & Material Fresh Theme Override (Safe Layout Version)
+   ========================================================================== */
+
+:root {
+  /* BPP colour reference */
+  --bpp-dark-text: #3C3C3B;
+  --bpp-purple: #6E368A;
+  --bpp-academic-blue: #3763AD;
+  --bpp-teal-green: #64BDB6;
+  --bpp-warm-amber: #F9B149;
+  --bpp-muted-text: #7A7A7A;
+  --bpp-light-bg: #F9F7F7;
+  --bpp-page-bg: #EFEFEF;
+  --bpp-border: #E2E8F0;
+}
+
+/* ---- Header bar ---- */
+.md-header {
+  background-color: #3C3C3B;
+}
+
+/* ---- Make logo visible on dark header ---- */
+.md-header .md-logo img,
+.md-header .md-logo svg {
+  filter: brightness(0) invert(1);
+}
+
+/* ---- Tab navigation bar (the purple topic bar) ---- */
+.md-tabs {
+  background-color: #6E368A;
+}
+
+.md-tabs__link {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.md-tabs__link--active,
+.md-tabs__link:hover {
+  color: #FFFFFF;
+}
+
+/* ---- Left sidebar text styling ONLY ---- */
+.md-sidebar--primary .md-nav__link {
+  color: #3C3C3B;
+}
+
+.md-sidebar--primary .md-nav__link:hover {
+  color: #6E368A;
+}
+
+.md-sidebar--primary .md-nav__item--active > .md-nav__link {
+  color: #6E368A;
+  font-weight: 600;
+}
+
+/* ---- Right TOC text styling ONLY ---- */
+.md-sidebar--secondary .md-nav__link {
+  color: #7A7A7A;
+  font-size: 0.8rem;
+}
+
+.md-sidebar--secondary .md-nav__link--active {
+  color: #6E368A;
+  font-weight: 600;
+}
+
+/* ---- Main content typography ---- */
+.md-typeset h1 {
+  color: #3C3C3B;
+}
+
+.md-typeset h2,
+.md-typeset h3 {
+  color: #6E368A;
+}
+
+.md-typeset blockquote {
+  border-left: 3px solid #6E368A;
+  color: #7A7A7A;
+}
+
+/* ---- Table header ---- */
+.md-typeset table:not([class]) th {
+  background-color: #6E368A;
+  color: #FFFFFF;
+}
+
+/* ---- Search bar ---- */
+.md-search__input {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.md-search__input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* ==========================================================================
+   CARDS, CALLOUTS, AND REMAINING COSMETICS (No Layout Overrides)
+   ========================================================================== */
+
+/* Arrow Pattern for cards */
+.md-typeset .grid.cards > ul > li {
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  border: none;
+  padding: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.md-typeset .grid.cards > ul > li > a {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  color: inherit;
+}
+
+.md-typeset .grid.cards > ul > li h3 {
+  color: #6B6B6B;
+  font-size: 1.25rem;
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.md-typeset .grid.cards > ul > li > a h3::after {
+  content: " →";
+  font-family: system-ui;
+  margin-left: auto;
+  color: var(--bpp-purple);
+  transition: transform 0.2s;
+}
+
+.md-typeset .grid.cards > ul > li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.md-typeset .grid.cards > ul > li:hover > a h3::after {
+  transform: translateX(4px);
+}
+
+.md-typeset .grid.cards > ul > li:nth-child(4n+1) {
+  border-top: 4px solid var(--bpp-purple);
+}
+
+.md-typeset .grid.cards > ul > li:nth-child(4n+2) {
+  border-top: 4px solid var(--bpp-teal-green);
+}
+
+.md-typeset .grid.cards > ul > li:nth-child(4n+3) {
+  border-top: 4px solid var(--bpp-warm-amber);
+}
+
+.md-typeset .grid.cards > ul > li:nth-child(4n+4) {
+  border-top: 4px solid var(--bpp-academic-blue);
+}
+
+/* Callout Bars (Admonitions) */
+.md-typeset .admonition,
+.md-typeset details {
+  background-color: #FFFFFF;
+  border-radius: 0 8px 8px 0;
+  border-left: 4px solid var(--bpp-purple);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.md-typeset .admonition-title,
+.md-typeset summary {
+  background-color: rgba(110, 54, 138, 0.05);
+  color: var(--bpp-purple);
+  font-weight: 700;
+}
+
+.md-typeset .admonition.tip {
+  border-left-color: var(--bpp-teal-green);
+}
+
+.md-typeset .admonition.tip .admonition-title {
+  color: var(--bpp-teal-green);
+  background-color: rgba(100, 189, 182, 0.05);
+}
+
+.md-typeset .admonition.warning {
+  border-left-color: var(--bpp-warm-amber);
+}
+
+.md-typeset .admonition.warning .admonition-title {
+  color: #d69e00;
+  background-color: rgba(249, 177, 73, 0.05);
+}
+
+.md-typeset .admonition.danger,
+.md-typeset .admonition.caution {
+  border-left-color: #D32F2F;
+}
+
+.md-typeset .admonition.danger .admonition-title {
+  color: #D32F2F;
+  background-color: rgba(211, 47, 47, 0.05);
+}
+
+/* Tables alternating rows */
+.md-typeset table:not([class]) td {
+  border-top: 1px solid #EFEFEF;
+  border-bottom: none;
+}
+
+.md-typeset table:not([class]) tr:nth-child(even) td {
+  background-color: var(--bpp-light-bg);
+}
+
+/* Button Styling */
+.md-typeset .md-button--primary {
+  background-color: var(--bpp-purple);
+  border-radius: 4px;
+}
+
+.md-typeset .md-button--primary:hover {
+  background-color: var(--bpp-dark-text);
+}
+
+/* ==========================================================================
+   CODE BLOCK STYLING (SAFE)
+   ========================================================================== */
+
+/* ---- Code blocks ---- */
+.md-typeset pre {
+  background-color: #F8F8F8;
+  border: 1px solid #E2E8F0;
+  border-radius: 6px;
+}
+
+.md-typeset code {
+  font-size: 0.85em;
+}
+
+/* ---- Inline code ---- */
+.md-typeset :not(pre) > code {
+  background-color: #F3EDF6;
+  color: #6E368A;
+  padding: 0.15em 0.4em;
+  border-radius: 3px;
+}
+
+/* ---- Code block copy button ---- */
+.md-clipboard {
+  color: #7A7A7A;
+}
+
+/* ---- Code block scrolling (SAFE — only affects the inner scroll, not layout) ---- */
+.md-typeset pre > code {
+  overflow-x: auto;
+}
