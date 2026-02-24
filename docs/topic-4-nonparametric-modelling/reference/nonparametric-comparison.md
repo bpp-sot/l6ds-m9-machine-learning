@@ -1,30 +1,18 @@
-# Reference: Nonparametric Comparison
+# Non-Parametric Comparison
 
-This page contains quick-lookup information for nonparametric comparison.
+> A quick reference guide comparing the strengths and weaknesses of different non-parametric models.
 
-## Key Methods and Parameters
+## Comparison Table
 
-| Method | Parameters | Description |
-|--------|------------|-------------|
-| `fit()` | `X`, `y` | Fits the model or transformer to the data |
-| `transform()` | `X` | Applies the transformation |
-| `predict()` | `X` | Generates predictions |
+| Model | Strengths | Weaknesses | Best For |
+|---|---|---|---|
+| **k-NN** | Simple, no training phase | Slow inference, sensitive to scale | Baselines, simple spatial data |
+| **SVM (Kernel)** | Powerful on complex boundaries | Slow to train on large data | Medium-sized complex datasets |
+| **Decision Tree** | Highly interpretable | Prone to overfitting | Baselines, rule extraction |
+| **Random Forest** | Robust, prevents overfitting | Can be slow to predict | General purpose tabular data |
+| **XGBoost** | Extremely accurate, fast | Prone to overfitting if tuned poorly | Winning tabular competitions |
 
-## Common Syntax
-
-```python
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
-
-# Standard boilerplate
-pipeline = make_pipeline(StandardScaler(), ...)
-pipeline.fit(X_train, y_train)
-```
-
-## Comparison Metrics
-
-When comparing approaches for nonparametric comparison, consider:
-
-1. **Accuracy**: How well does it perform?
-2. **Interpretability**: How easily can you explain it?
-3. **Speed**: How fast does it run?
+## KSB Mapping
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

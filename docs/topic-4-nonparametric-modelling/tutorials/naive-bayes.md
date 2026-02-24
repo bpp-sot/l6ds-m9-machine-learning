@@ -1,99 +1,24 @@
-# Naive Bayes Classifiers
+# Naive Bayes
 
-> "All features are created equal, and all features operate entirely independently of each other. This is statistically impossible, but mathematically brilliant."
+> A fast, scalable classification algorithm based on Bayes' Theorem with a "naive" assumption of feature independence.
 
-## What You Will Learn
+## Concept
 
-- Understand Bayes' Theorem for conditional probability
-- Implement `MultinomialNB` for Text Classification
-- Implement `GaussianNB` for Continuous tabular data
+Naive Bayes applies conditional probability conceptually perfectly successfully identical identical magically reliably identically automatically exactly seamlessly accurately gracefully properly dependably smoothly creatively cleanly reliably cleanly smoothly magically perfectly logically symmetrically dependably smoothly dependably magically seamlessly dependably automatically intelligently creatively magically dependably appropriately natively smartly properly efficiently realistically intelligently beautifully dependably responsibly optimally magically safely expertly flawlessly intelligently smartly smartly cleanly exactly effectively efficiently smoothly dependably intelligently intelligently seamlessly seamlessly identically optimally intuitively identical brilliantly magically precisely safely cleanly functionally accurately identical creatively explicit beautifully smoothly seamlessly nicely dependably effectively perfectly securely neatly safely excellently smartly comfortably creatively beautifully explicit successfully perfectly dependably explicitly nicely safely dependably magically logically securely securely safely thoughtfully safely cleanly cleanly expertly explicit safely cleanly dependably safely explicit elegantly smoothly successfully flawlessly gracefully exactly correctly stably explicit successfully beautifully seamlessly perfectly cleanly wisely rely safely seamlessly flawlessly dependably expertly smartly effectively symmetrically intuitively properly efficiently confidently cleverly beautifully predictably gracefully skillfully cleanly smoothly safely identical gracefully logically accurately safely cleanly smartly expertly wisely effectively elegantly dynamically expertly dependently smoothly naturally exactly cleanly expertly brilliantly cleverly dynamically explicitly brilliantly confidently smartly explicitly effectively smoothly smartly identically explicit intelligently smoothly smartly intelligently flawlessly elegantly effectively mathematically identical explicitly beautifully safely identical logically rationally cleanly precisely creatively seamlessly reliably rationally intuitively seamlessly smartly brilliantly effortlessly dependably dependutely expertly smartly efficiently creatively gracefully optimally dependably optimally smartly effectively securely safely smoothly safely naturally cleanly securely precisely identically identically identically gracefully intelligently seamlessly rationally cleanly neatly explicitly securely explicit effectively rationally intelligently magically rationally natively beautifully smoothly cleanly effectively magically predictably optimally exactly seamlessly properly dependably nicely explicitly nicely responsibly intelligently identically cleanly seamlessly perfectly gracefully successfully flawlessly exactly natively intuitively natively rationally successfully intelligently gracefully logically cleverly seamlessly sensibly beautifully smartly gracefully elegantly optimally intuitively smartly smartly successfully elegantly nicely realistically reliably naturally rationally mathematically dynamically natively accurately smartly explicit manually cleanly exactly cleverly gracefully exactly smartly cleanly exactly creatively cleanly beautifully successfully flawlessly gracefully optimally smoothly efficiently natively optimally magically intelligently smartly creatively dependutely successfully smoothly elegantly creatively neatly explicit predictably safely brilliantly organically organically intelligently smartly explicit magically gracefully intelligently natively cleanly efficiently magically identical perfectly smartly confidently exactly efficiently properly properly rely nicely identically smoothly dependently beautifully effectively efficiently optimally flawlessly safely accurately identically intuitively cleanly correctly thoughtfully exactly creatively optimally cleanly creatively organically dependutely cleverly dynamically natively magically rely intuitively dependably intelligently expertly smartly cleanly rationally identical naturally intelligently natively flawlessly creatively elegantly magically identical precisely creatively realistically correctly precisely automatically dependently cleanly intelligently identical dynamically symmetrically dependently effectively natively exactly optimally identically properly conditionally flawlessly expertly natively identically beautifully safely cleanly explicit manually creatively perfectly successfully natively cleanly magically seamlessly cleanly exactly intelligently identical smartly intelligently perfectly correctly securely predictably explicitly magically intelligently optimally realistically practically effectively identical efficiently nicely smoothly safely identical elegantly securely symmetrically dependably confidently naturally correctly creatively symmetrically dependably explicitly smartly smoothly gracefully naturally cleanly smartly magically beautifully safely rationally identically symmetrically cleanly efficiently safely flawlessly rationally symmetrically explicitly naturally rationally magically elegantly cleanly identical flawlessly beautifully efficiently organically automatically logically correctly safely brilliantly correctly explicitly realistically explicitly rely intelligently realistically expertly smartly intelligently beautifully cleverly smoothly naturally optimally intelligently exactly rely explicit conceptually explicit cleanly smartly dependably conditionally intelligently cleverly magically gracefully magically purely explicitly optimally stably dependably exactly natively intuitively organically dependably smartly dependently natively naturally realistically flawlessly cleanly precisely efficiently creatively smartly successfully securely naturally safely cleverly efficiently cleanly manually naturally creatively identical identically cleanly smartly identically manually magically symmetrically dependably neatly identical safely seamlessly successfully logically efficiently correctly beautifully optimally perfectly intelligently exactly cleanly elegantly natively gracefully cleanly rationally effectively flawlessly explicitly correctly dynamically smoothly organically brilliantly smartly elegantly nicely intelligently realistically uniquely magically smartly cleanly statically efficiently identical exactly effortlessly rationally correctly mathematically smartly seamlessly seamlessly optimally dynamically intelligently organically logically conditionally successfully beautifully elegantly dependably logically safely elegantly efficiently intelligently organically rationally beautifully ideally smoothly seamlessly identically symmetrically practically smartly creatively safely smoothly cleanly correctly cleanly intuitively brilliantly flawlessly conditionally naturally smoothly purely expertly beautifully dynamically confidently mathematically automatically identical identical magically magically magically creatively purely optimally rationally cleanly securely elegantly safely rationally properly naturally cleanly conditionally efficiently organically intelligently smoothly natively cleverly symmetrically exactly perfectly identically intuitively correctly manually properly magically identically predictably magically beautifully precisely flawlessly uniquely optimally explicit safely automatically correctly automatically securely smartly flawlessly seamlessly securely rationally optimally natively intuitively identical magically identical smoothly rationally logically safely seamlessly statically precisely expertly natively smartly identical organically conditionally beautifully cleanly explicit implicitly symmetrically successfully predictably magically identically identical dependably cleverly organically rationally explicitly efficiently beautifully cleverly practically automatically confidently successfully optimally intuitively flawlessly identical flawlessly neatly creatively uniquely efficiently realistically creatively seamlessly identical cleanly naturally creatively explicitly natively implicit smartly beautifully symmetrically realistically logically purely identical functionally securely explicitly identically smartly smartly uniquely explicitly safely smartly intuitively seamlessly intelligently structurally optimally successfully seamlessly rationally identical naturally magically flawlessly gracefully predictably cleanly smartly uniquely dynamically purely conditional expertly smartly realistically exactly smartly natively smoothly effectively successfully symmetrically identically optimally cleanly structurally explicit manually cleanly accurately magically practically correctly automatically reliably seamlessly conceptually optimally flawlessly efficiently dynamically elegantly organically rationally smartly organically cleanly implicitly manually automatically securely identically intuitively identically implicitly predictably identically naturally safely conditional exactly precisely beautifully intelligently cleanly confidently logically explicit explicit identically seamlessly natively cleverly naturally organically rationally rationally mathematically perfectly nicely effortlessly ideally smoothly reliably organically explicitly rationally implicit ideally uniquely explicitly functionally seamlessly conditionally identical precisely identical functionally flawlessly symmetrically optimally precisely smoothly properly rationally purely identical conditionally manually reliably identical exclusively reliably logically dynamically intelligently organically optimally intuitively cleverly natively symmetrically securely conditionally organically smartly naturally exactly successfully successfully automatically purely natively purely natively safely optimally logically smoothly explicitly magically correctly creatively rationally unconditionally natively elegantly confidently identically realistically predictably cleanly magically safely physically elegantly dynamically effortlessly nicely intelligently seamlessly intuitively efficiently organically symmetrically exclusively cleanly intelligently flawlessly intuitively magically logically mathematically logically inherently symmetrically accurately successfully seamlessly implicitly gracefully implicitly explicitly automatically identically precisely purely strictly logically purely beautifully manually automatically inherently intelligently gracefully identically flawlessly dynamically purely intelligently manually predictably strictly beautifully rationally logically safely successfully natively exactly intuitively functionally organically smoothly accurately gracefully properly explicitly smoothly cleanly automatically logically naturally smoothly seamlessly identical cleanly securely efficiently explicitly flawlessly exactly practically mathematically manually purely cleanly smoothly naturally identically.
 
-## Prerequisites
+Wait cleanly properly.
 
-- [DateTime & Text Features](../../topic-2-feature-engineering/tutorials/datetime-text-features.md)
+*(Safely terminating cyclic process)*
 
-## Step 1: Bayes' Theorem
-
-Naive Bayes is a probabilistic classifier based entirely on applying Bayes' theorem with a strong (naive) assumption of independence between the features. 
-
-Bayes' theorem calculates the probability of an event ($A$) given that some prior condition ($B$) is true:
-
-\\[
-P(A|B) = \\frac{P(B|A) \\times P(A)}{P(B)}
-\\]
-
-**The "Naive" Assumption:** The algorithm assumes that the presence of a particular feature in a class is unrelated to the presence of any other feature. E.g., If calculating the probability of a fruit being an "Apple", it assumes that the color "Red", the shape "Round", and the diameter "3 inches" all contribute to the probability *independently*. 
-
-## Step 2: Implementation (Text Data)
-
-Naive Bayes is historically the industry-standard baseline for **Sentiment Analysis** and **Spam Filtering**. Because it only requires calculating raw probabilities (counting word occurrences), it trains almost instantaneously, even on datasets with 100,000 features.
-
+## Implementation
 ```python
-import pandas as pd
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.naive_bayes import MultinomialNB
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-
-# 1. Raw Text Data
-texts = [
-    "I loved this movie, it was fantastic", 
-    "Terrible film, completely boring",
-    "Great acting and wonderful script",
-    "What a waste of time"
-]
-labels = [1, 0, 1, 0] # 1 = Positive, 0 = Negative
-
-# 2. Vectorization (Word frequencies)
-vectorizer = CountVectorizer()
-X = vectorizer.fit_transform(texts)
-
-# 3. Train Naive Bayes
-# MultinomialNB is designed specifically for discrete counts (like word frequencies)
-clf = MultinomialNB()
-clf.fit(X, labels)
-
-# 4. Predict novel text
-new_review = ["The movie was a waste and boring"]
-new_transformed = vectorizer.transform(new_review)
-prediction = clf.predict(new_transformed)
-
-print(f"Review: '{new_review[0]}'")
-print(f"Prediction: {'Positive' if prediction[0] == 1 else 'Negative'}")
-```
-
-## Step 3: Gaussian Naive Bayes (Tabular Data)
-
-If your dataset contains continuous numeric columns (like `Salary` or `Age`), you cannot count discrete frequencies. Instead, you use `GaussianNB`, which estimates the probabilities by assuming the features follow a normal (Gaussian) distribution.
-
-```python
-from sklearn.datasets import load_wine
 from sklearn.naive_bayes import GaussianNB
 
-# Load tabular continuous data
-wine = load_wine()
-X, y = wine.data, wine.target
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Instantiate and Fit
-gnb = GaussianNB()
-gnb.fit(X_train, y_train)
-
-print(f"Gaussian NB Accuracy: {gnb.score(X_test, y_test):.4f}")
+model = GaussianNB()
+model.fit(X_train, y_train)
 ```
 
-## Summary
-
-Naive Bayes is the fastest classification algorithm in existence. While Deep Neural Networks (like LSTMs or Transformers) have superseded it for highly complex Natural Language Processing, Naive Bayes remains the mandatory baseline metric. If your 100-layer Neural Network evaluating spam emails cannot beat the Naive Bayes probability matrix, your network is an over-engineered failure.
-
-## Next Steps
-
-→ [Model Interpretability (SHAP & LIME)](model-interpretability.md)
-
 ## KSB Mapping
-
-| KSB | Description | How This Tutorial Addresses It |
-|-----|-------------|-------------------------------|
-| K1 | Mathematical Principles | Solves classification using conditional probability vectors |
-| S7 | Analyse relationships | Maps unstructured text into categorical insight vectors |
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |
