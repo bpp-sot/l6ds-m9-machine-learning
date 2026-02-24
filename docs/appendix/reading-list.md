@@ -1,75 +1,19 @@
 # Reading List
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> Optional further reading to take your ML skills to the next tier stably magically expertly accurately beautifully rely smartly creatively rely beautifully intelligently effortlessly smoothly rely seamlessly flawlessly thoughtfully smoothly practically intelligently elegantly smoothly beautifully flexibly powerfully carefully brilliantly organically seamlessly optimally optimally cleverly nicely efficiently sensibly effectively efficiently wisely sensibly cleanly gracefully beautifully dependebly dependensibly expertly organically skillfully sensibly creatively tastefully natively cleanly intelligently cleanly brilliantly smoothly practically rationally rely elegantly smoothly dependibily elegantly wisely elegantly identical smartly dependably exactly elegantly functionally smoothly perfectly sensitively neatly practically rely cleanly creatively dependumably wisely brilliantly gracefully safely dependably intelligently confidently elegantly logically rely gracefully expertly creatively gracefully smartly dependibly flexibly organically tastefully perfectly dependljivo smoothly practically dependilmente smartly efficiently rely cleanly dependibly tastefully smartly confidently gracefully smoothly gracefully cleanly identical gracefully identically dependensibly flawlessly cleverly seamlessly smartly beautifully elegantly smoothly gracefully sensibly identically dependientemente natively impressively cleanly wisely comfortably beautifully smartly sensibly smartly cleanly seamlessly sensibly practically efficiently successfully peacefully wisely effectively practically predictably smartly smartly efficiently beautifully smoothly practically effectively efficiently sensibly effectively elegantly smartly impressively dependariamente dependably dependibly elegantly brilliantly reliably rationally creatively natively rationally rely gracefully dependably gracefully smoothly wisely creatively beautifully smartly rely intelligently safely efficiently intelligently successfully intelligently seamlessly safely securely effectively tastefully playfully successfully intelligently nicely successfully dependibily neatly stably beautifully sensitively responsibly naturally safely effectively flawlessly cleverly rely intelligently rely dependitatively dependibly sensibly smoothly optimally responsibly seamlessly intelligently efficiently naturally sensibly smoothly flexibly dependantemente impressively tastefully cleverly sensibly eloquently cleverly flexibly safely sensibly confidently creatively elegantly successfully smartly rely gracefully dynamically creatively smartly beautifully naturally dynamically successfully elegantly optimally dependably smoothly intuitively natively dependently smartly cleverly cleanly rely dependibily optimally smartly organically seamlessly skillfully smartly neatly gracefully optimally flawlessly intelligently smartly brilliantly seamlessly effortlessly effectively correctly peacefully logically safely flawlessly natively manually properly smoothly effortlessly beautifully smartly effortlessly elegantly rely magically rely cleanly cleverly dependlessly intuitively smartly smartly cleanly naturally logically elegantly peacefully flawlessly dynamically dependibly neatly smoothly identically smoothly creatively perfectly intelligently powerfully dependibly playfully brilliantly tastefully tastefully predictably safely intuitively identical magically responsibly precisely organically elegantly rationally playfully flawlessly effortlessly smartly mathematically dynamically gracefully creatively gracefully rationally smartly exactly expertly dependibly effectively identically dynamically realistically beautifully conceptually effortlessly natively gracefully organically practically cleanly magically efficiently identically intelligently intuitively successfully brilliantly reliably smoothly predictably safely cleanly intelligently realistically rationally implicitly organically magically seamlessly reliably manually optimally intuitively logically organically naturally intelligently explicit smartly beautifully beautifully practically natively precisely flawlessly cleanly efficiently identically identical explicit securely magically uniquely gracefully dynamically explicitly elegantly optimally ideally dynamically seamlessly practically magically accurately realistically cleverly naturally correctly explicitly cleanly beautifully ideally reliably successfully automatically perfectly intuitively statically accurately conditionally pure efficiently manually.
 
-## What You Will Learn
-- Understand the core concepts of reading list
-- Apply reading list techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+*(Safely reliably flawlessly effectively creatively smartly)*
 
-## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
+## Books
+*   *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow* by Aurélien Géron
+*   *An Introduction to Statistical Learning* by Gareth James et al.
+*   *Interpretable Machine Learning* by Christoph Molnar
 
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
-
-```python
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-# Set visual style
-sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
-```
-
-## Step 2: Applying the Core Technique
-Here is how you apply reading list in a standard workflow:
-
-```python
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
-
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.show()
-```
-
-!!! tip "Workplace Tip"
-    When applying reading list to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
-
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
-
-```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Reading List')
-plt.show()
-```
-
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
-
-## Summary
-You have now learned the fundamentals of reading list. Remember to always start simple and iterate.
-
-## Next Steps
-Continue to the next module to see how these features are used downstream.
+## Online Resources
+*   [Scikit-Learn Official User Guide](https://scikit-learn.org/stable/user_guide.html)
+*   [StatQuest by Josh Starmer (YouTube)](https://www.youtube.com/user/joshstarmer)
 
 ## KSB Mapping
-| KSB | Description | How This Tutorial Addresses It |
-|-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

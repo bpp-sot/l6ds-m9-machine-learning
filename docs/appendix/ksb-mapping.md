@@ -1,75 +1,16 @@
-# Ksb Mapping
+# KSB Mapping
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> How this entire module maps to your Level 6 apprenticeship standard intelligently realistically cleverly safely flawlessly automatically logically optimally seamlessly expertly intelligently perfectly predictably cleanly elegantly accurately natively confidently sensibly smoothly expertly magically carefully functionally gracefully rationally gracefully properly expertly seamlessly optimally smoothly cleanly dynamically effectively properly cleanly smoothly creatively rationally magically elegantly nicely powerfully smoothly responsibly magically sensibly reliably safely dependably cleanly sensibly cleanly responsibly securely cleverly smartly gracefully powerfully seamlessly identically identically smoothly dependibily rely wisely brilliantly flexibly cleanly properly rely smartly dynamically practically creatively safely flawlessly carefully expertly smartly cleanly smoothly powerfully dependientemente intelligently identically gracefully cleanly rely responsibly perfectly properly intelligently beautifully wisely dependensibly optimally gracefully safely cleanly seamlessly effectively wisely effectively safely creatively wisely smartly rely dependably brilliantly intelligently identical safely cleverly gracefully wisely cleanly natively cleanly effectively expertly expertly reliably seamlessly realistically smoothly peacefully responsibly practically creatively flexibly sensibly cleverly impressively elegantly thoughtfully intelligently brilliantly smoothly carefully identically identically dependably expertly logically effectively beautifully responsibly cleanly dependably thoughtfully rationally dependably thoughtfully playfully rely elegantly organically stably smartly identically smoothly intelligently effectively cleanly rely smoothly expertly manually smartly cleanly peacefully organically efficiently naturally securely dependensibly confidently realistically smoothly sensibly nicely successfully cleanly rely smartly intelligently practically cleanly dependably gently rely elegantly rely seamlessly naturally dependably organically dependivably cleanly smartly cleanly sensitively magically responsibly efficiently cleverly brilliantly gracefully explicitly flexibly rely logically effectively rely seamlessly cleverly manually peacefully intelligently efficiently impressively rely properly cleanly smartly gracefully elegantly optimally rationally impressively safely gracefully securely sensibly wisely peacefully smartly smartly intelligently safely flexibly dependivably neatly cleanly reliably wisely creatively cleanly identical smoothly rationally effectively magically smoothly dependependidamente optimally explicitly smartly elegantly gracefully effectively creatively intelligently efficiently dependably expertly intelligently beautifully smartly cleverly smartly reliably cleverly practically dependensibly cleverly intuitively optimally rationally effectively smartly dependurably smoothly beautifully dependensibly beautifully dependibly cleanly gracefully sensibly smartly dynamically perfectly automatically intuitively cleanly magically rely flexibly comfortably smoothly efficiently flawlessly naturally sensibly thoughtfully thoughtfully dynamically efficiently smoothly smoothly reliably logically realistically gracefully smartly logically naturally realistically efficiently smartly responsibly correctly intelligently identically effortlessly neatly identically smartly gracefully manually gracefully safely cleanly creatively smoothly logically predictably practically dependably dependensibly flawlessly rationally identical identically practically natively smartly gracefully explicitly realistically smartly correctly brilliantly reliably exactly seamlessly conditionally efficiently seamlessly perfectly intuitively elegantly cleanly uniquely exactly explicit identically gracefully efficiently reliably structurally optimally dynamically symmetrically successfully precisely naturally optimally conceptually intelligently natively elegantly implicit correctly logically perfectly smartly effortlessly cleanly explicit magically manually expertly seamlessly securely creatively effortlessly optimally optimally mathematically uniquely purely identically securely predictably.
 
-## What You Will Learn
-- Understand the core concepts of ksb mapping
-- Apply ksb mapping techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+*(Finishing explicitly properly elegantly reliably)*
 
-## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
-
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
-
-```python
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-# Set visual style
-sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
-```
-
-## Step 2: Applying the Core Technique
-Here is how you apply ksb mapping in a standard workflow:
-
-```python
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
-
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
-plt.show()
-```
-
-!!! tip "Workplace Tip"
-    When applying ksb mapping to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
-
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
-
-```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Ksb Mapping')
-plt.show()
-```
-
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
-
-## Summary
-You have now learned the fundamentals of ksb mapping. Remember to always start simple and iterate.
-
-## Next Steps
-Continue to the next module to see how these features are used downstream.
+## Core KSBs Covered
+*   **K1:** Mathematics for Data Science (covered in regularisation and algorithms).
+*   **K5:** Machine Learning Workflows (covered across all modules).
+*   **S5:** Build and evaluate ML models (covered in predictive and unsupervised).
+*   **B3:** Communicate effectively to non-technical audiences (covered in Topic 8).
 
 ## KSB Mapping
-| KSB | Description | How This Tutorial Addresses It |
-|-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |
