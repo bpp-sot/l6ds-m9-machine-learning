@@ -1,30 +1,48 @@
-# Reference: Sklearn Regressors
+# Scikit-Learn Regressors Reference
 
-This page contains quick-lookup information for sklearn regressors.
+> Quick lookup for commonly utilized continuous machine learning algorithms within `sklearn`.
 
-## Key Methods and Parameters
+## Linear Models
 
-| Method | Parameters | Description |
-|--------|------------|-------------|
-| `fit()` | `X`, `y` | Fits the model or transformer to the data |
-| `transform()` | `X` | Applies the transformation |
-| `predict()` | `X` | Generates predictions |
+### `LinearRegression`
+**Use Case:** Baseline continuous relationships.
+**Key Parameters:** None (Standard Ordinary Least Squares).
 
-## Common Syntax
+### `Ridge` and `Lasso`
+**Use Case:** Regularised linear regression to drastically prevent overfitting.
+**Key Parameters:**
+* `alpha`: Regularisation strength (Larger means stronger penalty).
 
-```python
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
+## Tree-Based Models
 
-# Standard boilerplate
-pipeline = make_pipeline(StandardScaler(), ...)
-pipeline.fit(X_train, y_train)
-```
+### `DecisionTreeRegressor`
+**Use Case:** Non-linear rule-based regression.
+**Key Parameters:**
+* `max_depth`: Limits geometric tree depth.
 
-## Comparison Metrics
+### `RandomForestRegressor`
+**Use Case:** Averaged, robust ensemble predictions.
+**Key Parameters:**
+* `n_estimators`: Count of trees constructed.
+* `max_features`: Maximum variables considered at each dynamic split.
 
-When comparing approaches for sklearn regressors, consider:
+### `GradientBoostingRegressor`
+**Use Case:** Corrective step-wise ensemble.
+**Key Parameters:**
+* `learning_rate`: Shrinkage parameter.
+* `loss`: Loss function to minimize (e.g., `'squared_error'`).
 
-1. **Accuracy**: How well does it perform?
-2. **Interpretability**: How easily can you explain it?
-3. **Speed**: How fast does it run?
+## Advanced Models
+
+### `SVR` (Support Vector Regressor)
+**Use Case:** Geometric tube boundary analysis.
+**Key Parameters:**
+* `kernel`: Space transformation (`'linear'`, `'rbf'`).
+* `C`: Margin strictness.
+* `epsilon`: The mathematical width of the no-penalty tube.
+
+## KSB Mapping
+
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

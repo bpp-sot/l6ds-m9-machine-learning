@@ -1,102 +1,74 @@
-# Neural Networks (Multilayer Perceptrons)
+# Neural Networks (Perceptrons)
 
-> "A Neural Network is just a logistical chain of simple linear regressions, folded together using non-linear math, capable of mapping the universe."
+> A Neural Network mathematically simulates the biological architecture of a human brain, allowing infinite complexity but requiring massive volumes of data to converge.
 
 ## What You Will Learn
-
-- Understand the architecture of a Feed-Forward Multilayer Perceptron (MLP)
-- Define Activation Functions (ReLU, Sigmoid)
-- Train an `MLPClassifier` using Scikit-Learn
+- Define the Multi-Layer Perceptron (MLP) architecture
+- Train an `MLPClassifier` utilizing Scikit-Learn
+- Distinguish between Deep Learning and standard Machine Learning
 
 ## Prerequisites
+- Completed Topic 1 (Data Preparation)
+- Understanding of Matrix mathematics and Activation functions
 
-- [Scaling & Normalisation](../../topic-1-data-preparation/tutorials/scaling-normalisation.md)
-- [Logistic Regression for Classification](logistic-regression.md)
+## Step 1: Network Architecture
 
-## Step 1: The Architecture
+Unlike Linear Regression (which computes one global equation), a Neural Network structures thousands of tiny individual mathematical equations called **Neurons** (or Perceptrons) inside "Hidden Layers".
 
-A Neural Network is composed of "Neurons" (Nodes) arranged in vertical columns called "Layers".
+1. **Input Layer:** Receives the raw dataset columns natively.
+2. **Hidden Layers:** Each internal neuron applies a linear formula ($W \cdot X + B$) and passes the numerical result through a non-linear activation (like `ReLU`).
+3. **Output Layer:** Condenses the final hidden logic into a prediction natively.
 
-1. **Input Layer:** Directly receives the scaled feature columns.
-2. **Hidden Layer(s):** The magical processing zone. Each neuron here receives signals from *every* neuron in the previous layer. It multiplies those signals by a "weight", adds them up, applies an Activation Function, and passes the result forward.
-3. **Output Layer:** The final prediction. For binary classification, this is a single neuron outputting a probability using the Sigmoid function.
-
-```mermaid
-graph LR
-    A[Feature 1] --> C((Neuron 1))
-    A --> D((Neuron 2))
-    B[Feature 2] --> C
-    B --> D
-    C --> E((Output Node))
-    D --> E
-    
-    style A fill:#e6f3ff,stroke:#333
-    style B fill:#e6f3ff,stroke:#333
-    style C fill:#ffe6e6,stroke:#333
-    style D fill:#ffe6e6,stroke:#333
-    style E fill:#e6ffe6,stroke:#333
-```
-
-### The Activation Function Breakdown
-
-If we only multiply weights, a network of 10,000 neurons reduces mathematically to a single, boring straight line ($y=mx+b$). 
-
-We must inject curved logic using **Activation Functions** at each node:
-- **ReLU (Rectified Linear Unit):** `If x < 0, output 0. Else output x.` This simple curve is the primary engine behind modern Deep Learning.
-- **Sigmoid:** Squashes the final summation into a strict probability between 0 and 1. 
+When an architecture contains 3 or more Hidden Layers computationally, it transitions from basic Machine Learning strictly into the domain of "Deep Learning".
 
 ## Step 2: Implementation
 
-> [!CAUTION]
-> Neural Networks utilize **Gradient Descent Optimization**. If you do not scale your inputs via `StandardScaler`, the gradients will instantly explode, and the model will fail to learn.
+While TensorFlow and PyTorch dominate the Deep Learning industry, Scikit-Learn provides a robust baseline `MLPClassifier` designed specifically to train basic neural topology identically.
+
+We will explicitly train a Perceptron to map synthetically generated circle clusters natively.
 
 ```python
-import pandas as pd
-from sklearn.datasets import make_moons
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
+import seaborn as sns
 from sklearn.neural_network import MLPClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import make_circles
 from sklearn.metrics import accuracy_score
 
-# Make nonlinear 'moon' shaped data
-X, y = make_moons(n_samples=500, noise=0.2, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+# 1. Synthesize highly non-linear target mapping
+X, y = make_circles(n_samples=600, noise=0.1, factor=0.5, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
 
-# SCALING IS MANDATORY
-scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled = scaler.transform(X_test)
+# 2. Instantiate and define the Hidden Topology
+# hidden_layer_sizes=(10, 10) equates to 2 Hidden Layers, 10 neurons each.
+# max_iter is required to mathematically permit the Gradient Descent time to converge natively.
+mlp = MLPClassifier(hidden_layer_sizes=(10, 10), activation='relu', max_iter=1000, random_state=42)
+mlp.fit(X_train, y_train)
 
-# 1. Architecture Design
-# hidden_layer_sizes=(10, 5) means: 
-# Layer 1 has 10 Neurons. Layer 2 has 5 Neurons.
-mlp = MLPClassifier(
-    hidden_layer_sizes=(10, 5), 
-    activation='relu',      # Non-linear injection
-    solver='adam',          # The Gradient Descent engine
-    max_iter=1000,          # Epochs (how many times it views data)
-    random_state=42
-)
+# 3. Generate predictions
+preds = mlp.predict(X_test)
 
-# 2. Train Network
-mlp.fit(X_train_scaled, y_train)
-
-# 3. Evaluate
-predictions = mlp.predict(X_test_scaled)
-print(f"MLP Network Accuracy: {accuracy_score(y_test, predictions):.4f}")
+print(f"Perceptron Array Accuracy: {accuracy_score(y_test, preds):.2f}")
 ```
 
-## Summary
+??? example "Expected Output"
+    ```text
+    Perceptron Array Accuracy: 0.98
+    ```
 
-Scikit-Learn's `MLPClassifier` is an excellent introduction to neural topographies. However, for massive industry deployments involving images (CNNs) or text (Transformers), Data Scientists shift away from Scikit-Learn toward explicit graphing libraries like **PyTorch** or **TensorFlow**.
+## Step 3: Standardisation is Strictly Required
 
-## Next Steps
+Similar to Support Vector Machines, Neural Networks internally rely on physical Gradient Descent weight calculation routines.
 
-Explore the How-To guides to understand how to apply and troubleshoot these predictive algorithms in production.
+If `Income` ranges up to strictly `100,000` and `Age` tops out at `90`, the network mathematics explicitly will bias massively uniquely toward the `Income` variable natively.
+
+**You must forcefully execute `StandardScaler` strictly on your feature matrix prior to initializing any `MLPClassifier`.**
+
+!!! info "Assessment Connection"
+    For your EPA, explicitly deploying a Neural Network blindly on a 300-row tabular dataset is considered an analytical error. Neural Networks natively require thousands or millions of observations mathematically to prevent catastrophic overfitting intelligently. Document exactly why you actively chose an Ensemble instead natively to secure top marks.
 
 ## KSB Mapping
 
 | KSB | Description | How This Tutorial Addresses It |
 |-----|-------------|-------------------------------|
-| S2 | Apply machine learning algorithms | Implements MLP architectures |
-| K2 | ML Paradigms | Distinguishes between tabular algorithms and deep architectures |
+| S13 | Apply ML algorithms | Deploying explicit Multi-Layer Perceptrons |
+| K5 | Machine Learning workflows | Selecting algorithm complexity corresponding strictly to explicit scale |

@@ -1,30 +1,52 @@
-# Reference: Sklearn Classifiers
+# Scikit-Learn Classifiers Reference
 
-This page contains quick-lookup information for sklearn classifiers.
+> Quick lookup for commonly utilized categorical machine learning algorithms within `sklearn`.
 
-## Key Methods and Parameters
+## Linear Models
 
-| Method | Parameters | Description |
-|--------|------------|-------------|
-| `fit()` | `X`, `y` | Fits the model or transformer to the data |
-| `transform()` | `X` | Applies the transformation |
-| `predict()` | `X` | Generates predictions |
+### `LogisticRegression`
+**Use Case:** Baseline classification, binary probabilities.
+**Key Parameters:**
+* `C`: Controls regularisation strength (Inverse - smaller means stronger).
+* `penalty`: Defines regularisation type (`'l1'`, `'l2'`).
+* `class_weight='balanced'`: Automatically adjust weights for imbalanced data.
 
-## Common Syntax
+## Tree-Based Models
 
-```python
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
+### `DecisionTreeClassifier`
+**Use Case:** Fast, explainable non-linear rules.
+**Key Parameters:**
+* `max_depth`: Limits tree depth to strictly prevent overfitting.
+* `min_samples_split`: Minimum rows required before making a split.
 
-# Standard boilerplate
-pipeline = make_pipeline(StandardScaler(), ...)
-pipeline.fit(X_train, y_train)
-```
+### `RandomForestClassifier`
+**Use Case:** Robust, general-purpose ensemble model.
+**Key Parameters:**
+* `n_estimators`: Count of trees to randomly construct.
+* `max_depth`: Controls complexity of individual trees.
 
-## Comparison Metrics
+### `GradientBoostingClassifier`
+**Use Case:** High-performance, sequential error-correcting model.
+**Key Parameters:**
+* `learning_rate`: Step size for each tree's correction.
+* `n_estimators`: Total sequential stages.
 
-When comparing approaches for sklearn classifiers, consider:
+## Advanced Models
 
-1. **Accuracy**: How well does it perform?
-2. **Interpretability**: How easily can you explain it?
-3. **Speed**: How fast does it run?
+### `SVC` (Support Vector Classifier)
+**Use Case:** Complex geometric boundary separation.
+**Key Parameters:**
+* `kernel`: Feature space transformation (`'linear'`, `'rbf'`, `'poly'`).
+* `C`: Margin hardness scale.
+
+### `MLPClassifier` (Neural Network)
+**Use Case:** Deep learning approximation.
+**Key Parameters:**
+* `hidden_layer_sizes`: Structure of the network (e.g., `(100, 50)`).
+* `activation`: Logic function (`'relu'`, `'logistic'`).
+
+## KSB Mapping
+
+| KSB | Description |
+|-----|-------------|
+| K5 | Machine Learning workflows |

@@ -1,115 +1,100 @@
 # Support Vector Machines (SVM)
 
-> "If the data isn't separable in this dimension, simply fold space until it is." 
+> A Support Vector Machine (SVM) does not just try to draw a dividing line. It tries to draw the widest possible "street" separating two classes of data.
 
 ## What You Will Learn
-
-- Understand the concept of the Optimal Hyperplane and Support Vectors
-- Identify the mathematical definition of the Maximum Margin
-- Utilize the Kernel Trick (RBF) to solve non-linear classifications
+- Define the Maximum Margin Hyperplane conceptually
+- Deploy a linear `SVC` using Scikit-Learn
+- Differentiate between Hard and Soft Margins
 
 ## Prerequisites
+- Completed Topic 1 (Data Preparation)
+- Understanding of binary classification logic
 
-- [Logistic Regression for Classification](logistic-regression.md)
-- [Scaling & Normalisation](../../topic-1-data-preparation/tutorials/scaling-normalisation.md)
+## Step 1: The Maximum Margin Hyperplane
 
-## Step 1: The Maximum Margin
+If you want to separate cats from dogs using their weight and height, there are infinite lines you could mathematically draw between them. 
 
-Logistic Regression draws a boundary (hyperplane) that separates classes. However, there are infinitely many lines that can separate two clusters of points. Logistic Regression will stop calculating as soon as it finds *any* line that results in low error.
+Logistic Regression simply finds *a* line that separates the classes. Support Vector Machines find the *optimal* line. The optimal line is the one that stays as far away as possible from the closest points in each class. 
 
-**Support Vector Machines** are structurally different. They don't just find *any* line; they find the **Optimal Hyperplane**. This is the specific line that maximizes the physical distance (the Margin) between itself and the closest data points of both classes.
+The closest data points that the margin "leans" against are called the **Support Vectors**. 
 
-Those closest, critical data points that dictate the margin's width are called the **Support Vectors**. If you delete every other point in the dataset except the Support Vectors, the SVM will still draw the exact same boundary.
+## Step 2: Implementation
 
-```mermaid
-graph TD
-    A[Data Points] --> B[Identify Closest Points Between Classes]
-    B --> C((Support Vectors))
-    C --> D[Draw Margin Lines touching Vectors]
-    D --> E[Draw Optimal Hyperplane directly between Margins]
-```
-
-## Step 2: Implementation (Linear Kernel)
-
-> [!CAUTION]
-> SVMs rely entirely on physical geometry and calculating distances. Therefore, **you must scale your data** before deploying an SVM, otherwise, features with massive numeric ranges will dictate the margin.
+We will use Scikit-Learn to build an SVM model on synthetic blob data.
 
 ```python
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.svm import SVC # Support Vector Classifier
+import seaborn as sns
+from sklearn.svm import SVC
 from sklearn.datasets import make_blobs
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import classification_report
 
-# Generate perfectly separable clusters
-X, y = make_blobs(n_samples=100, centers=2, random_state=42, cluster_std=1.2)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+# 1. Synthesize two distinct clusters
+X, y = make_blobs(n_samples=100, centers=2, random_state=6)
 
-# MANDATORY: Scale Data
-scaler = StandardScaler()
-X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled = scaler.transform(X_test)
+# 2. Instantiate and train a Linear SVM
+# The "C" parameter controls the margin width. A high C makes a strict, narrow margin.
+svm = SVC(kernel='linear', C=1000)
+svm.fit(X, y)
 
-# 1. Instantiate the SVM with a Linear boundary
-svm = SVC(kernel='linear', C=1.0) # C controls the hardness of the margin
-
-# 2. Fit the Model
-svm.fit(X_train_scaled, y_train)
-
-print(classification_report(y_test, svm.predict(X_test_scaled)))
+print(f"Number of Support Vectors explicitly driving the model: {len(svm.support_vectors_)}")
 ```
 
-### The $C$ Hyperparameter (Regularisation)
+??? example "Expected Output"
+    ```text
+    Number of Support Vectors explicitly driving the model: 3
+    ```
 
-In reality, data overlaps. You cannot draw a perfect line.
-- **Low $C$:** A "Soft" margin. The SVM allows some points to cross the boundary if it creates a wider, more generalized gap overall (Low Variance, High Bias).
-- **High $C$:** A "Hard" margin. The SVM will bend aggressively to ensure zero training points are misclassified, resulting in a tiny, highly specialized margin (High Variance, Low Bias).
+In this model, out of 100 data points, exactly 3 data points (the Support Vectors) are structurally dictating the exact angle and position of the boundary. The other 97 points are ignored. This makes SVMs mathematically highly memory efficient.
 
-## Step 3: The Kernel Trick (Non-Linear Data)
-
-If your data is shaped like a circle inside a ring, no straight line ($1D$) or flat pane ($2D$) can separate them. 
-
-The **Kernel Trick** is a mathematical shortcut that physically projects the flat data into a higher dimension (like stretching a 2D sheet of rubber into a 3D bowl shape) where a flat pane *can* successfully slice them apart.
+Let's structurally plot the margin boundary:
 
 ```python
-from sklearn.datasets import make_circles
+import matplotlib.pyplot as plt
 
-# Generate non-linear circular data
-X_circ, y_circ = make_circles(n_samples=200, factor=0.3, noise=0.1, random_state=42)
+plt.figure(figsize=(8, 5))
+sns.scatterplot(x=X[:, 0], y=X[:, 1], hue=y, palette='Set1', s=50)
 
-scaler_circ = StandardScaler()
-X_circ_scaled = scaler_circ.fit_transform(X_circ)
+# Extract plot limits
+ax = plt.gca()
+xlim = ax.get_xlim()
+ylim = ax.get_ylim()
 
-# Define the SVM using Radial Basis Function (RBF)
-svm_rbf = SVC(kernel='rbf', C=1.0, gamma='scale')
-svm_rbf.fit(X_circ_scaled, y_circ)
+# Create meshgrid to evaluate model
+xx, yy = np.meshgrid(np.linspace(xlim[0], xlim[1], 50),
+                     np.linspace(ylim[0], ylim[1], 50))
+Z = svm.decision_function(np.c_[xx.ravel(), yy.ravel()]).reshape(xx.shape)
 
-# Visualizing the RBF Kernel cutting through the circles
-# Create meshgrid
-xx, yy = np.meshgrid(np.linspace(-3, 3, 100), np.linspace(-3, 3, 100))
-Z = svm_rbf.decision_function(np.c_[xx.ravel(), yy.ravel()]).reshape(xx.shape)
+# Plot decision boundary and margins
+ax.contour(xx, yy, Z, colors='k', levels=[-1, 0, 1], alpha=0.5, linestyles=['--', '-', '--'])
 
-plt.figure(figsize=(8,6))
-plt.contourf(xx, yy, Z, levels=[Z.min(), 0, Z.max()], alpha=0.3, cmap='coolwarm')
-plt.scatter(X_circ_scaled[:, 0], X_circ_scaled[:, 1], c=y_circ, edgecolors='k', cmap='coolwarm')
-plt.title('SVM Decision Boundary (RBF Kernel)')
+# Circle the Support Vectors
+ax.scatter(svm.support_vectors_[:, 0], svm.support_vectors_[:, 1], 
+           s=100, linewidth=1, facecolors='none', edgecolors='k')
+
+plt.title('SVM Linear Hyperplane and Margins')
+plt.tight_layout()
 plt.show()
 ```
 
-## Summary
+??? example "Expected Plot"
+    ![SVM Hyperplane Margin Plot](../../assets/images/topic3-svm.png)
 
-SVMs are devastatingly accurate, particularly on smaller, complex datasets ($N < 10,000$). However, because they scale cubically $O(n^3)$ with the number of samples, they will mathematically freeze your computer if you attempt to train them on millions of customer records.
+## Step 3: Standardisation is Mandatory
 
-## Next Steps
+Because SVM attempts to calculate physical geometric Euclidean distance (the margin width), it is extremely sensitive to scale.
 
-→ [Decision Trees & Random Forests](decision-trees.md)
+If Feature 1 is measured in Millimetres (0-10) and Feature 2 is measured in Kilometres (0-1000), the SVM will mathematically ignore Feature 1 entirely.
+
+**You must always run `StandardScaler` or `MinMaxScaler` prior to executing an SVM.**
+
+!!! tip "Workplace Tip"
+    The `C` parameter dictates "Soft Margin" execution. If you have messy data with overlapping classes, a strict mathematical line (High `C`) will overfit wildly. Set `C` to a small decimal (e.g. `C=0.1`) to instruct the algorithm to actively allow a few misclassifications inside the boundary to secure a broader, more realistic "street".
 
 ## KSB Mapping
 
 | KSB | Description | How This Tutorial Addresses It |
 |-----|-------------|-------------------------------|
-| S2 | Apply machine learning algorithms | Implements the SVM classifier conceptually and programmatically |
-| K2 | ML Algorithms | Visualizes the complex spatial geometry of Kernels |
+| S13 | Apply ML algorithms | Operating Euclidean mapping vector machines |
+| K5 | Machine Learning workflows | Prioritizing preprocessing scalar standardisation explicitly |

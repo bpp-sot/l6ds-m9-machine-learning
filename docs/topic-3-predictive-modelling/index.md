@@ -24,25 +24,33 @@ Section A — you must "compare two ML models/approaches" with clear justificati
     - [Linear Regression](tutorials/linear-regression.md)
     - [Logistic Regression](tutorials/logistic-regression.md)
     - [Decision Trees](tutorials/decision-trees.md)
-    - [Random Forests & Bagging](tutorials/random-forests.md)
+    - [Random Forests](tutorials/random-forests.md)
+    - [Support Vector Machines](tutorials/support-vector-machines.md)
     - [Gradient Boosting](tutorials/gradient-boosting.md)
-    - [Comparing Multiple Models](tutorials/model-comparison.md)
+    - [Neural Networks](tutorials/neural-networks.md)
+    - [Model Comparison](tutorials/model-comparison.md)
 
 === "How-to Guides"
 
-    - [Handle Imbalanced Classes](how-to/imbalanced-classes.md)
+    - [Build a Baseline Model](how-to/build-baseline.md)
+    - [Handle Imbalanced Data](how-to/handle-imbalanced-data.md)
     - [Multi-Class Classification](how-to/multi-class-classification.md)
+    - [Prevent Overfitting](how-to/prevent-overfitting.md)
     - [Run Regression Diagnostics](how-to/regression-diagnostics.md)
+    - [Save and Load Models](how-to/save-load-models.md)
 
 === "Reference"
 
-    - [Sklearn Classifiers API](reference/sklearn-classifiers.md)
-    - [Sklearn Regressors API](reference/sklearn-regressors.md)
-    - [Loss Functions Reference](reference/loss-functions.md)
     - [Algorithm Selection Flowchart](reference/algorithm-selection-flowchart.md)
+    - [Loss Functions Reference](reference/loss-functions.md)
+    - [Sklearn Classifiers API](reference/sklearn-classifiers.md)
+    - [Sklearn Models API](reference/sklearn-models.md)
+    - [Sklearn Regressors API](reference/sklearn-regressors.md)
 
 === "Explanation"
 
     - [The Bias-Variance Tradeoff](explanation/bias-variance.md)
-    - [Why Ensembles Work](explanation/ensemble-theory.md)
-    - [Regularisation Explained](explanation/regularisation.md)
+    - [Ensemble Theory](explanation/ensemble-theory.md)
+    - [Regression vs Classification](explanation/regression-vs-classification.md)
+    - [Regularisation](explanation/regularisation.md)
+    - [Why Ensembles Win](explanation/why-ensembles-win.md)

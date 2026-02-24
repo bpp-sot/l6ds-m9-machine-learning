@@ -1,102 +1,89 @@
-# Gradient Boosting Machines
+# Gradient Boosting
 
-> "If Random Forests rely on the wisdom of an independent crowd, Gradient Boosting relies on an iterative committee, where each new member is hired specifically to fix the mistakes of the previous one."
+> While a Random Forest trains 100 independent trees simultaneously, Gradient Boosting trains 100 trees sequentially. Each new tree systematically attempts to correct the specific errors of the previous tree.
 
 ## What You Will Learn
-
-- Distinguish Boosting from Bagging structurally
-- Understand the Gradient Descent optimization of residuals
-- Train `GradientBoostingClassifier` and its modern offshoot, `XGBoost`
+- Differentiate Bagging (Random Forest) from Boosting
+- Train a `GradientBoostingClassifier`
+- Observe staged learning progression
 
 ## Prerequisites
+- Completed the *Random Forests* module
 
-- [Decision Trees & Random Forests](decision-trees.md)
+## Step 1: The Intuition of Boosting
 
-## Step 1: The Concept of Boosting
+In **Random Forests**, if Tree #1 is completely wrong about Row 5, Tree #2 does not care. They train independently.
 
-In a **Random Forest (Bagging)**, 100 deep trees are built independently at the same exact time. They do not communicate. Their final predictions are simply averaged together.
+In **Gradient Boosting**, the algorithm trains sequentially:
+1. **Tree 1** calculates a prediction for all rows. It registers a large error on Row 5.
+2. **Tree 2** ignores the original target. Instead, Tree 2 spends 100% of its effort trying to predict the *error size* of Tree 1 on Row 5.
+3. **Tree 3** inspects the combined error of Tree 1 + Tree 2, and focuses its splits on the remaining residuals.
 
-In **Gradient Boosting**, the trees are built *sequentially*. 
-1. Tree 1 is built. It is intentionally kept very shallow and weak. It makes predictions.
-2. The algorithm calculates the **Residuals** (the errors: Actual - Predicted) for Tree 1.
-3. Tree 2 is built. Instead of trying to predict the original target, Tree 2 is trained explicitly to predict the *Residuals* of Tree 1. 
-4. The cycle continues. Tree 100 exclusively targets the micro-errors left over by Tree 99.
+## Step 2: Implementation
 
-\\[
-F_m(x) = F_{m-1}(x) + \\gamma_m h_m(x)
-\\]
-*(The additive equation: The model at step $m$ adds a newly scaled tree $h_m$ to the existing ensemble $F_{m-1}$.)*
-
-```mermaid
-graph LR
-    A[Initial Guess] --> B[Tree 1: Fits Data]
-    B --> C[Calculate Error 1]
-    C --> D[Tree 2: Fits Error 1]
-    D --> E[Calculate Error 2]
-    E --> F[Tree 3: Fits Error 2]
-    F -.-> G[Final Master Prediction]
-```
-
-## Step 2: Implementation (Scikit-Learn)
+Scikit-Learn contains a built-in `GradientBoostingClassifier`.
 
 ```python
-import pandas as pd
-from sklearn.datasets import make_classification
-from sklearn.model_selection import train_test_split
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
 from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import make_moons
 from sklearn.metrics import accuracy_score
 
-X, y = make_classification(n_samples=1000, n_features=10, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# 1. Synthesize non-linear data
+X, y = make_moons(n_samples=500, noise=0.3, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
 
-# Instantiate the GBM
-# learning_rate (gamma) controls how much each tree contributes. 
-# Lower rate = need more n_estimators = better generalization.
-gbm = GradientBoostingClassifier(n_estimators=100, learning_rate=0.1, max_depth=3, random_state=42)
+# 2. Instantiate and train 
+# learning_rate controls how aggressively each tree alters the pipeline.
+gbc = GradientBoostingClassifier(n_estimators=100, learning_rate=0.1, max_depth=2, random_state=42)
+gbc.fit(X_train, y_train)
 
-gbm.fit(X_train, y_train)
-
-print(f"Scikit-Learn GBM Accuracy: {gbm.score(X_test, y_test):.4f}")
+preds = gbc.predict(X_test)
+print(f"Algorithm Accuracy: {accuracy_score(y_test, preds):.2f}")
 ```
 
-## Step 3: Extreme Gradient Boosting (XGBoost)
+??? example "Expected Output"
+    ```text
+    Algorithm Accuracy: 0.88
+    ```
 
-While `GradientBoostingClassifier` is excellent, it is computationally slow because it builds trees strictly sequentially. 
+## Step 3: Visualising Convergence 
 
-**XGBoost** is an external, highly-optimized library that implements the exact same logic but utilizes advanced hardware operations (parallelized node splitting, cache awareness, and regularization penalties) to train astronomically faster on massive datasets.
-
-> [!NOTE]
-> `xgboost` is not part of Scikit-Learn. You must `pip install xgboost`.
+Because Gradient Boosting corrects errors dynamically, we can chart the training loss decreasing steadily as more trees enter the pipeline.
 
 ```python
-import xgboost as xgb
+# Extract the staged pseudo-loss
+train_loss = np.zeros(100)
+test_loss = np.zeros(100)
 
-# XGBoost can use the Scikit-Learn API format
-xgb_clf = xgb.XGBClassifier(
-    n_estimators=100, 
-    learning_rate=0.1, 
-    max_depth=3, 
-    use_label_encoder=False, 
-    eval_metric='logloss',
-    random_state=42
-)
+for i, y_pred in enumerate(gbc.staged_predict_proba(X_train)):
+    train_loss[i] = 1 - accuracy_score(y_train, np.argmax(y_pred, axis=1))
+    
+for i, y_pred in enumerate(gbc.staged_predict_proba(X_test)):
+    test_loss[i] = 1 - accuracy_score(y_test, np.argmax(y_pred, axis=1))
 
-xgb_clf.fit(X_train, y_train)
-
-print(f"XGBoost Accuracy: {xgb_clf.score(X_test, y_test):.4f}")
+plt.figure(figsize=(8, 5))
+plt.plot(np.arange(100) + 1, train_loss, 'b-', label='Training Error')
+plt.plot(np.arange(100) + 1, test_loss, 'r-', label='Validation Error')
+plt.title('Gradient Boosting Convergence (Trees vs Error)')
+plt.xlabel('Boosting Iterations (Trees)')
+plt.ylabel('Misclassification Error')
+plt.legend()
+plt.tight_layout()
+plt.show()
 ```
 
-## Summary
+??? example "Expected Plot"
+    ![Gradient Convergence](../../assets/images/topic3-gradient-boosting.png)
 
-If you are entering an open Data Science competition for structured tabular data, XGBoost will likely be the winning algorithm. However, because Boosting aggressively chases errors, it is highly prone to Overfitting if left unchecked (unlike Random Forests which resist overfitting naturally).
-
-## Next Steps
-
-→ [Neural Networks (MLP)](neural-networks.md)
+Unlike Random Forests, adding infinite trees to a Boosting algorithm will explicitly cause severe overfitting. You must strategically tune `n_estimators` using Early Stopping logic to halt training when `test_loss` begins increasing.
 
 ## KSB Mapping
 
 | KSB | Description | How This Tutorial Addresses It |
 |-----|-------------|-------------------------------|
-| S2 | Apply machine learning algorithms | Deploying iterative sequential ensembles |
-| K2 | Architecture principles | Highlighting algorithmic differences (Bagging vs Boosting) |
+| S13 | Apply ML algorithms | Deploying sequential mathematical ensemble pipelines |
+| K5 | Machine Learning workflows | Monitoring dynamic iterative error curves |

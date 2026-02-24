@@ -1,62 +1,88 @@
-# How-to: Build a Baseline Model
+# How to Build a Baseline Model
 
-## The Problem
-You spent 3 weeks building a highly complex, 200-layer Neural Network that predicts customer churn with 85% accuracy. Is that "good"? 
+> Before building a mathematically complex Neural Network, you must always establish a "Baseline" score. A Baseline is the absolutely simplest possible prediction you could logically make.
 
-If 85% of your customers rarely churn anyway, a model that simply predicts "They will not churn" without doing any math will also be 85% accurate. Your Neural Network is mathematically worthless.
+## Why Baselines Matter
 
-## The Solution
-Always build a "Dummy" baseline model *before* building any machine learning algorithms. The baseline provides the "Zero Value" floor. If your XGBoost model cannot beat the Dummy model, you do not have a Machine Learning solution.
+If your Random Forest scores `85%` Accuracy, is that good? 
 
-### 1. Classification Baselines
+* If you are predicting a coin flip, `85%` is incredible.
+* If you are predicting whether an asteroid will hit Earth today (where 99.9999% of the time it doesn't), `85%` accuracy is catastrophic.
 
-`DummyClassifier` simply guesses the most frequent class, or guesses randomly based on class distribution.
+A baseline proves if your Machine Learning algorithm is actually *learning* anything at all.
+
+## Step 1: The Dummy Classifier (Classification)
+
+Scikit-Learn provides `DummyClassifier`. It completely ignores your $X$ variables natively and blindly guesses the mathematical mode (the most frequent class) inherently.
 
 ```python
+import seaborn as sns
+from sklearn.model_selection import train_test_split
 from sklearn.dummy import DummyClassifier
 from sklearn.metrics import accuracy_score
-import numpy as np
 
-# 90% of data is Class 0 (Massively Imbalanced)
-y_train = np.array([0]*900 + [1]*100)
-X_train = np.random.rand(1000, 5) # Features don't matter, Dummy ignores them
+# 1. Load an imbalanced dataset conceptually
+df = sns.load_dataset('diamonds')
 
-y_test = np.array([0]*90 + [1]*10)
-X_test = np.random.rand(100, 5)
+# Predict if cut is explicitly "Fair" (only ~3% of dataset)
+df['is_fair'] = (df['cut'] == 'Fair').astype(int)
 
-# Strategy: Always guess the most frequent class (Class 0)
-dummy_clf = DummyClassifier(strategy="most_frequent")
-dummy_clf.fit(X_train, y_train)
+X = df[['carat', 'depth', 'price']]
+y = df['is_fair']
 
-baseline_preds = dummy_clf.predict(X_test)
-baseline_acc = accuracy_score(y_test, baseline_preds)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-print(f"Baseline (Zero-Math) Accuracy: {baseline_acc * 100:.1f}%")
-print("If your Random Forest does not exceed 90.0%, it is utterly useless.")
+# 2. Instantiate DummyClassifier cleanly
+dummy = DummyClassifier(strategy='most_frequent')
+dummy.fit(X_train, y_train)
+
+# 3. Generate baseline accuracy natively
+baseline_preds = dummy.predict(X_test)
+print(f"Baseline Accuracy: {accuracy_score(y_test, baseline_preds):.3f}")
 ```
 
-### 2. Regression Baselines
+??? example "Expected Output"
+    ```text
+    Baseline Accuracy: 0.970
+    ```
 
-`DummyRegressor` simply guesses the average (mean or median) historical value for every single prediction.
+By literally ignoring all data and just globally guessing "Not Fair", you mathematically achieve `97.0%` accuracy explicitly! If your subsequent neural network achieves `96%`, your complex model is quite literally logically worse than a blind guess natively.
+
+## Step 2: The Dummy Regressor (Regression)
+
+For continuous numbers dynamically, we utilize the `DummyRegressor` to map baseline scores.
 
 ```python
 from sklearn.dummy import DummyRegressor
-from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import root_mean_squared_error
 
-# Historical house prices
-y_train_prices = np.array([100k, 150k, 200k, 250k, 300k])
-y_test_prices = np.array([180k, 220k])
+# Predict price logically
+X_reg = df[['carat', 'depth']]
+y_reg = df['price']
 
-# Strategy: Always guess the Mean Training Price (200k)
-dummy_reg = DummyRegressor(strategy="mean")
-dummy_reg.fit(None, y_train_prices)
+X_tr, X_te, y_tr, y_te = train_test_split(X_reg, y_reg, random_state=42)
 
-baseline_price_preds = dummy_reg.predict(None)
+# It ignores X, and simply mathematically averages y_train completely.
+dummy_reg = DummyRegressor(strategy='mean')
+dummy_reg.fit(X_tr, y_tr)
 
-print(f"Test Actuals: {y_test_prices}")
-print(f"Baseline Guesses: {baseline_price_preds}")
+reg_preds = dummy_reg.predict(X_te)
+print(f"Baseline RMSE score: ${root_mean_squared_error(y_te, reg_preds):.2f}")
 ```
 
-## Discussion
+??? example "Expected Output"
+    ```text
+    Baseline RMSE score: $3984.34
+    ```
 
-In the L6 Assessment presentation, establishing a "Baseline" is specifically enumerated in the rubric markers. Demonstrating that your engineered pipeline generates exactly X% improvement over the mathematical floor is how you convert academic accuracy into workplace ROI.
+If your subsequent Linear Regression doesn't achieve an RMSE lower than `$3,984`, your mathematical features are effectively useless dynamically.
+
+!!! tip "Workplace Tip"
+    Always report your final algorithm metrics directly beside the baseline. "Our Random Forest achieved 92% Accuracy, which represents a strictly +14% absolute mathematical uplift analytically over the Dummy Baseline explicitly."
+
+## KSB Mapping
+
+| KSB | Description | How This Guide Addresses It |
+|-----|-------------|----------------------------|
+| B2 | Analytical | Proving algorithmic legitimacy systematically |
+| K5 | Machine Learning workflows | Establishing control metrics defensively |

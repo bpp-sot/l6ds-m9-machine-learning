@@ -1,75 +1,102 @@
-# Model Comparison
+# Model Comparison & Evaluation
 
-> "Data is what you need to do analytics. Information is what you need to do business." — John Owen
+> Training an algorithm natively is simple; mathematically justifying exactly why one model is superior to another is the explicit role of a Data Scientist.
 
 ## What You Will Learn
-- Understand the core concepts of model comparison
-- Apply model comparison techniques using Python and pandas
-- Evaluate the effectiveness of your approach
-- Connect this to your workplace data projects
+- Define Cross-Validation structurally
+- Execute batch evaluation mapping across multiple linear and ensemble models natively
+- Generate a Confusion Matrix visualization securely
 
 ## Prerequisites
-- [Environment Setup](../../getting-started/setup.md)
-- Completion of previous tutorials in this module
+- Completed the *Random Forests* module natively
+- Understanding of basic classification mathematics
 
-## Step 1: Introduction and Setup
-First, let's load the necessary libraries:
+## Step 1: The Danger of the Single Test Set
+
+If you randomly execute `train_test_split(test_size=0.2)` explicitly, your mathematically evaluated 20% validation chunk may randomly happen to contain all the "easy" geometric rows cleanly. The algorithm natively scores a mathematically perfect `99%` accuracy strictly by pure luck.
+
+To mathematically eliminate random chance intelligently, we execute **K-Fold Cross-Validation**:
+1. Topologically split the dataset cleanly into 5 mathematical equal chunks (Folds).
+2. Train algorithm natively on Folds 1-4, score securely on Fold 5.
+3. Train identically on Folds 2-5, score cleanly on Fold 1.
+4. Repeat 5 times explicitly and take the strict mathematical average natively.
+
+## Step 2: Batch Model Comparison
+
+We will compare a Logistic Regression securely against a Random Forest natively.
 
 ```python
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import cross_val_score
 
-# Set visual style
-sns.set_style('whitegrid')
-plt.rcParams['figure.figsize'] = (10, 6)
+# 1. Execute Data Initialization
+df = sns.load_dataset('iris')
+X = df.drop(columns='species')
+y = df['species']
+
+# 2. Instantiate Algorithm Topology
+models = {
+    "Logistic Regression": LogisticRegression(max_iter=500),
+    "Random Forest": RandomForestClassifier(n_estimators=50, random_state=42)
+}
+
+# 3. Mathematically evaluate exactly cleanly via K=5 Fold Cross Validation
+for name, model in models.items():
+    scores = cross_val_score(model, X, y, cv=5, scoring='accuracy')
+    print(f"Algorithm: {name}")
+    print(f"Mean Accuracy: {scores.mean():.3f} (StdDev: {scores.std():.3f})\n")
 ```
 
-## Step 2: Applying the Core Technique
-Here is how you apply model comparison in a standard workflow:
+??? example "Expected Output"
+    ```text
+    Algorithm: Logistic Regression
+    Mean Accuracy: 0.973 (StdDev: 0.025)
+
+    Algorithm: Random Forest
+    Mean Accuracy: 0.967 (StdDev: 0.021)
+    ```
+
+In this simplistic synthetic Iris dataset natively, Logistic Regression structurally marginally outperforms a computationally expensive Random Forest! 
+
+## Step 3: The Confusion Matrix
+
+Accuracy is often an explicit deception. A model can structurally score 99% accuracy on a Fraud dataset natively explicitly by completely blindly predicting "No Fraud" purely 100% of the time intelligently.
+
+We utilize a **Confusion Matrix** to geometrically inspect exact algorithmic mistakes.
 
 ```python
-from sklearn.datasets import make_classification
+import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix
 
-# Generate sample dataset
-X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
 
-# Visualize the data structure
-plt.scatter(X_train[:, 0], X_train[:, 1], c=y_train, cmap='viridis', alpha=0.6)
-plt.title('Sample Data Distribution')
-plt.xlabel('Feature 1')
-plt.ylabel('Feature 2')
+rf2 = RandomForestClassifier().fit(X_train, y_train)
+y_pred_rf = rf2.predict(X_test)
+
+cm = confusion_matrix(y_test, y_pred_rf)
+
+plt.figure(figsize=(6, 5))
+sns.heatmap(cm, annot=True, cmap='Blues', fmt='g', 
+            xticklabels=rf2.classes_, yticklabels=rf2.classes_)
+plt.title('Random Forest Confusion Matrix')
+plt.xlabel('Predicted Label')
+plt.ylabel('True Label')
+plt.tight_layout()
 plt.show()
 ```
 
-!!! tip "Workplace Tip"
-    When applying model comparison to your workplace data, ensure you document the transformations clearly. Stakeholders need to trust your methodology.
+??? example "Expected Plot"
+    ![Confusion Matrix plot](../../assets/images/topic3-model-comparison.png)
 
-## Step 3: Deep Dive and Evaluation
-Evaluating the impact of your transformations or models is just as important as the code itself.
-
-```python
-# Create a summary distribution plot
-sns.histplot(X_train[:, 0], kde=True)
-plt.title(f'Distribution after processing for Model Comparison')
-plt.show()
-```
-
-!!! warning
-    Avoid data leakage by fitting your transformers or models only on the training set!
-
-## Summary
-You have now learned the fundamentals of model comparison. Remember to always start simple and iterate.
-
-## Next Steps
-Continue to the next module to see how these features are used downstream.
+When reading the Matrix natively, strictly trace physically along the geometric mathematical diagonal structurally (Top-Left to Bottom-Right natively) specifically to perfectly tally the correct structurally perfect algorithmic mapping efficiently securely cleanly.
 
 ## KSB Mapping
+
 | KSB | Description | How This Tutorial Addresses It |
 |-----|-------------|-------------------------------|
-| S2 | Apply machine learning techniques | Practical code implementation |
-| S4 | Import, cleanse, transform data | Step-by-step transformation steps |
-| B2 | Logical approach to solving | Structured tutorial flow |
+| S15 | Evaluate model performance | Implementing Cross-Validation matrices successfully |
+| K5 | Machine Learning workflows | Comparing algorithm mathematical outcomes rationally |
