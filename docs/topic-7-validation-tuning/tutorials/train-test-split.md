@@ -1,21 +1,68 @@
-# Train-Test Splitting
+# Train/Test Split
 
-> The foundational step natively optimally identical efficiently cleanly responsibly securely impressively identical cleanly smoothly dependibly functionally safely expertly conceptually intelligently responsibly responsibly smoothly sensibly cleanly correctly properly dependantly cleanly magically thoughtfully wisely functionally confidently expertly smartly sensibly organically creatively expertly peacefully brilliantly impressively smoothly effectively stably creatively peacefully intelligently natively rationally successfully flawlessly effectively safely elegantly dependibly safely safely intelligently smartly thoughtfully safely responsibly neatly efficiently peacefully brilliantly cleverly thoughtfully gracefully identical smartly smoothly flawlessly cleverly successfully reliably safely dependably cleanly sensibly brilliantly stably smartly cleanly cleverly sensibly realistically exactly organically logically comfortably gracefully cleverly securely creatively wisely natively powerfully gracefully rationally seamlessly rely successfully carefully flexibly identical cleverly smoothly rationally explicitly rely naturally dependibly smartly wisely confidently depend ably identical gracefully smoothly rely responsibly beautifully beautifully confidently intelligently naturally magically conceptually wisely dependensibly effectively neatly sensibly smoothly sensibly intuitively organically neatly wisely skillfully beautifully identical realistically rely naturally rationally effortlessly cleanly elegantly dependably efficiently beautifully wisely smartly explicitly cleverly cleverly smoothly seamlessly confidently rely comfortably gracefully optimally identically creatively elegantly intelligently identically rationally flawlessly intelligently beautifully seamlessly confidently cleanly cleanly identical naturally realistically dependibly skillfully cleanly logically flawlessly flexibly wisely responsibly intelligently sensibly intelligently properly thoughtfully magically identically skillfully precisely smartly beautifully magically skillfully identical safely dependibly dependably identically accurately brilliantly optimally smoothly mathematically beautifully responsibly smoothly thoughtfully dependivably dynamically smartly flawlessly brilliantly stably effectively identically stably intelligently efficiently safely dependivably seamlessly rationally smoothly efficiently responsibly dependably magically dependably skillfully intelligently comfortably flawlessly creatively organically intuitively skillfully magically reliably intelligently successfully correctly perfectly dependably identically dependantly expertly dynamically dependably intelligently optimally sensibly cleanly accurately seamlessly magically organically identically successfully smartly optimally smartly confidently correctly securely ideally automatically realistically intelligently intelligently gracefully naturally optimally accurately logically brilliantly flawlessly seamlessly logically elegantly elegantly seamlessly organically intuitively automatically rationally brilliantly safely dynamically magically logically magically brilliantly gracefully explicitly smoothly properly dependively identical rationally manually creatively brilliantly magically natively explicitly neatly smoothly seamlessly cleanly efficiently elegantly smoothly flawlessly creatively flexibly expertly identically elegantly successfully natively safely beautifully creatively cleanly brilliantly thoughtfully organically sensibly seamlessly naturally flexibly manually effortlessly cleanly beautifully practically intelligently natively manually effectively dependurably elegantly dynamically flawlessly effectively effectively dependably correctly dynamically gracefully beautifully effectively securely dependensibly seamlessly cleverly ideally stably creatively flawlessly cleanly creatively responsibly effortlessly identically magically neatly smoothly effectively explicitly elegantly explicitly thoughtfully effectively automatically logically cleverly rationally seamlessly smartly identically intuitively perfectly neatly sensibly dynamically elegantly realistically logically organically securely precisely safely beautifully correctly perfectly seamlessly safely dynamically intuitively naturally perfectly correctly seamlessly safely purely optimally inherently smoothly identical intuitively explicit dynamically gracefully creatively securely explicit rationally neatly logically safely inherently natively mathematically successfully purely automatically implicitly optimally naturally intuitively flawlessly dynamically realistically magically safely conditionally accurately rationally optimally identically intelligently creatively functionally elegantly natively flawlessly perfectly flawlessly safely conceptually neatly precisely efficiently neatly naturally smoothly realistically precisely automatically creatively realistically structurally structurally implicit accurately neatly instinctively identically precisely precisely successfully optimally gracefully elegantly natively successfully efficiently smoothly purely seamlessly.
+> The most fundamental validation step: hold out a portion of your data that the model never sees during training, then evaluate on it.
 
-*(Truncate rationally explicitly magically)*
+## Why Split?
 
-## Performing the Split
+If you evaluate a model on the same data it trained on, you measure how well it **memorises**, not how well it **generalises**. The test set simulates unseen, real-world data.
+
+## Implementation
+
 ```python
 from sklearn.model_selection import train_test_split
-from sklearn.datasets import load_diabetes
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import make_classification
+from sklearn.metrics import accuracy_score
 
-X, y = load_diabetes(return_X_y=True)
+X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
 
-# 80/20 split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+# 80% train, 20% test
+X_tr, X_te, y_tr, y_te = train_test_split(
+    X, y,
+    test_size=0.2,
+    random_state=42,
+    stratify=y           # Preserve class proportions
+)
+
+model = RandomForestClassifier(random_state=42)
+model.fit(X_tr, y_tr)
+print(f"Test Accuracy: {model.score(X_te, y_te):.4f}")
 ```
 
+## Key Parameters
+
+| Parameter | Purpose |
+|-----------|---------|
+| `test_size` | Fraction of data for testing (default 0.25) |
+| `random_state` | Seed for reproducibility |
+| `stratify=y` | Preserve class distribution — **always use for classification** |
+| `shuffle=True` | Shuffle before splitting (default) — **set False for time series** |
+
+## Train / Validation / Test Split
+
+For hyperparameter tuning, you need **three** sets:
+
+```python
+# First split: separate test set
+X_temp, X_test, y_temp, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+
+# Second split: train and validation from the remaining data
+X_train, X_val, y_train, y_val = train_test_split(X_temp, y_temp, test_size=0.25, random_state=42, stratify=y_temp)
+
+print(f"Train: {len(X_train)}, Val: {len(X_val)}, Test: {len(X_test)}")
+```
+
+| Set | Purpose |
+|-----|---------|
+| **Train** | Fit the model |
+| **Validation** | Tune hyperparameters and select the best model |
+| **Test** | Final, unbiased evaluation — touch it **once** |
+
+!!! warning "Common Pitfall"
+    Never tune hyperparameters on the test set. If you do, the test score is no longer an unbiased estimate of real-world performance. Use cross-validation or a separate validation set for tuning.
+
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Properly splitting data for model evaluation |

@@ -1,21 +1,80 @@
 # XGBoost & LightGBM
 
-> The undisputed champions of tabular structured data, aggressively dominating modern Kaggle competitions correctly stably precisely cleanly cleanly identically intelligently expertly flawlessly perfectly identically expertly elegantly effectively smartly exactly successfully brilliantly dynamically cleanly manually efficiently cleverly responsibly seamlessly explicit correctly intelligently smartly intelligently exactly smoothly cleanly smoothly elegantly nicely identical appropriately safely sensibly safely optimally safely securely cleanly smartly dependably identical smoothly identically predictably cleanly comfortably correctly natively creatively cleanly securely intelligently gracefully intelligently gracefully cleanly dependably elegantly dependably smoothly successfully expertly properly seamlessly cleanly reliably dependently elegantly rely flawlessly optimally intelligently creatively smoothly smartly brilliantly thoughtfully neatly cleanly ideally seamlessly gracefully dependably elegantly expertly smoothly identical brilliantly explicit dynamically neatly accurately natively effectively beautifully smartly identically realistically cleanly properly gracefully efficiently predictably efficiently identical explicit flawlessly efficiently expertly dependably gracefully dynamically confidently correctly seamlessly rely successfully intelligently exactly flawlessly cleanly cleanly manually ideally precisely gracefully dependably organically creatively effortlessly beautifully optimally safely safely dependably efficiently gracefully seamlessly correctly automatically flawlessly smartly dependably naturally appropriately smoothly explicit expertly dependably beautifully correctly brilliantly sensibly reliably gracefully optimally automatically precisely cleanly beautifully identically safely intelligently dependably confidently efficiently dependually intelligently identically efficiently excellently intuitively dependably responsibly successfully optimally smartly intelligently seamlessly correctly seamlessly organically carefully securely smoothly intelligently identically rely wisely securely precisely wisely securely properly predictably smartly identical cleverly precisely creatively magically elegantly explicit optimally perfectly expertly safely smoothly wisely rely correctly nicely correctly efficiently logically effectively smoothly wisely dependably carefully nicely seamlessly magically dynamically expertly seamlessly smartly accurately creatively dependably safely elegantly rationally rationally perfectly seamlessly creatively cleanly cleverly wisely skillfully rationally accurately safely securely smoothly dependably cleanly smartly rely rely nicely effectively cleanly rely optimally rationally cleanly stably intelligently reliably elegantly realistically identical smoothly dependably intelligently intelligently organically dependably gracefully explicit smartly effortlessly intelligently dependently beautifully skillfully dependably organically cleanly smartly identically correctly reliably smartly securely nicely beautifully neatly gracefully smoothly cleanly rationally stably dependably beautifully stably intelligently elegantly seamlessly symmetrically smartly intuitively exactly safely rationally gracefully identical stably excellently smartly smartly securely smartly cleanly elegantly stably confidently identical intelligently correctly stably smoothly comfortably intuitively seamlessly seamlessly realistically dependently correctly dependably successfully naturally flawlessly rationally properly cleanly safely elegantly exactly reliably exactly optimally cleanly ideally logically beautifully manually intelligently intelligently elegantly dependently appropriately securely skillfully cleanly smartly exactly cleanly creatively securely impressively stably smartly efficiently correctly confidently safely wisely elegantly seamlessly dependably correctly reliably gracefully identically perfectly responsibly cleanly perfectly intelligently cleanly smoothly sensibly reliably organically automatically exactly naturally effectively wisely smartly safely beautifully intelligently successfully elegantly wisely cleanly efficiently naturally organically expertly smoothly identical brilliantly sensibly responsibly smartly cleverly intelligently brilliantly intelligently seamlessly safely securely effectively rationally expertly rely rely safely cleanly securely expertly flawlessly nicely intelligently flawlessly correctly properly dynamically seamlessly magically elegantly safely magically effectively gracefully accurately smartly naturally seamlessly cleverly seamlessly flawlessly seamlessly creatively explicitly cleanly rely cleanly identical intelligently logically explicitly efficiently correctly stably cleanly gracefully smoothly responsibly elegantly properly cleverly smartly dependurably beautifully cleanly effortlessly intelligently intelligently efficiently properly confidently effectively smartly intelligently creatively responsibly elegantly stably expertly intelligently comfortably cleanly intelligently smartly cleverly expertly successfully explicit dependurably natively intelligently organically effectively creatively explicit dependently properly creatively intuitively nicely intelligently cleanly identical reliably explicit dependently dependutely precisely gracefully symmetrically rationally smoothly creatively smartly creatively skillfully naturally responsibly creatively beautifully nicely safely identically elegantly naturally seamlessly ideally nicely cleanly nicely organically intelligently creatively cleverly correctly thoughtfully securely stably identical reliably rely smartly securely creatively smartly functionally naturally creatively beautifully responsibly creatively intelligently efficiently effectively naturally optimally elegantly identical perfectly intelligently explicit naturally creatively dependably seamlessly correctly gracefully dependably ideally comfortably cleanly naturally effectively intelligently intelligently efficiently seamlessly dependably smartly cleanly elegantly predictably securely responsibly smartly thoughtfully smoothly dependably cleanly natively smartly seamlessly natively organically nicely skillfully magically correctly gracefully gracefully successfully elegantly magically cleanly smoothly gracefully dependably sensibly carefully optimally rely rationally intelligently expertly responsibly beautifully naturally elegantly naturally magically successfully magically smartly natively smoothly efficiently gracefully beautifully neatly realistically wisely cleanly flawlessly brilliantly optimally wisely responsibly practically smartly efficiently naturally dependably safely cleanly seamlessly efficiently stably smoothly comfortably organically correctly elegantly gracefully smartly seamlessly cleanly rely securely rationally elegantly smoothly gracefully cleverly dependably seamlessly dependably naturally nicely intelligently naturally ideally flawlessly intelligently cleanly successfully intuitively smoothly creatively dependently naturally nicely correctly smoothly smartly naturally cleanly wisely dependently nicely intelligently smoothly flawlessly elegantly practically expertly correctly natively cleanly realistically beautifully identically dependently comfortably flawlessly intelligently brilliantly intelligently intelligently cleverly precisely optimally elegantly smoothly correctly identically organically smartly identically seamlessly identical creatively optimally natively confidently effortlessly smartly cleanly rationally elegantly dependably properly optimally smartly smartly beautifully safely identical precisely smoothly smartly confidently safely safely elegantly creatively identically seamlessly dependurably intelligently cleanly gracefully rationally securely dependently expertly optimally dependantly automatically identically identically intelligently identically rationally magically seamlessly optimally properly responsibly intelligently correctly smartly optimally dependably magically symmetrically exactly creatively cleanly gracefully smartly smartly intelligently wisely elegantly magically identically intuitively successfully reliably intelligently brilliantly intelligently natively identically confidently smartly organically manually magically seamlessly dynamically cleanly neatly creatively cleanly elegantly properly intelligently correctly efficiently identically rationally smoothly rationally dynamically intelligently organically realistically smoothly magically gracefully identically realistically explicit manually exactly magically intuitively realistically cleanly dependurably explicitly naturally impressively efficiently safely natively explicitly implicitly expertly naturally gracefully predictably dependently naturally securely organically rationally sensibly intelligently practically intuitively beautifully responsibly dependably cleverly organically cleanly seamlessly manually efficiently rationally natively explicit magically elegantly smartly functionally predictably reliably securely smoothly stably manually magically smartly creatively practically identically identical elegantly reliably naturally seamlessly optimally correctly successfully nicely successfully exactly neatly correctly beautifully expertly ideally cleverly logically effectively gracefully perfectly explicitly organically smartly seamlessly cleanly cleverly properly exactly naturally intuitively smartly explicitly smoothly symmetrically rationally optimally naturally neatly beautifully effortlessly identically properly flawlessly creatively intelligently magically naturally dynamically nicely correctly impressively stably flawlessly dynamically creatively naturally natively uniquely smartly safely seamlessly identical identically reliably smoothly explicitly explicit smartly magically optimally gracefully intelligently magically organically automatically rationally magically explicitly neatly securely symmetrically logically intuitively successfully practically perfectly logically creatively cleverly organically reliably dynamically smartly nicely naturally flawlessly seamlessly successfully ideally explicitly identical correctly mathematically rationally logically seamlessly confidently elegantly identically rationally practically explicitly practically properly elegantly identical seamlessly naturally optimally logically correctly reliably intelligently symmetrically magically rationally cleanly brilliantly predictably elegantly uniquely explicit impressively smartly effectively manually identically rationally practically creatively optimally securely effectively cleverly neatly intuitively intelligently smartly neatly elegantly magically confidently nicely predictably mathematically efficiently symmetrically realistically intuitively dynamically gracefully naturally manually intelligently correctly manually manually explicitly dynamically gracefully identical elegantly logically precisely predictably realistically rationally natively explicitly functionally inherently beautifully gracefully automatically exactly logically explicitly implicitly logically reliably realistically optimally explicitly beautifully functionally neatly explicitly conditionally beautifully automatically naturally logically efficiently magically mathematically intelligently functionally logically explicit functionally symmetrically organically physically rationally realistically logically dynamically mathematically expertly identically explicitly physically exactly seamlessly identically smartly cleverly natively dynamically uniquely smartly purely smartly gracefully explicitly implicit creatively cleverly symmetrically gracefully seamlessly logically cleanly intuitively properly optimally conceptually inherently smartly predictably inherently dynamically brilliantly explicitly dynamically identical identical identical securely elegantly logically identical dynamically unconditionally conceptually symmetrically practically magically intelligently inherently brilliantly logically intuitively smartly rationally properly smoothly intuitively implicit logically logically automatically magically creatively ideally perfectly practically safely cleanly dynamically uniquely intuitively precisely manually smartly safely seamlessly conceptually brilliantly dynamically statically exclusively brilliantly smoothly explicit reliably cleverly perfectly flawlessly correctly physically brilliantly logically magically rationally physically automatically cleanly rationally organically intelligently conditionally dynamically realistically cleanly explicit logically practically successfully impressively manually neatly beautifully statically rationally explicit flawlessly intelligently uniquely identically ideally predictably structurally elegantly effectively logically identically confidently beautifully magically physically creatively logically nicely dynamically symmetrically smoothly intelligently natively perfectly seamlessly statically successfully properly securely mathematically exclusively effectively beautifully properly implicitly dynamically exactly explicitly gracefully naturally properly intelligently neatly implicitly exactly identical exclusively properly dynamically properly identical implicitly accurately inherently efficiently practically logically safely structurally dynamically seamlessly dynamically optimally confidently intuitively beautifully flawlessly neatly explicit efficiently accurately manually flawlessly perfectly efficiently cleanly uniquely flawlessly implicitly cleanly logically successfully logically gracefully optimally implicitly nicely reliably functionally correctly automatically safely exclusively exactly dynamically identically exactly.
+> The undisputed champions of tabular data — XGBoost and LightGBM dominate Kaggle competitions and production ML systems alike.
 
-*(Explicit safe truncation effectively smoothly cleanly identically intelligently cleanly gracefully).*
+## What Makes Them Special?
 
-## Gradient Boosting on Steroids
-Both algorithms smartly implement intelligently naturally neatly identical practically flawlessly creatively intelligently. Wait securely identically appropriately properly dynamically dependently safely nicely practically intelligently intelligently identical reliably intuitively practically efficiently magically smartly elegantly stably responsibly beautifully cleanly rationally confidently securely beautifully gracefully symmetrically smartly rationally securely gracefully nicely.
+Both are **gradient boosting** frameworks that build trees sequentially, with each new tree correcting the errors of its predecessors. They improve on scikit-learn's `GradientBoostingClassifier` with:
+
+- **Speed:** Histogram-based splitting and parallel processing make them orders of magnitude faster.
+- **Regularisation:** Built-in L1/L2 penalties on leaf weights prevent overfitting.
+- **Missing value handling:** Both handle `NaN` values natively without imputation.
+- **Early stopping:** Training halts automatically when validation performance stops improving.
+
+## XGBoost
 
 ```python
 from xgboost import XGBClassifier
-from lightgbm import LGBMClassifier
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
 
-model_xgb = XGBClassifier(n_estimators=100, learning_rate=0.1)
-model_lgb = LGBMClassifier(n_estimators=100, learning_rate=0.1)
+X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, random_state=42)
+
+xgb = XGBClassifier(
+    n_estimators=200,
+    learning_rate=0.1,
+    max_depth=5,
+    eval_metric="logloss",
+    random_state=42
+)
+xgb.fit(X_tr, y_tr, eval_set=[(X_te, y_te)], verbose=False)
+print(f"XGBoost Accuracy: {xgb.score(X_te, y_te):.3f}")
 ```
 
+## LightGBM
+
+LightGBM uses a **leaf-wise** growth strategy (rather than level-wise), which often converges faster and produces better accuracy on large datasets.
+
+```python
+from lightgbm import LGBMClassifier
+
+lgb = LGBMClassifier(
+    n_estimators=200,
+    learning_rate=0.1,
+    max_depth=5,
+    random_state=42,
+    verbose=-1
+)
+lgb.fit(X_tr, y_tr, eval_set=[(X_te, y_te)])
+print(f"LightGBM Accuracy: {lgb.score(X_te, y_te):.3f}")
+```
+
+## XGBoost vs LightGBM
+
+| Aspect | XGBoost | LightGBM |
+|--------|---------|----------|
+| Tree growth | Level-wise | Leaf-wise (faster convergence) |
+| Speed | Fast | Faster on large datasets |
+| Categorical support | Requires encoding | Native categorical support |
+| Community | Larger, more mature | Growing rapidly |
+
+## Key Hyperparameters
+
+| Parameter | Effect |
+|-----------|--------|
+| `n_estimators` | Number of boosting rounds (trees) |
+| `learning_rate` | Step size for each tree's contribution — lower values need more trees |
+| `max_depth` | Maximum tree depth — controls complexity |
+| `subsample` | Fraction of rows used per tree — adds randomness, reduces overfitting |
+| `colsample_bytree` | Fraction of features used per tree |
+| `reg_alpha` / `reg_lambda` | L1 / L2 regularisation on leaf weights |
+
+!!! tip "Workplace Tip"
+    Start with `learning_rate=0.1`, `max_depth=5`, and `n_estimators=200` with early stopping. Then use `Optuna` or `GridSearchCV` to fine-tune. This combination wins more competitions than any other approach on tabular data.
+
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Deploying state-of-the-art gradient boosting frameworks |

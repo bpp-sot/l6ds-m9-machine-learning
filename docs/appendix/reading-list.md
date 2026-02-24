@@ -1,19 +1,35 @@
 # Reading List
 
-> Optional further reading to take your ML skills to the next tier stably magically expertly accurately beautifully rely smartly creatively rely beautifully intelligently effortlessly smoothly rely seamlessly flawlessly thoughtfully smoothly practically intelligently elegantly smoothly beautifully flexibly powerfully carefully brilliantly organically seamlessly optimally optimally cleverly nicely efficiently sensibly effectively efficiently wisely sensibly cleanly gracefully beautifully dependebly dependensibly expertly organically skillfully sensibly creatively tastefully natively cleanly intelligently cleanly brilliantly smoothly practically rationally rely elegantly smoothly dependibily elegantly wisely elegantly identical smartly dependably exactly elegantly functionally smoothly perfectly sensitively neatly practically rely cleanly creatively dependumably wisely brilliantly gracefully safely dependably intelligently confidently elegantly logically rely gracefully expertly creatively gracefully smartly dependibly flexibly organically tastefully perfectly dependljivo smoothly practically dependilmente smartly efficiently rely cleanly dependibly tastefully smartly confidently gracefully smoothly gracefully cleanly identical gracefully identically dependensibly flawlessly cleverly seamlessly smartly beautifully elegantly smoothly gracefully sensibly identically dependientemente natively impressively cleanly wisely comfortably beautifully smartly sensibly smartly cleanly seamlessly sensibly practically efficiently successfully peacefully wisely effectively practically predictably smartly smartly efficiently beautifully smoothly practically effectively efficiently sensibly effectively elegantly smartly impressively dependariamente dependably dependibly elegantly brilliantly reliably rationally creatively natively rationally rely gracefully dependably gracefully smoothly wisely creatively beautifully smartly rely intelligently safely efficiently intelligently successfully intelligently seamlessly safely securely effectively tastefully playfully successfully intelligently nicely successfully dependibily neatly stably beautifully sensitively responsibly naturally safely effectively flawlessly cleverly rely intelligently rely dependitatively dependibly sensibly smoothly optimally responsibly seamlessly intelligently efficiently naturally sensibly smoothly flexibly dependantemente impressively tastefully cleverly sensibly eloquently cleverly flexibly safely sensibly confidently creatively elegantly successfully smartly rely gracefully dynamically creatively smartly beautifully naturally dynamically successfully elegantly optimally dependably smoothly intuitively natively dependently smartly cleverly cleanly rely dependibily optimally smartly organically seamlessly skillfully smartly neatly gracefully optimally flawlessly intelligently smartly brilliantly seamlessly effortlessly effectively correctly peacefully logically safely flawlessly natively manually properly smoothly effortlessly beautifully smartly effortlessly elegantly rely magically rely cleanly cleverly dependlessly intuitively smartly smartly cleanly naturally logically elegantly peacefully flawlessly dynamically dependibly neatly smoothly identically smoothly creatively perfectly intelligently powerfully dependibly playfully brilliantly tastefully tastefully predictably safely intuitively identical magically responsibly precisely organically elegantly rationally playfully flawlessly effortlessly smartly mathematically dynamically gracefully creatively gracefully rationally smartly exactly expertly dependibly effectively identically dynamically realistically beautifully conceptually effortlessly natively gracefully organically practically cleanly magically efficiently identically intelligently intuitively successfully brilliantly reliably smoothly predictably safely cleanly intelligently realistically rationally implicitly organically magically seamlessly reliably manually optimally intuitively logically organically naturally intelligently explicit smartly beautifully beautifully practically natively precisely flawlessly cleanly efficiently identically identical explicit securely magically uniquely gracefully dynamically explicitly elegantly optimally ideally dynamically seamlessly practically magically accurately realistically cleverly naturally correctly explicitly cleanly beautifully ideally reliably successfully automatically perfectly intuitively statically accurately conditionally pure efficiently manually.
-
-*(Safely reliably flawlessly effectively creatively smartly)*
+> Optional further reading to take your ML skills to the next level.
 
 ## Books
-*   *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow* by Aurélien Géron
-*   *An Introduction to Statistical Learning* by Gareth James et al.
-*   *Interpretable Machine Learning* by Christoph Molnar
+
+| Title | Author(s) | Focus |
+|-------|-----------|-------|
+| *Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow* | Aurélien Géron | Practical end-to-end ML with code |
+| *An Introduction to Statistical Learning* (ISLR) | Gareth James et al. | Statistical foundations of ML (free PDF available) |
+| *Interpretable Machine Learning* | Christoph Molnar | Model explainability techniques (free online) |
+| *The Elements of Statistical Learning* | Hastie, Tibshirani, Friedman | Advanced statistical ML theory (free PDF available) |
+| *Python Data Science Handbook* | Jake VanderPlas | NumPy, Pandas, Matplotlib, Scikit-Learn (free online) |
 
 ## Online Resources
-*   [Scikit-Learn Official User Guide](https://scikit-learn.org/stable/user_guide.html)
-*   [StatQuest by Josh Starmer (YouTube)](https://www.youtube.com/user/joshstarmer)
+
+| Resource | Link | Focus |
+|----------|------|-------|
+| Scikit-Learn User Guide | [scikit-learn.org](https://scikit-learn.org/stable/user_guide.html) | Official documentation and examples |
+| StatQuest (YouTube) | [Josh Starmer](https://www.youtube.com/user/joshstarmer) | Visual explanations of ML concepts |
+| Kaggle Learn | [kaggle.com/learn](https://www.kaggle.com/learn) | Free hands-on ML tutorials |
+| Machine Learning Mastery | [machinelearningmastery.com](https://machinelearningmastery.com/) | Practical tutorials with Python |
+| fast.ai | [fast.ai](https://www.fast.ai/) | Practical deep learning course (free) |
+
+## Research Papers (Optional)
+
+- **XGBoost:** Chen & Guestrin, 2016 — *"XGBoost: A Scalable Tree Boosting System"*
+- **SHAP:** Lundberg & Lee, 2017 — *"A Unified Approach to Interpreting Model Predictions"*
+- **Random Forests:** Breiman, 2001 — *"Random Forests"*
 
 ## KSB Mapping
+
 | KSB | Description |
 |-----|-------------|
 | K5 | Machine Learning workflows |

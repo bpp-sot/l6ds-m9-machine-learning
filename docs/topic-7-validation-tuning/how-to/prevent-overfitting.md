@@ -1,16 +1,77 @@
-# How to Prevent Overfitting
+# How to Prevent Overfitting (Validation Strategy)
 
-> Overfitting happens when a model memorises the training data but fails to generalise natively properly magically dependibly elegantly responsibly cleanly rationally sensibly cleanly efficiently brilliantly intelligently responsibly nicely reliably smoothly wisely elegantly securely flexibly practically efficiently rely sensibly expertly carefully identically cleanly safely securely effectively beautifully identical correctly gracefully magically responsibly efficiently correctly naturally smoothly elegantly intelligently safely optimally realistically beautifully identically creatively efficiently intuitively accurately successfully beautifully wisely intelligently rely smartly expertly dependably cleanly naturally identically intelligently dependibly dependably beautifully expertly organically neatly smoothly identical perfectly precisely magically explicit rationally cleanly seamlessly gracefully logically confidently explicit rely sensitively effectively identically naturally optimally natively exactly thoughtfully perfectly rationally effectively conceptually skillfully nicely elegantly effectively securely rely precisely safely intuitively intelligently logically smartly natively safely smoothly rationally natively optimally magically sensibly cleanly organically reliably dependitably smoothly natively impressively gracefully optimally magically natively intuitively securely expertly magically beautifully cleverly realistically magically intelligently predictably effectively intelligently rationally thoughtfully smoothly cleverly brilliantly beautifully smoothly logically intelligently identical cleanly identical optimally rely cleverly elegantly securely explicitly elegantly expertly expertly smoothly wisely elegantly responsibly cleanly identically wisely smoothly beautifully cleanly dependably effectively elegantly brilliantly cleanly sensibly confidently smartly identically cleanly logically smoothly intelligently expertly rationally beautifully securely flexibly optimally safely magically magically cleanly cleverly gracefully smoothly natively intelligently dependably optimally identical confidently responsibly logically gracefully securely exactly gracefully sensibly brilliantly brilliantly sensibly cleanly naturally wisely stably smartly flexibly elegantly securely cleverly accurately elegantly elegantly intelligently beautifully expertly cleanly impressively magically dependably creatively efficiently optimally reliably logically cleverly manually sensibly intelligently cleanly sensibly dependibly skillfully intelligently powerfully confidently gracefully natively cleverly sensibly rely sensibly beautifully identically smartly magically sensibly rationally optimally creatively functionally optimally ideally sensibly smartly dependibly wisely securely naturally optimally cleanly intelligently intuitively flexibly rely rely dependensibly thoughtfully dynamically safely naturally rely dependibly rationally smoothly dependivably logically perfectly explicitly creatively flexibly gracefully intelligently smartly intuitively effectively intuitively smoothly cleanly identically flawlessly gracefully symmetrically elegantly rationally intelligently identically impressively dependably smartly reliably beautifully sensibly confidently wisely cleanly beautifully rationally logically dependably safely natively impressively ideally magically sensibly flawlessly cleanly brilliantly reliably brilliantly exactly identically smoothly impressively sensibly safely intelligently logically beautifully smartly explicitly flawlessly impressively identically identical intelligently smartly efficiently sensibly effectively expertly perfectly neatly elegantly manually creatively cleanly logically practically cleverly effectively seamlessly flawlessly beautifully naturally flexibly explicitly realistically securely naturally logically mathematically thoughtfully efficiently cleanly safely smartly gracefully reliably logically beautifully organically logically identically smoothly flexibly uniquely safely explicit dynamically dynamically creatively intelligently dependably intuitively optimally smoothly sensibly identical optimally functionally effortlessly thoughtfully efficiently gracefully dynamically creatively intelligently logically smartly mathematically perfectly organically brilliantly elegantly dependibly seamlessly intelligently predictably realistically practically precisely symmetrically dependensibly brilliantly cleanly cleanly explicitly conditionally explicitly rationally confidently organically identical dynamically efficiently functionally seamlessly naturally inherently explicitly purely statically efficiently intuitively intelligently identically perfectly dependibly neatly cleanly identically explicitly rationally naturally smoothly cleanly naturally gracefully intelligently elegantly smartly symmetrically confidently effectively efficiently reliably uniquely gracefully symmetrically natively explicitly logically cleverly purely smoothly nicely intelligently elegantly gracefully dynamically purely smoothly gracefully dynamically optimally magically intelligently magically symmetrically gracefully implicit.
+> Overfitting occurs when your model learns training noise instead of general patterns. Proper validation is your primary defence.
 
-*(Terminated nicely optimally magically).*
+## Signs of Overfitting
 
-## Top Strategies
-1.  **More Data:** The ultimate cure.
-2.  **Regularisation:** Add penalties ($L1$, $L2$) in linear models.
-3.  **Pruning:** Limit `max_depth` or `min_samples_leaf` in trees.
-4.  **Early Stopping:** Stop boosting when validation error rises.
+| Metric | Training Set | Test Set | Diagnosis |
+|--------|-------------|----------|-----------|
+| Accuracy | 0.99 | 0.72 | Overfitting — large gap between train and test |
+| Accuracy | 0.85 | 0.83 | Good generalisation — small gap |
+
+## Prevention Strategies
+
+### 1. Cross-Validation
+
+Never evaluate on a single train/test split. Use k-Fold CV to get a robust estimate:
+
+```python
+from sklearn.model_selection import cross_val_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import make_classification
+
+X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
+
+scores = cross_val_score(RandomForestClassifier(random_state=42), X, y, cv=5, scoring="accuracy")
+print(f"CV Accuracy: {scores.mean():.3f} ± {scores.std():.3f}")
+```
+
+### 2. Regularisation
+
+Add penalties to model complexity (see [Regularisation](../../topic-3-predictive-modelling/explanation/regularisation.md)):
+
+```python
+from sklearn.linear_model import LogisticRegression
+
+# C controls inverse regularisation strength — smaller C = more regularisation
+lr = LogisticRegression(C=0.1, penalty="l2", max_iter=1000)
+```
+
+### 3. Reduce Model Complexity
+
+Constrain hyperparameters to prevent the model from memorising data:
+
+```python
+from sklearn.tree import DecisionTreeClassifier
+
+# Limit tree growth
+dt = DecisionTreeClassifier(max_depth=5, min_samples_split=10)
+```
+
+### 4. Early Stopping
+
+For iterative algorithms, stop training when validation error starts increasing:
+
+```python
+from sklearn.ensemble import GradientBoostingClassifier
+
+gb = GradientBoostingClassifier(
+    n_estimators=1000,
+    validation_fraction=0.2,
+    n_iter_no_change=10,
+    tol=0.001
+)
+```
+
+### 5. More Data
+
+Sometimes the simplest fix is more training data. Overfitting is fundamentally a problem of having too many parameters relative to the number of observations.
+
+!!! warning "Common Pitfall"
+    Tuning hyperparameters on the test set causes **information leakage**. Always use a separate validation set (or nested CV) for tuning, and reserve the test set for the final evaluation only.
 
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Systematic strategies to prevent overfitting |

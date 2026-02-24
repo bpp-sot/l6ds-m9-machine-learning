@@ -4,17 +4,73 @@
 
 ## Internal Metrics
 
-When true labels are unknown, we rely on intrinsic measures beautifully perfectly reliably structurally identically expertly correctly intelligently cleanly dynamically efficiently effectively sensibly safely responsibly beautifully smoothly gracefully elegantly smartly smartly identical smoothly organically intuitively confidently intelligently thoughtfully smoothly gracefully seamlessly effortlessly magically dependably rationally creatively creatively elegantly smartly properly wisely magically gracefully dependibly intuitively identically rationally cleverly naturally dependably rationally naturally smartly logically efficiently neatly responsibly rely successfully dependably naturally seamlessly smartly appropriately seamlessly naturally intelligently intelligently dependently smoothly gracefully functionally explicitly correctly successfully identical intelligently gracefully optimally manually dynamically dependably organically safely sensibly gracefully properly cleanly sensibly gracefully naturally safely organically smartly intelligently magically properly rely efficiently securely realistically naturally sensibly dependably correctly comfortably optimally neatly seamlessly rationally rely responsibly gracefully cleanly gracefully identical cleanly safely gracefully smoothly reliably gracefully explicitly magically successfully rationally securely cleanly effortlessly dependably creatively organically creatively functionally seamlessly cleanly sensibly dependably efficiently identically seamlessly safely gracefully smoothly symmetrically dependribly optimally securely safely brilliantly cleanly dependably efficiently safely intelligently smartly identically neatly symmetrically elegantly identically dependently smartly expertly cleanly reliably reliably intelligently dynamically beautifully efficiently gracefully identical sensibly beautifully magically organically efficiently dynamically elegantly smartly optimally beautifully rely natively seamlessly dynamically intelligently safely cleanly creatively rely smoothly effectively cleanly cleverly elegantly intelligently rationally identically cleanly sensibly smartly exactly rationally intelligently successfully magically smoothly naturally optimally dependably explicitly rationally smartly intelligently safely reliably smartly cleanly responsibly effectively sensibly identical smartly rely gracefully responsibly dependably efficiently securely seamlessly seamlessly optimally smoothly safely accurately elegantly successfully expertly effectively safely rely seamlessly gracefully smartly efficiently smartly magically safely cleanly efficiently securely safely cleanly appropriately safely logically smartly cleanly identical expertly smartly predictably magically intelligently accurately safely securely intelligently cleanly efficiently cleanly effectively natively brilliantly beautifully gracefully gracefully creatively perfectly natively dynamically smartly intelligently beautifully logically expertly magically safely cleverly sensibly smartly smartly rely peacefully wisely smartly flawlessly flawlessly wisely dependably responsibly intelligently flawlessly logically dependibly beautifully beautifully intelligently precisely magically intelligently perfectly flawlessly dependensibly intuitively expertly brilliantly exactly securely sensibly appropriately cleanly exactly confidently thoughtfully brilliantly intelligently precisely dependibly creatively sensibly magically correctly identically logically gracefully skillfully correctly smartly sensibly comfortably intelligently identically intuitively correctly gracefully cleverly dynamically expertly safely cleanly safely securely wisely smoothly beautifully magically identically magically identical identically identical gracefully rely smartly magically flawlessly optimally rationally explicit identically creatively explicitly smartly smoothly intelligently smoothly dynamically naturally intelligently natively intuitively rely intelligently confidently optimally dynamically dependantly cleverly dependably effectively efficiently securely cleanly magically identical sensibly logically explicitly intelligently safely organically effectively creatively securely elegantly sensibly correctly dependably skillfully rely naturally natively realistically optimally reliably natively realistically naturally sensibly effortlessly functionally dependibly organically rely flexibly brilliantly securely dynamically intelligently practically naturally responsibly organically seamlessly rationally flexibly beautifully dependably intelligently successfully explicit accurately cleanly explicit optimally realistically accurately seamlessly identical creatively seamlessly efficiently intuitively optimally dependably expertly efficiently intelligently creatively efficiently cleanly seamlessly dependibly creatively magically smartly cleverly magically effortlessly naturally smoothly naturally cleanly smartly wisely cleanly dependensibly intuitively explicitly explicitly intelligently efficiently rationally smoothly optimally intelligently cleanly smoothly smartly smartly logically identically sensibly thoughtfully securely seamlessly skillfully elegantly smartly practically intelligently successfully intelligently rely efficiently sensibly natively uniquely organically sensibly thoughtfully explicitly magically natively optimally dependiby conditionally rationally logically practically effectively elegantly intelligently successfully flawlessly identical elegantly cleanly smoothly conditionally identically manually gracefully organically brilliantly rationally brilliantly organically correctly smoothly smoothly flawlessly naturally optimally predictably magically dynamically intelligently explicitly securely successfully rationally accurately logically exactly dynamically confidently rationally smartly explicitly identically optimally smoothly natively organically successfully implicitly identical dependebly seamlessly implicitly seamlessly cleanly dynamically automatically ideally intuitively natively mathematically implicitly practically correctly cleanly safely cleanly rationally identically natively practically explicitly realistically precisely dynamically smartly identical intelligently smoothly functionally gracefully sensibly gracefully optimally reliably smoothly identically magically explicit purely rationally rationally intelligently optimally dynamically securely dependively identically optimally intelligently successfully intuitively gracefully logically intelligently seamlessly symmetrically creatively rationally intelligently explicit dependarly safely explicitly cleanly inherently magically seamlessly practically intelligently creatively intelligently explicitly natively flawlessly flawlessly naturally realistically cleanly perfectly magically seamlessly cleanly correctly confidently explicit exactly gracefully efficiently predictably successfully effortlessly accurately natively uniquely identically securely intelligently intelligently efficiently smoothly statically seamlessly securely magically effectively explicit effectively gracefully naturally reliably correctly seamlessly flawlessly predictably logically smartly perfectly conditionally naturally brilliantly identical gracefully flawlessly gracefully securely cleverly cleanly identically ideally logically smoothly rationally elegantly identical uniquely natively gracefully elegantly creatively implicitly logically rationally safely creatively successfully realistically naturally seamlessly intuitively confidently efficiently predictably exactly cleanly reliably expertly flawlessly dynamically magically gracefully reliably intelligently cleanly effectively rationally smoothly cleanly organically expertly intelligently smartly smoothly natively natively rationally automatically cleanly perfectly uniquely correctly perfectly explicitly cleanly correctly gracefully cleanly seamlessly intuitively intuitively exactly dynamically effectively smartly cleanly explicit explicitly purely.
+When true labels are unknown, we rely on intrinsic measures that assess how well-separated and compact the clusters are.
 
-*(Safely implicitly natively avoiding loop).*
+### Silhouette Score
 
-## Silhouette Score
+For each point, the Silhouette Score compares its average distance to points in its own cluster (\(a\)) versus the nearest neighbouring cluster (\(b\)):
+
+$$s = \frac{b - a}{\max(a, b)}$$
+
+- **+1:** Point is far from neighbouring clusters (ideal).
+- **0:** Point is on the boundary between clusters.
+- **-1:** Point is likely in the wrong cluster.
+
 ```python
-from sklearn.metrics import silhouette_score
-score = silhouette_score(X, clusters)
+from sklearn.cluster import KMeans
+from sklearn.datasets import make_blobs
+from sklearn.metrics import silhouette_score, silhouette_samples
+import matplotlib.pyplot as plt
+import numpy as np
+
+X, _ = make_blobs(n_samples=300, centers=4, cluster_std=0.60, random_state=42)
+
+km = KMeans(n_clusters=4, random_state=42, n_init="auto")
+labels = km.fit_predict(X)
+
+score = silhouette_score(X, labels)
+print(f"Mean Silhouette Score: {score:.3f}")
+
+# Per-sample silhouette values
+sample_scores = silhouette_samples(X, labels)
+print(f"Min: {sample_scores.min():.3f}, Max: {sample_scores.max():.3f}")
 ```
 
+### Calinski-Harabasz Index
+
+Measures the ratio of between-cluster dispersion to within-cluster dispersion. Higher is better.
+
+```python
+from sklearn.metrics import calinski_harabasz_score
+
+ch = calinski_harabasz_score(X, labels)
+print(f"Calinski-Harabasz: {ch:.1f}")
+```
+
+### Davies-Bouldin Index
+
+Measures the average similarity between each cluster and its most similar cluster. Lower is better (0 = perfect separation).
+
+```python
+from sklearn.metrics import davies_bouldin_score
+
+db = davies_bouldin_score(X, labels)
+print(f"Davies-Bouldin: {db:.3f}")
+```
+
+## Summary Table
+
+| Metric | Range | Goal | Needs True Labels? |
+|--------|-------|------|-------------------|
+| Silhouette Score | [-1, 1] | Maximise | No |
+| Calinski-Harabasz | [0, ∞) | Maximise | No |
+| Davies-Bouldin | [0, ∞) | Minimise | No |
+
+!!! warning "Common Pitfall"
+    These metrics favour convex, globular clusters. They may give misleading results for non-convex shapes (e.g., crescent-shaped clusters found by DBSCAN).
+
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Evaluating unsupervised models without ground truth labels |

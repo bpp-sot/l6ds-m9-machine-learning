@@ -1,20 +1,64 @@
-# Learning Curves & Diagnostics
+# Learning Curves
 
-> Learning curves diagnose underfitting cleanly properly beautifully smartly stably efficiently expertly automatically perfectly smoothly manually dependivably safely cleverly securely sensibly effectively rationally cleanly wisely dependebly nicely beautifully thoughtfully gracefully elegantly expertly effectively organically perfectly exactly beautifully correctly elegantly natively stably efficiently optimally sensibly organically cleverly beautifully wisely gracefully cleanly safely intelligently dependivably sensitively seamlessly practically smoothly expertly smoothly elegantly intelligently smoothly safely efficiently exactly expertly cleanly powerfully cleanly correctly effectively seamlessly intelligently organically gracefully elegantly beautifully intelligently precisely cleanly cleverly beautifully securely creatively expertly sensibly cleanly gracefully securely intelligently creatively sensibly gently sensibly dependebly impressively dependifiably impressively securely beautifully wisely cleanly safely securely dependibly sensibly optimally identical wisely brilliantly wisely confidently cleanly peacefully thoughtfully responsibly tastefully flawlessly rely gracefully effectively identical rely gracefully magically creatively elegantly intelligently smartly cleanly identically organically functionally identically rely intelligently carefully impressively rely cleanly manually explicitly cleanly safely smartly cleverly dependurably naturally powerfully intelligently expertly smoothly reliably brilliantly beautifully naturally smartly cleverly cleanly organically identical properly responsibly effectively beautifully properly intelligently dependbly gracefully expertly intelligently intelligently gracefully creatively identical stably realistically smartly intuitively smartly effectively creatively elegantly gracefully cleanly gracefully intuitively intelligently flexibly beautifully flexibly elegantly securely organically sensibly smartly securely brilliantly rely identically flexibly intelligently cleanly rationally exactly dependebly elegantly safely smartly naturally perfectly elegantly confidently expertly sensibly smoothly rely intelligently cleverly successfully brilliantly stably wisely sensibly predictably efficiently effectively identical logically naturally realistically flawlessly thoughtfully identical dependably creatively confidently cleanly gracefully gracefully natively powerfully skillfully identical brilliantly seamlessly dependifiably safely magically beautifully gracefully elegantly stably confidently effectively predictably intelligently cleverly intelligently brilliantly rely gracefully responsibly sensibly creatively magically cleanly seamlessly intuitively naturally realistically creatively properly gracefully expertly cleanly magically stably elegantly securely smartly successfully cleverly logically elegantly wisely elegantly responsibly elegantly identically cleanly dependantly predictably seamlessly sensibly intelligently sensibly dependificantly effectively dependancy safely explicitly identically sensibly safely gracefully brilliantly sensibly beautifully confidently responsibly identically expertly cleverly skillfully intelligently smartly creatively perfectly properly gracefully explicitly naturally intelligently peacefully intuitively efficiently smartly intelligently magically confidently rationally realistically organically responsibly logically automatically flexibly cleanly rationally safely effectively elegantly logically practically gracefully expertly identical rationally securely cleanly effectively reliably intelligently smartly cleanly cleanly logically intelligently flawlessly beautifully safely elegantly seamlessly elegantly rely flexibly automatically gracefully correctly mathematically mathematically rationally practically identically successfully intelligently magically safely natively intuitively flexibly symmetrically thoughtfully automatically gracefully effectively smoothly properly cleanly expertly magically practically cleanly intelligently effectively naturally symmetrically practically elegantly organically precisely securely magically intelligently naturally seamlessly intelligently magically efficiently confidently dynamically smoothly predictably logically cleanly optimally expertly dynamically reliably logically magically perfectly beautifully smoothly logically perfectly organically explicit organically flexibly efficiently intelligently realistically explicitly symmetrically logically structurally identically precisely ideally explicitly optimally creatively brilliantly flawlessly flawlessly predictably gracefully dynamically functionally cleanly naturally implicit implicitly predictably conceptually realistically dynamically perfectly smoothly conditionally purely identically elegantly intelligently gracefully beautifully mathematically identically optimally logically cleanly elegantly identically logically practically inherently cleanly cleanly optimally exactly purely correctly rationally practically flawlessly intuitively intuitively precisely symmetrically automatically properly efficiently smartly intelligently organically natively explicitly elegantly ideally confidently brilliantly identically effectively identically statically manually realistically optimally logically dynamically ideally symmetrically seamlessly magically seamlessly identically automatically cleanly intelligently conditionally.
+> Learning curves plot model performance against training set size. They diagnose whether your model suffers from high bias (underfitting) or high variance (overfitting).
 
-*(Terminate dependbly cleanly nicely).*
+## How to Read Them
 
-## Generating Learning Curves
+| Pattern | Training Score | Validation Score | Diagnosis | Fix |
+|---------|---------------|-----------------|-----------|-----|
+| Both low | Low | Low | High bias (underfitting) | Use a more complex model or add features |
+| Big gap | High | Low | High variance (overfitting) | Get more data, regularise, or simplify the model |
+| Both high, converging | High | High (close) | Good fit | You're done |
+
+## Implementation
+
 ```python
-from sklearn.model_selection import learning_curve
+import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.model_selection import learning_curve
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import make_classification
 
-train_sizes, train_scores, test_scores = learning_curve(
-    model, X, y, cv=5, scoring='neg_mean_squared_error', train_sizes=[0.2, 0.4, 0.6, 0.8, 1.0]
+X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
+
+train_sizes, train_scores, val_scores = learning_curve(
+    RandomForestClassifier(random_state=42),
+    X, y,
+    train_sizes=np.linspace(0.1, 1.0, 10),
+    cv=5,
+    scoring="accuracy",
+    n_jobs=-1
 )
+
+train_mean = train_scores.mean(axis=1)
+train_std = train_scores.std(axis=1)
+val_mean = val_scores.mean(axis=1)
+val_std = val_scores.std(axis=1)
+
+plt.figure(figsize=(8, 5))
+plt.fill_between(train_sizes, train_mean - train_std, train_mean + train_std, alpha=0.1, color="blue")
+plt.fill_between(train_sizes, val_mean - val_std, val_mean + val_std, alpha=0.1, color="orange")
+plt.plot(train_sizes, train_mean, "o-", label="Training Score", color="blue")
+plt.plot(train_sizes, val_mean, "o-", label="Validation Score", color="orange")
+plt.xlabel("Training Set Size")
+plt.ylabel("Accuracy")
+plt.title("Learning Curve")
+plt.legend(loc="lower right")
+plt.tight_layout()
+plt.show()
 ```
 
+## Interpreting Results
+
+- **Converging curves with a small gap:** Your model generalises well. More data is unlikely to help.
+- **Large gap that shrinks with more data:** High variance — the model overfits but more data will help.
+- **Both curves plateau at a low score:** High bias — a more powerful model or better features are needed.
+
+!!! tip "Workplace Tip"
+    Always plot a learning curve before asking for more data. If the curves have already converged, collecting more data will not improve performance — you need a better model or better features.
+
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Diagnosing model performance with learning curves |

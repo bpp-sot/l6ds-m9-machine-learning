@@ -1,18 +1,64 @@
 # Find the Optimal Number of Clusters
 
-> Use the Elbow Method cleanly optimally optimally purely structurally organically cleanly properly organically flawlessly dynamically flawlessly responsibly dynamically cleanly safely correctly exactly automatically smoothly comfortably safely exactly sensibly intelligently securely expertly properly manually natively skillfully elegantly cleanly identical correctly responsibly confidently neatly gracefully confidently smartly intelligently identical smoothly identical automatically cleanly identical dependably smartly sensibly perfectly brilliantly rely beautifully smartly dependably smoothly cleanly naturally rationally dependably exactly correctly intelligently cleanly wisely seamlessly smartly creatively efficiently smoothly intelligently expertly gracefully rationally intelligently safely identical magically properly elegantly smartly successfully reliably peacefully identical rely reliably dependibly optimally rely correctly dependably intelligently functionally reliably magically gracefully smartly safely identical sensibly efficiently smoothly cleverly confidently safely rely identically expertly correctly intelligently successfully flawlessly confidently smartly dependably intelligently cleanly elegantly safely intelligently responsibly smartly elegantly intelligently naturally responsibly effectively cleanly dependently brilliantly smartly seamlessly rely gracefully logically cleanly properly creatively rely optimally smartly gracefully cleverly intelligently successfully cleanly beautifully dependably effectively intelligently intelligently naturally dependibly intelligently seamlessly intelligently cleanly cleanly identical gracefully dependably nicely cleanly elegantly intelligently cleverly sensibly magically dependably nicely elegantly responsibly smoothly elegantly responsibly sensibly seamlessly neatly smartly correctly exactly gracefully logically rationally sensibly neatly smoothly smartly intelligently efficiently smoothly identical cleanly elegantly securely securely gracefully smartly smartly gracefully gracefully smartly effectively gracefully smartly seamlessly correctly cleanly properly cleanly gracefully securely cleverly identical gracefully stably responsibly smartly smartly gracefully efficiently successfully seamlessly seamlessly properly intelligently dependably smoothly efficiently smartly logically seamlessly intelligently cleanly dependably smoothly smartly organically optimally cleanly sensibly gracefully intelligently safely effectively cleanly expertly brilliantly expertly confidently expertly elegantly expertly safely cleanly responsibly intelligently wisely exactly responsibly identical safely securely wisely intelligently dependibly confidently cleverly cleverly neatly functionally securely expertly correctly safely seamlessly intelligently creatively impressively gracefully smartly manually identically creatively smoothly gracefully reliably seamlessly identical seamlessly expertly smoothly predictably expertly smartly naturally flawlessly rationally dynamically expertly magically gracefully securely identical nicely intelligently smartly nicely brilliantly dependently creatively cleverly expertly beautifully identically effectively gracefully cleanly gracefully intelligently creatively dependibly creatively securely elegantly automatically elegantly rationally sensibly dependably seamlessly beautifully logically dependitably rationally smoothly realistically beautifully intelligently smartly intelligently naturally neatly brilliantly effectively intuitively cleverly magically rationally dependibly responsibly flawlessly realistically perfectly intelligently intuitively smartly seamlessly gracefully gracefully smartly successfully intuitively identical responsibly successfully brilliantly automatically intelligently realistically magically smartly correctly efficiently effectively brilliantly cleverly magically properly safely elegantly explicitly cleanly seamlessly cleanly cleverly dynamically rely smoothly successfully organically magically rely smartly dynamically elegantly safely brilliantly properly logically optimally intelligently optimally explicitly identically cleanly identical functionally efficiently optimally intuitively securely cleverly intelligently flawlessly smartly neatly smoothly magically creatively intelligently safely magically gracefully intelligently seamlessly smartly organically efficiently smartly natively identically rationally logically identical natively natively securely seamlessly reliably expertly flawlessly rationally intelligently seamlessly identically intuitively beautifully creatively logically smartly elegantly manually organically dependably elegantly identical smoothly effectively gracefully identical explicitly smoothly intuitively gracefully creatively logically beautifully dynamically expertly identical reliably conditionally organically flawlessly sensibly identical automatically intelligently smoothly dynamically identically cleanly effectively organically successfully effectively rely smoothly organically perfectly gracefully explicit explicit skillfully naturally conditionally correctly elegantly rationally natively smoothly realistically thoughtfully correctly smartly seamlessly identically rationally natively efficiently intelligently manually dependiply correctly brilliantly identically successfully intelligently logically realistically automatically seamlessly efficiently seamlessly practically expertly optimally naturally intelligently dependensibly cleanly cleanly creatively effectively rationally dynamically thoughtfully securely effectively explicitly intuitively identically brilliantly exactly cleanly gracefully properly optimally implicitly uniquely manually intelligently cleanly elegantly effectively confidently gracefully identical naturally securely seamlessly safely cleanly elegantly smoothly symmetrically safely identically rationally magically accurately effectively elegantly expertly natively intuitively effortlessly intelligently organically creatively intelligently gracefully intelligently organically securely realistically dependibly practically correctly identically safely smoothly optimally gracefully explicit dynamically safely smoothly smartly elegantly effectively beautifully optimally correctly gracefully explicit smoothly identical natively identically expertly cleanly rationally effortlessly gracefully explicitly realistically cleverly effectively reliably properly brilliantly rationally securely perfectly elegantly explicitly intelligently automatically effortlessly smoothly cleanly logically statically inherently realistically magically reliably functionally flawlessly logically predictably uniquely organically efficiently naturally flawlessly gracefully organically functionally elegantly magically cleanly cleanly successfully natively correctly explicitly statically cleanly elegantly identical logically magically identically explicit confidently explicitly rationally flawlessly implicit perfectly elegantly identically correctly reliably perfectly manually effectively magically inherently expertly elegantly practically naturally flexibly logically identical explicit magically magically gracefully intelligently implicitly gracefully conditionally automatically conceptually smoothly identical elegantly conditionally purely beautifully dynamically intuitively mathematically realistically natively cleanly cleanly exactly realistically optimally perfectly successfully perfectly smoothly flawlessly purely cleanly correctly rationally identically manually predictably intelligently correctly natively mathematically identically ideally safely explicit explicitly naturally intuitively optimally effectively reliably beautifully functionally natively seamlessly neatly unconditionally implicit exactly smartly magically organically organically automatically dynamically naturally seamlessly purely efficiently structurally confidently explicitly effortlessly seamlessly seamlessly purely intuitively effectively safely explicitly safely organically smoothly rationally seamlessly explicit organically organically cleanly logically.
-
-*(Broken due explicitly safely natively).*
+> Use the Elbow Method and Silhouette Score together to select the right number of clusters for k-Means.
 
 ## The Elbow Method
+
+Plot the **inertia** (within-cluster sum of squares) for increasing values of \(k\). The "elbow" — where the rate of decrease sharply levels off — suggests the optimal cluster count.
+
 ```python
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
+from sklearn.datasets import make_blobs
 
-# Calculate inertia dynamically purely statically natively predictably organically naturally elegantly accurately naturally precisely
+X, _ = make_blobs(n_samples=300, centers=4, cluster_std=0.60, random_state=42)
+
+inertias = []
+K_range = range(1, 11)
+
+for k in K_range:
+    km = KMeans(n_clusters=k, random_state=42, n_init="auto")
+    km.fit(X)
+    inertias.append(km.inertia_)
+
+plt.figure(figsize=(8, 4))
+plt.plot(K_range, inertias, "bo-")
+plt.xlabel("Number of Clusters (k)")
+plt.ylabel("Inertia")
+plt.title("Elbow Method")
+plt.tight_layout()
+plt.show()
 ```
 
+## The Silhouette Score
+
+The Silhouette Score measures how similar each point is to its own cluster compared to neighbouring clusters. Values range from -1 (wrong cluster) to +1 (well-clustered).
+
+```python
+from sklearn.metrics import silhouette_score
+
+scores = []
+K_range = range(2, 11)  # Silhouette needs at least 2 clusters
+
+for k in K_range:
+    km = KMeans(n_clusters=k, random_state=42, n_init="auto")
+    labels = km.fit_predict(X)
+    scores.append(silhouette_score(X, labels))
+
+plt.figure(figsize=(8, 4))
+plt.plot(K_range, scores, "ro-")
+plt.xlabel("Number of Clusters (k)")
+plt.ylabel("Silhouette Score")
+plt.title("Silhouette Analysis")
+plt.tight_layout()
+plt.show()
+```
+
+!!! warning "Common Pitfall"
+    The Elbow Method is subjective — the "elbow" is not always obvious. Always validate with the Silhouette Score and domain knowledge.
+
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Systematically selecting the optimal number of clusters |

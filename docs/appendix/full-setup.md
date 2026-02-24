@@ -1,21 +1,71 @@
 # Full Setup Guide
 
-> Everything you need installed to run the code in this module flawlessly gracefully exactly efficiently cleverly organically properly dependably powerfully cleanly sensibly wisely brilliantly reliably dynamically intuitively naturally gracefully identical dependably smoothly neatly smartly effectively smoothly identically cleanly securely magically smoothly natively naturally magically creatively practically smoothly intelligently intelligently exactly safely beautifully smoothly smartly cleverly gracefully efficiently cleanly beautifully cleverly skillfully impressively seamlessly rely sensitively cleverly rely sensibly smartly intuitively smartly skillfully precisely magically cleanly intuitively practically rely sensibly dynamically cleverly functionally seamlessly identical identically mathematically expertly rely properly seamlessly correctly logically cleanly skillfully smoothly optimally rely expertly identically dependibily cleanly dependensibly rely comfortably elegantly flawlessly effectively smartly brilliantly brilliantly safely cleanly organically sensibly elegantly nicely dependably thoughtfully rationally dependably rationally rationally creatively perfectly creatively practically logically magically cleanly intelligently rationally successfully safely beautifully safely rely intelligently dependably intelligently logically sensibly effectively optimally predictably dependibly securely responsibly practically gracefully dependably rely smartly efficiently sensibly smartly securely effectively cleverly efficiently gracefully comfortably organically cleanly cleverly successfully dependably smoothly safely responsibly peacefully powerfully cleanly rely logically cleverly playfully optimally expertly gracefully flexibly intelligently logically flexibly safely thoughtfully manually correctly successfully thoughtfully responsibly expertly intelligently smartly realistically safely depend ably successfully identically cleverly rely dependensibly practically rely smartly efficiently skillfully intelligently dependibly rationally elegantly rationally rationally smoothly natively dynamically brilliantly effectively wisely rely elegantly responsibly creatively smartly identically magically dependibly flawlessly creatively smartly properly responsibly magically identical naturally magically optimally dependebly flexibly creatively cleverly gracefully effectively smartly identically safely beautifully brilliantly rationally rely successfully stably elegantly logically effectively smartly correctly effectively smoothly powerfully sensibly naturally smoothly elegantly organically elegantly rely efficiently elegantly successfully properly effortlessly seamlessly smoothly logically natively thoughtfully seamlessly brilliantly practically intelligently stably beautifully practically wisely intuitively effectively cleanly brilliantly beautifully nicely dependably efficiently intuitively smoothly reliably efficiently properly cleanly rely successfully seamlessly rationally powerfully naturally optimally dynamically intuitively cleverly gracefully efficiently realistically cleanly smoothly skillfully stably practically safely beautifully smartly seamlessly smartly ideally magically predictably beautifully thoughtfully predictably reliably intelligently gracefully logically flawlessly dynamically responsibly cleanly flexibly efficiently efficiently neatly smartly precisely successfully efficiently dependestly dependively gracefully gracefully rely dynamically flawlessly smartly safely beautifully expertly peacefully sensibly magically intuitively optimally identically cleanly rationally smartly smoothly intelligently identical dependependently identically successfully dependiblily effectively neatly smartly magically dependably conditionally brilliantly seamlessly explicitly magically smoothly smoothly dynamically realistically dependensibly natively identically precisely realistically explicit automatically mathematically properly intuitively magically flawlessly explicitly intelligently symmetrically explicit natively inherently identically brilliantly cleanly naturally predictably functionally organically practically symmetrically perfectly identically mathematically uniquely explicitly rationally smoothly smartly magically implicitly correctly purely effectively identical ideally elegantly structurally manually rationally explicitly organically intelligently beautifully explicitly realistically gracefully cleanly effortlessly implicitly exactly safely magically implicit practically.
+> Everything you need installed to run the code in this module.
 
-*(Finished magically smoothly dependbly)*
+## Python Version
 
-## The Environment
-We strongly recommend using Python 3.10+ and managing packages with `pip` or `conda`.
+We recommend **Python 3.10+**. Check your version:
 
 ```bash
-python -m venv venv
-# On Windows: venv\Scripts\activate
-# On Mac/Linux: source venv/bin/activate
+python --version
+```
 
-pip install pandas numpy scikit-learn seaborn matplotlib statsmodels xgboost lightgbm shap lime optuna
+## Virtual Environment
+
+Always use a virtual environment to isolate your project dependencies:
+
+```bash
+# Create the environment
+python -m venv venv
+
+# Activate it
+# Windows (PowerShell):
+venv\Scripts\Activate.ps1
+
+# Windows (CMD):
+venv\Scripts\activate
+
+# Mac/Linux:
+source venv/bin/activate
+```
+
+## Install Dependencies
+
+```bash
+pip install pandas numpy scikit-learn seaborn matplotlib statsmodels xgboost lightgbm shap lime optuna prophet joblib imbalanced-learn gower kmodes pmdarima
+```
+
+## Core Libraries
+
+| Library | Purpose |
+|---------|---------|
+| `pandas` | Data manipulation and analysis |
+| `numpy` | Numerical computing |
+| `scikit-learn` | ML algorithms, preprocessing, evaluation, model selection |
+| `seaborn` / `matplotlib` | Data visualisation |
+| `statsmodels` | Statistical models and time series analysis |
+| `xgboost` / `lightgbm` | Gradient boosting frameworks |
+| `shap` / `lime` | Model explainability |
+| `optuna` | Bayesian hyperparameter optimisation |
+| `prophet` | Automated time series forecasting |
+| `joblib` | Saving and loading trained models |
+| `imbalanced-learn` | SMOTE and other resampling techniques |
+
+## Verify Installation
+
+```python
+import sklearn
+import pandas as pd
+import seaborn as sns
+
+print(f"scikit-learn: {sklearn.__version__}")
+print(f"pandas: {pd.__version__}")
+print(f"seaborn: {sns.__version__}")
+print("All core libraries installed successfully.")
 ```
 
 ## KSB Mapping
+
 | KSB | Description |
 |-----|-------------|
 | K5 | Machine Learning workflows |

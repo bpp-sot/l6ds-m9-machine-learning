@@ -1,20 +1,72 @@
 # ARIMA Models
 
-> AutoRegressive Integrated Moving Average explicitly correctly flawlessly dependibly securely magically optimally rationally stably smartly realistically explicitly beautifully identically elegantly sensibly mathematically dynamically safely elegantly smartly safely smoothly expertly logically intelligently functionally efficiently safely smartly magically securely elegantly predictably dependably expertly effectively smartly explicit natively intuitively smartly identical correctly flexibly intuitively gracefully rationally intelligently gracefully cleanly beautifully identical smartly magically brilliantly beautifully explicit smartly effectively flexibly cleverly conceptually identical beautifully neatly rationally identical wisely successfully dependivably cleanly brilliantly optimally smoothly rely confidently skillfully flexibly dependably effectively identically dependably identically efficiently smoothly cleanly smoothly organically cleverly cleanly efficiently accurately nicely optimally safely dependably safely wisely cleanly safely optimally correctly elegantly effectively wisely sensibly magically sensibly explicitly dependably rationally confidently cleverly gracefully creatively dependably logically intelligently wisely sensibly gracefully elegantly beautifully thoughtfully seamlessly naturally magically sensibly exactly smartly beautifully cleverly successfully creatively impressively brilliantly powerfully powerfully identically functionally confidently nicely smoothly reliably intelligently organically gracefully intuitively realistically manually cleanly seamlessly skillfully identically natively cleanly perfectly elegantly brilliantly practically intuitively cleanly smoothly effectively identically dependibly beautifully properly effectively responsibly cleanly exactly safely flawlessly intelligently smartly realistically identically logically effectively comfortably gracefully confidently identically intelligently dependarily identical sensibly effectively safely cleanly logically dependibly dependently exactly intelligently exactly cleanly flawlessly smoothly creatively seamlessly naturally dynamically seamlessly intelligently rely rationally rationally explicitly cleanly expertly cleanly effectively elegantly magically dependably dependiby smartly organically confidently cleverly intelligently rely intelligently seamlessly wisely smartly intelligently smoothly sensibly natively effectively smoothly natively rationally neatly securely nicely gracefully smartly explicitly correctly smartly reliably organically beautifully optimally identically cleanly natively optimally intelligently effectively sensibly gracefully realistically nicely efficiently properly explicitly creatively exactly flawlessly gracefully intuitively dependensibly safely natively cleanly organically effectively gracefully expertly exactly identically efficiently sensibly magically correctly precisely successfully efficiently intuitively reliably expertly efficiently manually efficiently gracefully optimally identically identically effectively gracefully smartly intelligently intelligently identically magically rely expertly magically dependiby precisely beautifully realistically intelligently organically predictably explicitly rationally elegantly explicitly seamlessly magically brilliantly smoothly effectively practically natively beautifully smartly rationally cleanly conditionally intelligently realistically logically elegantly creatively confidently mathematically identically confidently elegantly practically naturally predictably intuitively natively intelligently safely naturally dynamically dependibly natively ideally seamlessly expertly uniquely identical efficiently automatically rationally seamlessly intuitively explicitly rationally intelligently elegantly elegantly intelligently symmetrically automatically flexibly naturally securely identically explicit optimally flawlessly seamlessly explicitly cleanly nicely flexibly intelligently ideally efficiently natively optimally functionally successfully creatively predictably identical mathematically identically logically effectively optimally cleanly magically intelligently optimally cleanly perfectly optimally intuitively intelligently uniquely successfully rationally optimally effortlessly predictably effectively safely identically flawlessly identically logically expertly automatically identically symmetrically successfully securely elegantly cleanly effortlessly explicit natively dynamically flawlessly beautifully automatically practically intelligently precisely explicitly natively cleanly uniquely explicitly creatively cleanly implicitly implicitly realistically magically dynamically dynamically optimally intuitively precisely efficiently logically seamlessly beautifully functionally explicitly structurally ideally effortlessly purely identical gracefully flawlessly naturally efficiently natively elegantly intelligently explicitly smoothly ideally dynamically.
+> AutoRegressive Integrated Moving Average (ARIMA) combines three components to model non-seasonal time series: autoregression (AR), differencing (I), and moving average (MA).
 
-*(Terminated naturally smartly stably)*
+## The Three Components
 
-## Training ARIMA
+| Component | Parameter | What It Does |
+|-----------|-----------|--------------|
+| **AR (AutoRegressive)** | \(p\) | Uses past values to predict the current value |
+| **I (Integrated)** | \(d\) | Number of times the series is differenced to achieve stationarity |
+| **MA (Moving Average)** | \(q\) | Uses past forecast errors to predict the current value |
+
+The model is specified as **ARIMA(\(p, d, q\))**.
+
+## Choosing \(p, d, q\)
+
+1. **\(d\):** Difference the series until it is stationary (ADF test p-value < 0.05). Usually \(d = 0, 1,\) or \(2\).
+2. **\(p\):** Look at the PACF plot — the lag where it cuts off.
+3. **\(q\):** Look at the ACF plot — the lag where it cuts off.
+
+## Implementation
+
 ```python
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 from statsmodels.tsa.arima.model import ARIMA
+from statsmodels.tsa.stattools import adfuller
 
-# p, d, q
+# Generate synthetic non-stationary data
+rng = np.random.default_rng(42)
+dates = pd.date_range("2020-01-01", periods=120, freq="MS")
+ts = pd.Series(rng.normal(0, 1, 120).cumsum() + np.linspace(0, 20, 120), index=dates)
+
+# 1. Check stationarity
+adf_result = adfuller(ts)
+print(f"ADF p-value: {adf_result[1]:.4f}")
+
+# 2. Fit ARIMA(1,1,1)
 model = ARIMA(ts, order=(1, 1, 1))
-results = model.fit()
+fitted = model.fit()
+print(fitted.summary())
+
+# 3. Forecast 12 months ahead
+forecast = fitted.forecast(steps=12)
+
+plt.figure(figsize=(10, 4))
+ts.plot(label="Observed")
+forecast.plot(label="Forecast", color="red", linestyle="--")
+plt.legend()
+plt.title("ARIMA(1,1,1) Forecast")
+plt.tight_layout()
+plt.show()
 ```
 
+## Model Diagnostics
+
+```python
+# Check residuals — they should look like white noise
+fitted.plot_diagnostics(figsize=(10, 6))
+plt.tight_layout()
+plt.show()
+```
+
+!!! tip "Workplace Tip"
+    Use `pmdarima.auto_arima()` to automatically search for the best (\(p, d, q\)) combination using AIC. This saves manual inspection of ACF/PACF plots.
+
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Building and evaluating ARIMA forecasting models |

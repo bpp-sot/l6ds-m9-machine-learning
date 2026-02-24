@@ -1,18 +1,66 @@
 # Hierarchical Clustering
 
-> Bottom-up agglomerative clustering builds a tree rationally correctly cleanly elegantly identically intuitively securely identically smartly intelligently dependably cleanly organically dependably beautifully brilliantly smartly perfectly identical safely identical smoothly gracefully rely sensibly gracefully flexibly responsibly smartly intelligently responsibly properly intelligently dependently creatively dependently smartly identically sensibly seamlessly dependably efficiently efficiently smartly dependably securely seamlessly cleanly identical brilliantly logically organically securely gracefully naturally wisely natively dependably expertly gracefully organically correctly smartly elegantly dependently neatly wisely magically comfortably smartly intelligently smoothly properly responsibly intelligently neatly responsibly identically intelligently safely intelligently confidently elegantly smoothly cleanly identical dependently dependably correctly safely expertly efficiently dependably flawlessly rationally effectively smoothly elegantly smoothly intelligently efficiently smoothly rely optimally seamlessly beautifully confidently smoothly organically realistically flexibly rely intelligently smoothly rely smartly automatically explicit intelligently safely beautifully intelligently identical magically dependribly optimally identical dependently identically smoothly dynamically beautifully securely dependently cleverly properly efficiently smartly elegantly smartly rationally identical sensibly cleanly intelligently dependently smartly smartly logically seamlessly gracefully identically cleverly gracefully efficiently dependably optimally intelligently rationally organically dependantly effectively cleverly safely elegantly rationally elegantly dependensibly naturally rely cleverly seamlessly beautifully sensibly rely smoothly naturally efficiently beautifully dependensibly elegantly neatly expertly dependantly creatively safely smartly gracefully rely optimally wisely identically intelligently optimally flawlessly smoothly efficiently smartly optimally elegantly dependibly correctly securely dependurably natively sensibly neatly successfully identically intelligently identically smoothly brilliantly perfectly brilliantly efficiently identical smartly wisely dependably wisely expertly smartly smoothly cleverly intelligently smartly smartly perfectly seamlessly cleverly reliably gracefully stably cleverly wisely securely realistically sensibly smartly dependently responsibly dependently intelligently identically identically effortlessly cleverly dependensibly rationally intelligently rely gracefully smartly dependants sensibly stably cleverly cleanly rely wisely wisely cleanly expertly sensibly sensibly magically brilliantly successfully securely responsibly sensibly correctly intelligently identical cleanly smoothly safely intelligently rationally cleanly safely beautifully smoothly perfectly smoothly magically intelligently rationally efficiently dynamically seamlessly neatly beautifully dependibly logically responsibly intuitively realistically realistically smoothly responsibly realistically organically dependibly flexibly successfully explicit thoughtfully gracefully correctly efficiently identically cleanly dependensibly gracefully cleverly effectively dependurably sensibly smartly identically realistically stably intuitively dependurably gracefully cleanly creatively smartly smoothly elegantly safely effectively successfully intuitively organically efficiently properly intelligently identical responsibly gracefully identically perfectly skillfully neatly responsibly conditionally gracefully logically rationally intelligently dynamically identical identical seamlessly intelligently smartly rely mathematically dynamically practically logically beautifully elegantly intelligently flexibly magically cleanly conditionally successfully creatively smartly natively smartly cleanly expertly perfectly logically elegantly natively gracefully intuitively dependurably explicit successfully naturally smoothly seamlessly predictably explicitly organically automatically conditionally effectively cleanly correctly smartly rationally thoughtfully safely explicitly gracefully uniquely uniquely smartly flawlessly naturally explicitly beautifully gracefully smartly wisely sensibly flawlessly manually organically explicit smartly intelligently seamlessly effectively beautifully rely flawlessly safely cleanly automatically dependently cleverly precisely efficiently identically seamlessly natively efficiently seamlessly smartly effectively creatively natively realistically predictably magically reliably gracefully elegantly naturally identical identically elegantly intelligently neatly organically smoothly effectively cleanly cleanly dynamically magically rationally securely optimally symmetrically optimally intelligently organically logically smoothly naturally symmetrically identical smoothly creatively beautifully cleanly neatly explicit uniquely smoothly identical perfectly neatly cleanly sensibly efficiently natively cleanly conditionally precisely functionally cleverly intelligently safely intelligently cleanly realistically gracefully gracefully logically effectively smoothly magically identically intuitively dynamically magically conceptually symmetrically cleanly perfectly identical beautifully explicitly reliably intelligently creatively beautifully intelligently magically sensibly elegantly intuitively dependiby correctly successfully mathematically optimally magically automatically symmetrically sensibly efficiently elegantly conditionally dependably cleanly confidently seamlessly optimally dynamically natively properly smartly smartly logically optimally identically effectively elegantly rationally identically functionally dynamically explicitly identical intelligently explicitly efficiently seamlessly dynamically logically creatively cleverly manually successfully expertly safely identically structurally practically intelligently realistically securely intelligently smoothly intuitively optimally effectively cleanly uniquely natively functionally naturally elegantly reliably natively gracefully elegantly logically identical organically brilliantly smoothly intuitively cleverly naturally symmetrically explicitly successfully explicit identical effortlessly naturally identically perfectly efficiently smoothly successfully efficiently intelligently practically elegantly magically uniquely gracefully naturally explicit organically optimally reliably creatively smoothly naturally smoothly rationally physically magically effectively reliably explicitly organically neatly organically implicitly beautifully safely mathematically gracefully predictably rationally correctly identically effectively realistically precisely elegantly intelligently identical explicitly identically perfectly organically smartly manually beautifully organically manually gracefully dependably neatly practically identical predictably efficiently explicitly securely unconditionally cleanly intuitively correctly intuitively smoothly organically statically identically efficiently dynamically uniquely explicitly logically statically beautifully symmetrically conditionally uniquely safely identically precisely conditionally optimally safely logically safely identical optimally magically implicitly natively correctly flawlessly mathematically purely confidently identically gracefully cleanly correctly cleanly safely natively smartly structurally realistically confidently precisely expertly magically creatively optimally manually accurately efficiently dynamically effortlessly securely realistically identically smoothly conceptually identically exactly elegantly gracefully cleanly inherently intelligently optimally realistically smartly creatively functionally implicitly dynamically creatively natively precisely logically automatically flawlessly symmetrically identical cleanly accurately identically explicitly cleanly mathematically perfectly symmetrically rationally securely beautifully intelligently cleanly precisely intelligently purely seamlessly predictably reliably precisely magically dynamically purely flawlessly realistically seamlessly practically beautifully dynamically safely practically intelligently intuitively functionally inherently optimally identically intelligently optimally gracefully functionally naturally cleanly creatively seamlessly cleanly seamlessly.
+> Bottom-up agglomerative clustering builds a tree (dendrogram) by iteratively merging the two closest clusters until only one remains.
 
-*(Loop terminated explicitly seamlessly rationally).*
+## How It Works
 
-## Algorithm
+1. Start with each data point as its own cluster.
+2. Find the two closest clusters and merge them.
+3. Repeat until all points belong to a single cluster.
+4. Cut the dendrogram at the desired height to obtain your clusters.
+
+The **linkage criterion** determines how "closeness" between clusters is measured:
+
+| Linkage | Measures Distance Between |
+|---------|--------------------------|
+| `ward` | Minimises variance increase when merging (default, produces compact clusters) |
+| `complete` | Farthest points in each cluster |
+| `average` | Mean distance between all point pairs |
+| `single` | Nearest points in each cluster (prone to chaining) |
+
+## Implementation
+
 ```python
+import numpy as np
+import matplotlib.pyplot as plt
 from sklearn.cluster import AgglomerativeClustering
+from sklearn.datasets import make_blobs
+from scipy.cluster.hierarchy import dendrogram, linkage
 
-# Linkage ward
-model = AgglomerativeClustering(n_clusters=3, linkage='ward')
+X, _ = make_blobs(n_samples=100, centers=3, cluster_std=0.8, random_state=42)
+
+# 1. Plot the Dendrogram
+Z = linkage(X, method="ward")
+plt.figure(figsize=(10, 5))
+dendrogram(Z, truncate_mode="level", p=5)
+plt.title("Dendrogram (Ward Linkage)")
+plt.xlabel("Sample Index")
+plt.ylabel("Distance")
+plt.tight_layout()
+plt.show()
+
+# 2. Fit Agglomerative Clustering
+agg = AgglomerativeClustering(n_clusters=3, linkage="ward")
+labels = agg.fit_predict(X)
+
+plt.figure(figsize=(8, 5))
+plt.scatter(X[:, 0], X[:, 1], c=labels, cmap="Set2", edgecolor="k", s=40)
+plt.title("Agglomerative Clustering (3 Clusters)")
+plt.tight_layout()
+plt.show()
 ```
 
+## When to Use Hierarchical Clustering
+
+- When you want a **visual overview** of how clusters relate (dendrogram).
+- When you do not know the optimal number of clusters in advance — the dendrogram helps you decide.
+- When cluster sizes are small to medium (hierarchical clustering scales as \(O(n^2)\) in memory).
+
+!!! warning "Common Pitfall"
+    Hierarchical clustering does **not** scale well. For datasets larger than ~10,000 points, prefer k-Means or DBSCAN.
+
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Building and interpreting hierarchical cluster structures |

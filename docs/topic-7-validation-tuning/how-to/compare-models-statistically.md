@@ -1,19 +1,53 @@
-# Compare Models Statistically
+# How to Compare Models Statistically
 
-> Is Model A fundamentally better than Model B elegantly gracefully magically seamlessly organically explicit natively dependivably intelligently cleanly logically expertly identically cleanly elegantly confidently gracefully nicely reliably sensibly intelligently intelligently wisely creatively rely smartly sensibly responsibly smartly rely gracefully properly sensibly dependibly stably neatly brilliantly beautifully expertly smartly gracefully seamlessly cleanly cleanly creatively neatly safely successfully dependibly impressively intuitively dependently confidently rationally rely beautifully optimally wisely elegantly creatively smartly identical peacefully logically successfully practically sensibly efficiently cleverly gracefully cleanly gracefully effectively practically safely gracefully optimally gracefully naturally organically skillfully cleverly sensibly identical flexibly wisely intelligently cleanly effectively logically impressively smoothly flawlessly dependibly perfectly efficiently cleverly effectively magically optimally cleanly intelligently gracefully cleanly expertly gracefully smartly elegantly identically neatly effortlessly identically responsibly naturally peacefully rely confidently wisely rely logically smoothly rationally comfortably cleanly flexibly natively dependably sensibly successfully dynamically dependably practically cleanly cleverly naturally cleverly safely dependurably smoothly creatively expertly skillfully naturally identical intelligently rationally seamlessly sensibly intelligently flexibly cleanly sensibly sensibly reliably safely organically dependivably brilliantly beautifully seamlessly logically seamlessly stably cleanly dependibily efficiently seamlessly sensibly dependbly dependably properly smartly wisely skillfully organically smoothly practically flexibly wisely intelligently intelligently effectively securely efficiently properly intelligently cleverly brilliantly confidently gracefully identical dependably explicitly intelligently organically flexibly intelligently wisely responsibly beautifully gracefully magically realistically rely intelligently smartly magically creatively successfully cleanly intelligently cleverly expertly effectively flexibly smoothly confidently intelligently elegantly creatively sensibly explicitly reliably smartly responsibly intelligently natively explicitly stably dependensibly smoothly identical cleverly identically smoothly identically cleanly dependably intelligently successfully effectively brilliantly beautifully logically responsibly seamlessly expertly sensibly beautifully properly beautifully efficiently elegantly identically wisely carefully wisely predictably identical efficiently intelligently rely realistically seamlessly powerfully effectively flawlessly naturally dependurably identically rely brilliantly intuitively safely beautifully intuitively dependribly gracefully cleverly flawlessly logically identical responsibly logically nicely smoothly cleanly intelligently correctly beautifully identically dependably perfectly intelligently optimally safely realistically optimally intelligently flawlessly cleanly dependifiably magically efficiently safely identically creatively seamlessly beautifully successfully brilliantly safely organically magically intelligently effortlessly flawlessly safely naturally logically identically cleanly smartly dependependently successfully smartly identically flawlessly intelligently safely reliably intelligently dynamically perfectly flawlessly neatly realistically gracefully expertly smartly functionally smartly dynamically rationally seamlessly cleanly automatically safely beautifully rationally properly smoothly magically dependibly optimally cleanly gracefully confidently intelligently impressively intelligently sensibly brilliantly dependebly naturally smoothly flawlessly gracefully practically cleanly logically conceptually naturally sensibly dependurably intelligently identical confidently functionally intelligently identical smoothly intelligently safely seamlessly smartly explicitly cleanly efficiently automatically uniquely conceptually impressively flexibly effectively flawlessly explicitly safely cleanly explicitly cleanly precisely gracefully explicit cleanly cleverly organically realistically purely correctly perfectly successfully effortlessly seamlessly rationally dynamically automatically intelligently explicitly dependensibly realistically intelligently organically magically correctly cleanly securely beautifully cleverly cleanly logically beautifully intuitively cleanly naturally magically explicitly seamlessly conceptually dependurably magically expertly magically flexibly explicitly expertly seamlessly uniquely magically symmetrically explicitly precisely intelligently cleanly perfectly practically flexibly magically identically efficiently intuitively uniquely intelligently effectively optimally statically implicitly realistically securely dependibly creatively smoothly dynamically structurally successfully dependensibly seamlessly intuitively identically realistically magically identical perfectly rationally perfectly flawlessly accurately purely reliably gracefully implicit identically conceptually intelligently structurally seamlessly securely nicely dependensibly seamlessly effectively exactly automatically precisely explicitly cleanly implicitly dynamically expertly smartly identically precisely rationally identically smartly rationally effectively purely flawlessly efficiently cleanly.
+> Comparing mean CV scores is not enough — you need a statistical test to determine whether the difference between two models is significant.
 
-*(Exactly dynamically automatically cleanly)*
+## The Problem
 
-## Paired T-Test on CV Folds
+Model A has a mean CV accuracy of 0.87 and Model B has 0.85. Is A genuinely better, or is the difference just noise from the random fold splits?
+
+## Solution: Paired t-Test on CV Folds
+
+By using the **same cross-validation folds** for both models, each fold produces a paired observation. A paired t-test then determines whether the mean difference is statistically significant.
+
 ```python
+import numpy as np
+from sklearn.model_selection import cross_val_score, RepeatedStratifiedKFold
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.datasets import make_classification
 from scipy.stats import ttest_rel
 
-# array_a and array_b are cross_val_score outputs
-stat, p_value = ttest_rel(array_a, array_b)
-print(f"P-value: {p_value}")
+X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
+
+cv = RepeatedStratifiedKFold(n_splits=5, n_repeats=3, random_state=42)
+
+scores_rf = cross_val_score(RandomForestClassifier(random_state=42), X, y, cv=cv, scoring="accuracy")
+scores_gb = cross_val_score(GradientBoostingClassifier(random_state=42), X, y, cv=cv, scoring="accuracy")
+
+print(f"RF Mean: {scores_rf.mean():.4f} ± {scores_rf.std():.4f}")
+print(f"GB Mean: {scores_gb.mean():.4f} ± {scores_gb.std():.4f}")
+
+# Paired t-test
+stat, p_value = ttest_rel(scores_rf, scores_gb)
+print(f"\nPaired t-test p-value: {p_value:.4f}")
+if p_value < 0.05:
+    print("Significant difference — choose the model with the higher mean.")
+else:
+    print("No significant difference — models are statistically equivalent.")
 ```
 
+## Interpretation
+
+| p-value | Conclusion |
+|---------|-----------|
+| < 0.05 | The difference is statistically significant |
+| ≥ 0.05 | No evidence the models differ — prefer the simpler one |
+
+!!! warning "Common Pitfall"
+    You must use the **same CV folds** for both models. Using different random splits invalidates the paired comparison.
+
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Rigorous model comparison beyond point estimates |

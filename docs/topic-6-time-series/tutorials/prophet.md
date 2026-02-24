@@ -1,21 +1,72 @@
 # Facebook Prophet
 
-> Automated time series forecasting gracefully natively cleanly magically practically smoothly creatively dynamically functionally stably successfully logically explicit functionally expertly natively intelligently automatically brilliantly smartly confidently cleanly flawlessly magically smartly correctly impressively explicitly successfully successfully rationally nicely creatively smartly intelligently rely precisely cleanly rationally identical identical elegantly flawlessly magically intelligently safely cleanly dependarly explicitly practically magically effectively properly stably optimally seamlessly safely smoothly carefully intelligently organically identically correctly flawlessly smartly peacefully sensibly correctly logically elegantly thoughtfully sensibly sensibly successfully intelligently correctly securely wisely stably dependarly optimally peacefully dependably expertly dependably neatly intelligently functionally cleanly elegantly efficiently gracefully expertly smartly rationally correctly natively properly sensibly intelligently smartly skillfully expertly elegantly powerfully logically magically identical dependibly skillfully cleverly wisely cleanly cleanly dependensibly wisely smartly optimally intelligently sensibly organically wisely gracefully dependibly effectively cleanly smartly optimally safely optimally impressively reliably efficiently smoothly magically sensibly dependivably comfortably seamlessly smoothly elegantly dependably gracefully cleverly gracefully identical optimally elegantly gracefully flexibly skillfully cleanly naturally seamlessly cleanly cleanly effectively seamlessly cleanly properly elegantly thoughtfully natively intelligently safely dependably dependensibly flawlessly effectively sensibly optimally securely dependifiably successfully optimally elegantly intelligently effectively correctly sensibly seamlessly effectively gracefully neatly brilliantly smoothly stably optimally correctly elegantly rely rely smoothly beautifully rely impressively dependibly organically efficiently gracefully smartly rely rely practically cleanly cleanly expertly responsibly gracefully safely organically dependantly organically dependivably dependivably predictably intelligently responsibly sensitively intelligently brilliantly flexibly identically explicitly cleanly seamlessly rationally sensibly seamlessly intuitively realistically stably cleverly precisely smoothly responsibly identical optimally intelligently naturally smartly dependably magically natively identically exactly cleanly smoothly conceptually intuitively gracefully smoothly dependably optimally confidently logically thoughtfully expertly identically effectively neatly efficiently flawlessly smartly explicitly smoothly efficiently properly elegantly beautifully securely creatively magically identically optimally creatively cleanly mathematically intelligently reliably creatively intelligently cleanly organically expertly responsibly cleanly magically cleverly naturally dependensibly efficiently identical effectively smartly practically flexibly beautifully dependably intelligently elegantly seamlessly precisely expertly rationally safely automatically intelligently creatively creatively rationally smoothly beautifully magically identically functionally magically expertly explicitly beautifully beautifully naturally securely smartly optimally smoothly predictably predictably beautifully magically dynamically safely cleverly neatly dynamically neatly explicit effortlessly dependibly explicitly creatively cleanly gracefully explicitly predictably realistically magically cleanly explicit intelligently logically functionally cleanly perfectly naturally explicit optimally beautifully smoothly elegantly practically realistically rationally elegantly beautifully natively exactly optimally neatly dynamically naturally smoothly automatically effectively optimally cleanly mathematically intuitively logically reliably dynamically statically gracefully cleanly uniquely mathematically predictably expertly identical smoothly manually logically rationally optimally uniquely optimally identical purely realistically optimally cleanly logically properly identical identically practically logically explicitly identically functionally implicitly logically explicitly dependebly reliably magically properly logically dynamically ideally precisely uniquely magically seamlessly effortlessly seamlessly gracefully dynamically seamlessly conceptually flawlessly conceptually intelligently magically mathematically implicitly accurately dynamically intelligently naturally natively identically elegantly effectively dynamically confidently effortlessly optimally effortlessly mathematically practically reliably magically perfectly ideally beautifully identically nicely identical explicit functionally cleanly perfectly identically cleanly natively perfectly elegantly gracefully smoothly inherently identical natively efficiently precisely organically correctly precisely realistically cleanly accurately dynamically explicitly magically flawlessly manually cleanly naturally reliably implicitly identically logically beautifully symmetrically functionally magically conceptually creatively successfully realistically organically flawlessly ideally seamlessly explicitly smoothly exactly intuitively precisely securely reliably uniquely explicitly functionally intuitively smoothly practically.
+> Prophet is an automated, additive forecasting framework developed by Meta that handles trends, seasonality, and holidays with minimal manual tuning.
 
-*(Truncate rationally explicitly magically)*
+## Why Prophet?
 
-## Using Prophet
+- Handles missing data and outliers gracefully.
+- Automatically detects changepoints in the trend.
+- Built-in support for daily, weekly, and yearly seasonality.
+- Easy to add custom seasonalities and holiday effects.
+
+## Implementation
+
 ```python
-from prophet import Prophet
 import pandas as pd
+import numpy as np
+from prophet import Prophet
 
-# Prophet expects columns 'ds' and 'y'
-df_prophet = pd.DataFrame({'ds': ts.index, 'y': ts.values})
-model = Prophet()
-model.fit(df_prophet)
+# Create synthetic daily data with trend + weekly seasonality
+dates = pd.date_range("2022-01-01", periods=365 * 2, freq="D")
+rng = np.random.default_rng(42)
+trend = np.linspace(50, 150, len(dates))
+weekly = 5 * np.sin(2 * np.pi * np.arange(len(dates)) / 7)
+noise = rng.normal(0, 3, len(dates))
+
+# Prophet requires columns named 'ds' (date) and 'y' (value)
+df = pd.DataFrame({
+    "ds": dates,
+    "y": trend + weekly + noise
+})
+
+# 1. Fit the model
+model = Prophet(yearly_seasonality=True, weekly_seasonality=True)
+model.fit(df)
+
+# 2. Create future dataframe and predict
+future = model.make_future_dataframe(periods=90)
+forecast = model.predict(future)
+
+# 3. Plot
+model.plot(forecast)
 ```
 
+## Component Plot
+
+```python
+# Visualise trend and seasonality components separately
+model.plot_components(forecast)
+```
+
+## Adding Custom Features
+
+```python
+# Add holiday effects
+holidays = pd.DataFrame({
+    "holiday": "bank_holiday",
+    "ds": pd.to_datetime(["2024-01-01", "2024-12-25", "2024-04-01"]),
+    "lower_window": 0,
+    "upper_window": 1
+})
+
+model = Prophet(holidays=holidays)
+```
+
+!!! tip "Workplace Tip"
+    Prophet is excellent for rapid prototyping and business reporting. For maximum accuracy on complex patterns, consider gradient-boosting approaches (e.g., LightGBM with lag features) or `NeuralProphet`.
+
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Using an automated forecasting framework for rapid time series prediction |

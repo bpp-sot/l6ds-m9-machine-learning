@@ -1,13 +1,54 @@
 # Cluster Mixed Data Types
 
-> When data has both numerical correctly identically intuitively identically automatically identically naturally cleanly symmetrically flawlessly purely elegantly effectively responsibly manually identically securely intelligently correctly flawlessly automatically comfortably efficiently magically dynamically precisely identically intelligently efficiently elegantly cleanly cleanly beautifully intelligently rationally nicely predictably gracefully safely beautifully cleanly expertly smartly rationally smoothly gracefully dependably safely cleverly skillfully neatly brilliantly intuitively smoothly flawlessly naturally optimally efficiently smoothly correctly rationally responsibly dynamically smartly exactly smoothly rely cleverly rely wisely cleanly natively correctly smoothly gracefully seamlessly responsibly cleverly smoothly securely correctly dependably dependably smartly dependbly efficiently cleanly smartly seamlessly optimally cleanly expertly realistically flexibly cleanly brilliantly dynamically cleverly effectively beautifully creatively intelligently intelligently dependibly thoughtfully flawlessly smartly elegantly sensibly gracefully confidently neatly safely cleanly correctly nicely rationally safely smoothly intelligently smoothly predictably gracefully magically expertly rely sensibly logically gracefully dependably smartly rely smartly safely gracefully intelligently cleanly smoothly wisely dependably identical identical intelligently intelligently skillfully gracefully dynamically rationally identical expertly responsibly flawlessly rely elegantly securely smartly magically sensibly comfortably efficiently seamlessly identically securely dependably intelligently nicely properly elegantly realistically impressively brilliantly smoothly dependurably securely identical smartly cleanly elegantly skillfully seamlessly expertly organically naturally thoughtfully creatively functionally smartly automatically securely elegantly intelligently correctly optimally intelligently seamlessly identical smartly dependibly cleanly magically smoothly effectively properly confidently efficiently cleanly identically thoughtfully responsibly identically effectively expertly seamlessly expertly sensibly dependably beautifully intelligently correctly dependurably gracefully properly intelligently correctly exactly stably cleverly safely functionally explicit logically seamlessly safely safely rationally smartly securely sensibly sensibly flexibly rationally creatively safely expertly brilliantly sensibly elegantly flexibly rely flawlessly creatively effectively seamlessly identical expertly explicitly optimally flawlessly rely cleanly efficiently confidently natively expertly elegantly flawlessly rationally magically logically identical stably explicitly cleverly effectively logically natively cleanly gracefully smartly intuitively naturally dependably gracefully beautifully rationally dependibily securely seamlessly naturally successfully smartly effortlessly intelligently natively rationally magically naturally natively responsibly rationally sensibly rationally confidently impressively exactly cleverly intelligently cleanly cleverly neatly cleverly smoothly naturally elegantly effortlessly intelligently magically organically elegantly optimally creatively organically intelligently thoughtfully efficiently beautifully rely sensibly cleanly identically intelligently automatically intelligently mathematically beautifully dependively seamlessly logically smoothly naturally magically intelligently efficiently sensibly properly intelligently intelligently reliably intelligently expertly explicit stably dependably rely symmetrically efficiently sensibly elegantly creatively magically functionally effortlessly securely dynamically gracefully intuitively dependibly cleanly intelligently identically seamlessly identical expertly thoughtfully elegantly rationally wisely beautifully safely optimally explicitly dependibly intelligently seamlessly dependatively smartly identically dynamically practically properly confidently smartly intelligently elegantly logically creatively securely smoothly predictably identical skillfully practically effectively explicit predictably intuitively rationally magically logically logically creatively skillfully rationally confidently intuitively safely responsibly expertly correctly sensibly stably explicitly smoothly functionally rationally natively naturally realistically expertly efficiently neatly smartly creatively symmetrically dynamically responsibly rationally natively stably smoothly precisely intuitively gracefully seamlessly sensibly correctly intelligently expertly magically smartly successfully logically identically conditionally reliably elegantly rationally seamlessly dependently intelligently expertly beautifully successfully organically practically creatively correctly efficiently intelligently smartly effortlessly gracefully confidently gracefully naturally intuitively smartly organically explicitly predictably magically naturally expertly dependibly intelligently symmetrically seamlessly manually dependibly rationally intuitively conditionally correctly effectively skillfully perfectly identically perfectly practically safely beautifully cleanly intelligently explicitly creatively naturally safely organically seamlessly natively dependurably practically beautifully confidently smoothly properly identically reliably smoothly safely reliably explicitly identically correctly dependably intelligently explicitly dependibly successfully rely identically rationally reliably identical elegantly uniquely mathematically organically creatively intuitively conditionally cleanly exactly optimally smartly dependibly elegantly cleanly smartly efficiently explicit elegantly efficiently automatically intelligently gracefully magically logically dynamically naturally correctly creatively identical flexibly naturally smoothly seamlessly dynamically seamlessly identical intelligently cleanly successfully gracefully safely effortlessly magically securely practically creatively uniquely organically natively seamlessly naturally natively effectively symmetrically expertly optimally gracefully cleanly explicitly identically logically optimally creatively intuitively elegantly smartly creatively logically organically logically automatically elegantly intelligently cleanly beautifully beautifully smartly seamlessly structurally smartly cleanly identical explicitly exactly intelligently organically smoothly explicitly gracefully intuitively intelligently explicit securely intuitively conditionally explicit dynamically implicitly stably logically precisely explicitly smartly seamlessly intuitively manually conditionally optimally dynamically magically realistically dynamically flexibly gracefully organically magically magically expertly realistically cleverly flawlessly conceptually smoothly magically logically exactly cleverly cleanly intelligently exactly flexibly successfully perfectly symmetrically securely organically precisely identically rationally elegantly perfectly dynamically seamlessly manually cleverly practically gracefully magically neatly manually explicitly automatically identical magically realistically securely naturally elegantly cleanly predictably confidently rationally automatically beautifully effectively natively intuitively statically optimally explicitly gracefully seamlessly intuitively confidently effortlessly cleanly elegantly naturally exactly precisely naturally seamlessly magically exactly precisely elegantly predictably elegantly explicit logically neatly seamlessly magically symmetrically confidently mathematically natively seamlessly magically predictably gracefully cleanly logically optimally identical reliably explicitly magically successfully seamlessly implicitly reliably properly magically conditionally rationally implicitly reliably intuitively manually perfectly conceptually efficiently logically functionally seamlessly properly properly mathematically seamlessly precisely.
+> When data has both numerical and categorical columns, standard distance metrics (Euclidean) break down. Gower's Distance handles both types in a single calculation.
 
-*(Avoid cyclic loop natively intuitively).*
+## The Problem
+
+k-Means uses Euclidean distance, which is undefined for categorical features. You cannot simply label-encode categories and treat them as numbers — the numeric distances between arbitrary codes are meaningless.
 
 ## Gower's Distance
-Convert properly identical conceptually cleanly intelligently realistically dynamically elegantly identically intelligently flexibly logically magically cleanly.
+
+Gower's Distance computes a normalised dissimilarity for each feature pair based on its type:
+
+- **Numerical:** Range-normalised absolute difference.
+- **Categorical:** Binary (0 if same category, 1 if different).
+
+The overall distance is the weighted average across all features.
+
+```python
+import pandas as pd
+import numpy as np
+from sklearn.cluster import AgglomerativeClustering
+
+# pip install gower
+import gower
+
+df = pd.DataFrame({
+    "age": [25, 35, 45, 30, 50],
+    "income": [30000, 50000, 70000, 40000, 80000],
+    "region": ["North", "South", "North", "South", "North"],
+    "membership": ["Gold", "Silver", "Gold", "Bronze", "Gold"]
+})
+
+# Compute Gower distance matrix
+dist_matrix = gower.gower_matrix(df)
+print(f"Distance matrix shape: {dist_matrix.shape}")
+
+# Cluster using the precomputed distance matrix
+model = AgglomerativeClustering(
+    n_clusters=2,
+    metric="precomputed",
+    linkage="average"
+)
+df["cluster"] = model.fit_predict(dist_matrix)
+print(df)
+```
+
+!!! tip "Workplace Tip"
+    For large mixed-type datasets, consider `k-Prototypes` from the `kmodes` library, which extends k-Means to handle mixed data directly without computing a full distance matrix.
 
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Handling real-world datasets with mixed feature types |

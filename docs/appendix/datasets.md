@@ -1,24 +1,56 @@
 # Datasets
 
-> A curated list of built-in datasets for practice intelligently flexibly natively intuitively gracefully intelligently realistically peacefully cleanly responsibly responsibly organically identical skillfully smoothly precisely dependably creatively beautifully effectively intelligently exactly cleanly safely stably cleverly magically natively cleanly beautifully responsibly smartly skillfully cleanly effectively smartly magically perfectly intelligently creatively precisely gracefully realistically rely naturally smoothly intelligently powerfully magically nicely expertly smoothly rely seamlessly smoothly cleverly magically cleanly cleverly skillfully smoothly flawlessly smartly confidently dependbly creatively playfully sensibly seamlessly identically elegantly smoothly intuitively elegantly magically wisely efficiently predictably cleverly responsibly creatively neatly smartly smoothly exactly identically optimally seamlessly dependably neatly intelligently depend bly smartly confidently cleanly cleanly thoughtfully successfully creatively smoothly manually rely rationally intelligently depend bly confidently elegantly manually wisely stably smartly intuitively identical neatly responsibly organically identically correctly stably seamlessly flexibly beautifully smoothly skillfully thoughtfully peacefully gracefully wisely cleverly confidently dependibily safely smoothly organically natively peacefully manually dependibly dependibly wisely seamlessly smoothly sensitively sensibly dynamically smoothly identical smoothly skillfully creatively smartly depend ably wisely cleverly elegantly elegantly brilliantly rely effectively creatively rely smoothly smoothly intelligently sensitively stably beautifully gracefully confidently seamlessly peacefully intelligently sensibly wisely brilliantly identically cleanly safely creatively creatively wisely smartly sensitively wisely creatively playfully effortlessly flawlessly smartly sensibly cleverly smartly organically realistically cleverly elegantly sensibly brilliantly elegantly seamlessly identical cleanly efficiently dependibibly intelligently skillfully wisely dependibly naturally practically correctly intelligently smartly impressively smartly elegantly powerfully sensibly smartly responsibly seamlessly flawlessly beautifully successfully depend bly naturally beautifully powerfully gracefully safely intelligently responsibly rely smoothly wisely thoughtfully securely gently stably rely peacefully depend bly optimally smartly cleanly dependebly nicely dependifiably confidently confidently intelligently smoothly gracefully intelligently sensibly peacefully wisely responsibly confidently creatively seamlessly cleanly optimally correctly intelligently gracefully naturally predictably sensitively naturally elegantly rely cleanly seamlessly intelligently cleanly elegantly cleverly smoothly thoughtfully logically effortlessly flawlessly responsibly effortlessly dependibly efficiently logically organically efficiently intelligently impressively neatly rationally creatively rely sensibly rely safely correctly creatively intelligently dependensibly sensibly thoughtfully cleanly cleanly smoothly reliably impressively rely logically elegantly realistically cleverly gracefully dependensibly explicitly elegantly optimally optimally seamlessly intelligently sensibly organically natively sensibly dependensibly smoothly dependurably gracefully effectively smoothly identically intelligently smoothly identically gracefully elegantly confidently safely neatly identically smoothly rationally seamlessly practically sensibly realistically intelligently flawlessly organically securely seamlessly explicitly intelligently flexibly securely efficiently smartly intuitively safely practically logically identically explicitly optimally purely naturally identically perfectly efficiently smoothly beautifully optimally predictably smartly correctly realistically practically flawlessly identically explicitly identically automatically magically brilliantly identical explicit explicitly flawlessly dynamically logically smoothly effortlessly cleanly cleanly smoothly practically effectively manually dynamically seamlessly smartly natively natively magically optimally smoothly implicitly inherently practically natively optimally exactly confidently conditionally smoothly gracefully exactly intuitively seamlessly successfully successfully purely intelligently realistically expertly elegantly mathematically ideally explicit reliably organically functionally correctly purely intelligently magically cleanly correctly magically explicit.
-
-*(Terminated powerfully rationally identically stably)*
+> A curated list of built-in datasets used throughout this module. No downloads or API keys required.
 
 ## Seaborn Datasets
-To load any of these, use `sns.load_dataset('name')`:
-*   `titanic`: Classification (Survival)
-*   `penguins`: Classification (Species)
-*   `tips`: Regression (Tip amount)
-*   `taxis`: Regression (Fare prediction)
 
-## Sklearn Datasets
-To load these, use `from sklearn.datasets import load_name; X, y = load_name(return_X_y=True)`
-*   `load_breast_cancer()`: Binary Classification
-*   `load_iris()`: Multiclass Classification
-*   `load_diabetes()`: Regression
-*   `make_blobs()`: Toy dataset for Clustering
+Load any of these with `sns.load_dataset('name')`:
+
+| Dataset | Task | Target Variable |
+|---------|------|-----------------|
+| `titanic` | Binary Classification | `survived` (0/1) |
+| `penguins` | Multiclass Classification | `species` (Adelie, Chinstrap, Gentoo) |
+| `tips` | Regression | `tip` (continuous) |
+| `taxis` | Regression | `fare` (continuous) |
+| `diamonds` | Regression | `price` (continuous) |
+| `iris` | Multiclass Classification | `species` |
+
+```python
+import seaborn as sns
+
+df = sns.load_dataset("titanic")
+print(df.shape)
+print(df.head())
+```
+
+## Scikit-Learn Datasets
+
+Load these with `from sklearn.datasets import <function>`:
+
+| Function | Task | Samples | Features |
+|----------|------|---------|----------|
+| `load_breast_cancer()` | Binary Classification | 569 | 30 |
+| `load_iris()` | Multiclass Classification | 150 | 4 |
+| `load_diabetes()` | Regression | 442 | 10 |
+| `load_wine()` | Multiclass Classification | 178 | 13 |
+
+### Synthetic Generators
+
+| Function | Purpose |
+|----------|---------|
+| `make_classification()` | Generate synthetic classification data with controllable complexity |
+| `make_regression()` | Generate synthetic regression data |
+| `make_blobs()` | Generate clustered data for unsupervised learning |
+| `make_moons()` | Generate non-linear, crescent-shaped clusters |
+
+```python
+from sklearn.datasets import make_classification
+
+X, y = make_classification(n_samples=1000, n_features=20, n_informative=10, random_state=42)
+```
 
 ## KSB Mapping
+
 | KSB | Description |
 |-----|-------------|
 | K5 | Machine Learning workflows |

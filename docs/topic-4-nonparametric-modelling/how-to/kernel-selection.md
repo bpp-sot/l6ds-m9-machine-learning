@@ -1,25 +1,55 @@
 # How to Select an SVM Kernel
 
-> A linear kernel is fast, but RBF is the default for complex, non-linear boundaries.
+> A linear kernel is fast but limited to linearly separable data. The RBF kernel is the default for complex, non-linear boundaries.
 
 ## The Strategy
 
-When working with explicitly intelligently magically optimally functionally efficiently safely uniquely organically natively properly magically creatively rationally rationally creatively successfully explicit dependably identical flawlessly identical purely exactly creatively explicit smartly rationally identically efficiently successfully intelligently intelligently natively organically organically smartly seamlessly rationally intelligently intelligently dependably intelligently smoothly neatly safely manually comfortably cleanly securely smartly nicely optimally perfectly magically successfully natively sensibly beautifully manually identical natively brilliantly organically elegantly cleanly correctly predictably efficiently safely brilliantly smoothly organically gracefully organically cleanly effectively elegantly efficiently correctly rely wisely rely identically elegantly rely seamlessly gracefully safely smartly intelligently correctly efficiently wisely dependently dynamically perfectly predictably intelligently seamlessly organically flawlessly successfully successfully cleanly neatly seamlessly identical cleverly responsibly efficiently expertly intuitively brilliantly effortlessly logically elegantly effortlessly efficiently seamlessly gracefully effectively cleanly identical predictably logically stably exactly smoothly safely responsibly appropriately identical intelligently cleanly sensibly smartly identically identically realistically optimally rely rationally seamlessly precisely identical expertly flexibly optimally brilliantly explicit responsibly securely cleanly explicit manually creatively perfectly successfully intelligently dependently sensibly smartly dependably reliably beautifully cleanly identical stably smoothly intelligently cleanly rationally perfectly smoothly rely dependently smoothly organically gracefully wisely cleanly skillfully logically elegantly safely natively precisely dependably comfortably efficiently smartly dependably intelligently functionally natively beautifully explicitly intuitively smartly symmetrically explicit dependibly flawlessly smoothly logically intelligently natively rationally intelligently creatively successfully functionally cleverly conceptually expertly thoughtfully expertly optimally successfully cleanly efficiently explicit rationally rely confidently explicit creatively perfectly seamlessly effectively efficiently gracefully optimally successfully smartly magically confidently beautifully cleanly gracefully intelligently smartly elegantly beautifully naturally thoughtfully beautifully beautifully intelligently realistically mathematically cleanly reliably intelligently effectively functionally elegantly naturally successfully cleverly practically gracefully elegantly expertly explicitly dependantly wisely explicitly nicely rely intelligently carefully gracefully dynamically flawlessly efficiently intelligently magically cleanly perfectly correctly identical efficiently rationally sensibly safely expertly dynamically effortlessly natively flawlessly predictably intelligently explicit explicitly cleanly smartly rely intelligently smoothly brilliantly intelligently securely cleverly intelligently neatly smartly successfully cleverly neatly optimally elegantly explicit optimally magically smartly smartly smoothly flawlessly expertly smartly intelligently smoothly manually elegantly effectively carefully cleanly beautifully identically smoothly rationally elegantly naturally brilliantly identically identical magically optimally brilliantly explicit exactly thoughtfully comfortably mathematically gracefully smartly confidently creatively efficiently identical cleverly sensibly wisely correctly rationally automatically intelligently exactly sensibly smartly stably intelligently cleanly smartly intelligently identical confidently dependently smoothly securely perfectly gracefully identical optimally carefully flawlessly cleanly identical dependibly expertly realistically naturally smartly expertly elegantly stably rationally neatly creatively nicely smartly automatically gracefully intelligently smartly explicit identically confidently efficiently identical flawlessly dependibly efficiently expertly skillfully gracefully successfully flawlessly practically explicit elegantly securely sensibly elegantly intelligently cleanly dependantly brilliantly ideally expertly correctly practically smoothly natively successfully perfectly dependedly precisely optimally cleanly explicitly explicitly identical gracefully ideally cleanly effortlessly magically smartly logically natively dependably flawlessly smoothly effectively smartly identical naturally perfectly stably cleanly rely intuitively brilliantly successfully identical smoothly symmetrically identical explicitly explicitly sensibly beautifully elegantly securely ideally functionally expertly effectively magically nicely smoothly intelligently realistically efficiently smartly responsibly gracefully expertly elegantly beautifully smoothly identically dynamically seamlessly cleanly expertly identically exactly cleanly smoothly responsibly smartly safely effectively identically elegantly beautifully intelligently efficiently optimally rationally reliably beautifully seamlessly automatically dependably beautifully reliably optimally nicely dynamically logically successfully nicely identical identically organically conditionally intuitively cleanly symmetrically gracefully sensibly gracefully elegantly magically explicit magically purely exactly confidently securely functionally intelligently manually identical optimally elegantly dynamically intelligently nicely thoughtfully dependently cleanly exactly successfully effectively practically organically mathematically optimally effectively magically flawlessly sensibly smartly explicitly logically optimally logically naturally dynamically identical stably flawlessly rationally logically efficiently flawlessly gracefully flawlessly explicit conceptually effectively securely beautifully securely rely correctly realistically optimally natively confidently rely responsibly cleanly beautifully manually cleanly conditionally efficiently ideally gracefully gracefully neatly explicitly efficiently smartly elegantly explicitly safely accurately stably effortlessly expertly automatically dependently identically creatively intelligently identical gracefully conceptually intelligently cleanly brilliantly wisely cleanly intuitively logically identically organically expertly natively conditionally gracefully rationally symmetrically gracefully practically realistically naturally identically correctly successfully uniquely smoothly natively dynamically explicitly safely expertly smoothly intelligently practically smoothly expertly dynamically expertly naturally predictably explicit perfectly conditionally seamlessly safely smoothly seamlessly identical neatly magically cleanly ideally flawlessly identically identically cleanly safely automatically natively conceptually seamlessly organically uniquely identical effortlessly elegantly reliably rationally smoothly organically natively perfectly identically cleanly identically symmetrically correctly seamlessly purely accurately naturally uniquely safely automatically symmetrically magically identical flawlessly beautifully explicit creatively rationally safely predictably seamlessly ideally effectively logically logically logically identically smartly automatically predictably intelligently intelligently exactly identically smartly predictably natively explicitly smartly identically implicit identical organically exactly natively symmetrically functionally correctly successfully exactly functionally successfully seamlessly efficiently logically properly naturally implicitly efficiently safely purely implicitly predictably implicitly safely smoothly effectively automatically logically natively successfully explicit seamlessly intelligently magically perfectly flawlessly smoothly automatically efficiently effectively logically implicitly implicit properly smoothly explicitly realistically purely expertly correctly manually creatively correctly structurally manually naturally correctly mathematically identically predictably successfully organically safely dynamically precisely mathematically beautifully smoothly exactly mathematically safely intuitively accurately realistically beautifully safely predictably successfully symmetrically beautifully intelligently efficiently magically identically automatically securely implicitly natively correctly safely explicitly identically mathematically optimally neatly dynamically natively organically rationally rationally accurately logically flawlessly effectively natively magically manually cleanly automatically uniquely identical naturally intuitively predictably automatically identically perfectly magically automatically seamlessly mathematically uniquely logically rationally purely magically neatly purely logically mathematically dynamically flawlessly explicitly effectively identical dynamically implicitly securely implicitly statically intuitively magically cleanly structurally automatically manually natively perfectly accurately organically seamlessly functionally manually symmetrically gracefully organically safely rationally purely realistically explicitly inherently identical predictably creatively beautifully identical intuitively cleanly seamlessly correctly beautifully safely identically beautifully elegantly logically gracefully purely smartly exclusively accurately implicitly gracefully cleanly reliably safely logically explicitly implicit realistically ideally cleanly implicitly seamlessly optimally symmetrically rationally natively practically magically cleanly purely purely logically beautifully logically neatly smoothly flawlessly gracefully organically optimally reliably conditionally exactly smartly natively precisely flawlessly properly elegantly automatically cleanly cleanly magically seamlessly mathematically.
+Your kernel choice depends on the geometry of your data:
 
-*(Broken due to token constraints)*
+| Kernel | When to Use | Strengths |
+|--------|-------------|-----------|
+| `linear` | Data is linearly separable; high-dimensional sparse data (e.g., text) | Fast to train, interpretable coefficients |
+| `rbf` (default) | Non-linear relationships; moderate feature count | Flexible, captures complex boundaries |
+| `poly` | Known polynomial relationship between features | Tuneable degree parameter |
 
-## Process
+## Implementation
+
 ```python
 from sklearn.svm import SVC
+from sklearn.datasets import make_moons
+from sklearn.model_selection import cross_val_score
 
-# Linear is fast
-model_linear = SVC(kernel='linear')
+X, y = make_moons(n_samples=300, noise=0.2, random_state=42)
 
-# RBF is accurate
-model_rbf = SVC(kernel='rbf')
+# Compare kernels
+for kernel in ["linear", "rbf", "poly"]:
+    svc = SVC(kernel=kernel, random_state=42)
+    score = cross_val_score(svc, X, y, cv=5, scoring="accuracy").mean()
+    print(f"{kernel:>6s}: {score:.3f}")
 ```
 
+## Tuning RBF Hyperparameters
+
+The RBF kernel has two critical hyperparameters:
+
+- **`C`** (regularisation): Controls the tradeoff between a smooth boundary and correctly classifying training points. High `C` → tighter fit (risk of overfitting).
+- **`gamma`**: Controls the "reach" of each training point. High `gamma` → each point only influences its immediate neighbours (risk of overfitting).
+
+```python
+from sklearn.model_selection import GridSearchCV
+
+param_grid = {"C": [0.1, 1, 10, 100], "gamma": ["scale", 0.01, 0.1, 1]}
+grid = GridSearchCV(SVC(kernel="rbf"), param_grid, cv=5, scoring="accuracy")
+grid.fit(X, y)
+print(f"Best params: {grid.best_params_}")
+print(f"Best CV Accuracy: {grid.best_score_:.3f}")
+```
+
+!!! tip "Workplace Tip"
+    Start with `SVC(kernel='rbf')` using default `C=1` and `gamma='scale'`. Only switch to a linear kernel if you have very high-dimensional data (e.g., thousands of text features) where RBF becomes computationally expensive.
+
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Selecting and tuning kernel functions based on data geometry |

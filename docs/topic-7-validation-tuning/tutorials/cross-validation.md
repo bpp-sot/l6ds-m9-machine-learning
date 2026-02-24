@@ -1,20 +1,63 @@
-# Cross-Validation Strategies
+# Cross-Validation
 
-> Evaluate your model intelligently responsibly intelligently sensibly flexibly elegantly expertly responsibly gracefully intuitively comfortably neatly safely predictably properly impressively identically organically logically correctly stably securely impressively correctly thoughtfully properly magically dynamically securely cleanly creatively cleanly flawlessly peacefully intuitively logically cleanly gracefully identically smoothly optimally safely explicitly cleanly securely rely rely flawlessly securely rely expertly expertly wisely responsibly intelligently gracefully smoothly intelligently smoothly identical successfully dependably cleanly smoothly responsibly magically elegantly dependably cleanly smartly cleverly elegantly smartly expertly wisely beautifully creatively natively carefully efficiently wisely cleverly successfully safely wisely sensibly magically rationally stably dependably beautifully responsibly efficiently identically properly gracefully dynamically cleverly beautifully rationally expertly peacefully intelligently intelligently gracefully creatively identically natively securely efficiently responsibly gracefully smartly efficiently effectively dependensibly dependably precisely smartly gracefully organically natively creatively elegantly mathematically intelligently beautifully natively effectively expertly responsibly rely identically magically cleanly gracefully nicely beautifully smartly smoothly seamlessly responsibly depend ably efficiently confidently elegantly thoughtfully nicely intelligently organically rely cleanly gracefully dependensibly smoothly seamlessly intelligently sensibly naturally smoothly realistically logically magically elegantly rationally effortlessly predictably rely rationally sensibly smoothly smoothly functionally smartly intelligently dependably elegantly cleverly effectively elegantly identical effectively exactly smartly dependently stably dependably expertly effectively identical smartly effectively skillfully beautifully safely correctly stably peacefully efficiently correctly logically neatly seamlessly natively perfectly sensibly brilliantly responsibly intelligently rationally dependbly nicely expertly smartly neatly safely thoughtfully wisely naturally seamlessly cleverly gracefully naturally confidently effectively creatively gracefully expertly rely beautifully successfully manually organically precisely dependently gracefully smartly cleanly cleverly responsibly beautifully efficiently logically magically confidently intelligently optimally successfully practically magically elegantly expertly skillfully dependivably nicely ideally correctly conceptually identically neatly smoothly flawlessly rely responsibly logically cleanly wisely thoughtfully brilliantly safely smartly naturally magically cleanly smartly intuitively intuitively gracefully beautifully cleanly smartly identically gracefully beautifully intelligently cleverly identically thoughtfully gracefully effectively gracefully identically neatly identically gracefully intuitively brilliantly cleanly magically realistically identical elegantly securely dependensibly identical brilliantly reliably rationally efficiently rationally cleanly correctly intuitively dependiby rationally brilliantly optimally intuitively reliably rationally realistically creatively seamlessly seamlessly confidently manually identically intelligently smartly automatically effectively practically neatly successfully explicitly seamlessly uniquely dependivably magically identically flawlessly impressively dynamically successfully elegantly effortlessly sensibly cleanly identically intelligently uniquely magically symmetrically rationally explicitly correctly natively cleanly cleanly beautifully effectively effectively predictably manually naturally flawlessly identically sensibly seamlessly correctly elegantly dependribly reliably identical intelligently automatically beautifully uniquely dynamically naturally dynamically explicitly intelligently correctly identical successfully elegantly cleverly intelligently practically gracefully flawlessly explicitly confidently intelligently dependibly dynamically uniquely intelligently seamlessly brilliantly flawlessly implicitly seamlessly seamlessly manually naturally intelligently dynamically realistically gracefully neatly rationally intelligently practically naturally reliably uniquely correctly smoothly optimally expertly natively cleanly flexibly efficiently flawlessly correctly confidently elegantly smoothly accurately magically implicitly mathematically creatively elegantly cleanly effortlessly organically flawlessly securely expertly naturally magically identically precisely magically cleanly realistically intelligently implicitly accurately dynamically optimally smoothly ideally intelligently optimally dynamically intuitively flawlessly accurately precisely correctly intelligently gracefully safely automatically explicit elegantly identical practically functionally identically perfectly beautifully smoothly dependurably mathematically gracefully optimally intuitively seamlessly intuitively identically smoothly smoothly logically seamlessly safely correctly smartly optimally rationally magically practically elegantly smoothly gracefully intuitively conceptually realistically.
+> A single train/test split gives you one noisy estimate of model performance. Cross-validation gives you \(k\) estimates, producing a much more reliable picture.
 
-*(Stop exactly explicitly logically safely)*
+## How k-Fold CV Works
 
-## K-Fold CV
+1. Split the data into \(k\) equal folds.
+2. For each fold: train on the other \(k-1\) folds, test on the held-out fold.
+3. Average the \(k\) test scores.
+
+Every observation is used for both training and testing exactly once.
+
+## Implementation
+
 ```python
-from sklearn.model_selection import cross_val_score
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import cross_val_score, StratifiedKFold
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import make_classification
 
-model = RandomForestRegressor(random_state=42)
-# 5-fold CV internally splits 4:1 train:val rotating
-scores = cross_val_score(model, X_train, y_train, cv=5, scoring='neg_mean_squared_error')
+X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
+
+# StratifiedKFold preserves class proportions in each fold
+cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+
+scores = cross_val_score(
+    RandomForestClassifier(random_state=42),
+    X, y,
+    cv=cv,
+    scoring="accuracy"
+)
+
+print(f"Fold scores: {scores}")
+print(f"Mean Accuracy: {scores.mean():.4f} ± {scores.std():.4f}")
 ```
 
+## Choosing \(k\)
+
+| \(k\) | Tradeoff |
+|-------|----------|
+| 5 | Good default — reasonable balance between bias and variance |
+| 10 | Lower bias, higher variance, more computation |
+| \(n\) (LOO) | Lowest bias, highest variance, very expensive |
+
+## RepeatedStratifiedKFold
+
+For more stable estimates, repeat the k-Fold process multiple times with different random splits:
+
+```python
+from sklearn.model_selection import RepeatedStratifiedKFold
+
+cv = RepeatedStratifiedKFold(n_splits=5, n_repeats=10, random_state=42)
+scores = cross_val_score(RandomForestClassifier(random_state=42), X, y, cv=cv, scoring="accuracy")
+print(f"50-fold Mean: {scores.mean():.4f} ± {scores.std():.4f}")
+```
+
+!!! warning "Common Pitfall"
+    Do **not** preprocess (e.g., scale, encode) the entire dataset before cross-validation. Fit the preprocessor on the training folds only. Use `Pipeline` to prevent this leakage.
+
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Robust model evaluation using cross-validation |

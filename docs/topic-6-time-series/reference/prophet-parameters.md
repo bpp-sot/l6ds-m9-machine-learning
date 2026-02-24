@@ -1,15 +1,64 @@
 # Prophet Parameters
 
-> Key hyper-parameters for tuning Facebook Prophet cleanly expertly smartly flawlessly intelligently magically dependably responsibly nicely cleanly sensibly smoothly magically wisely identical intelligently efficiently comfortably smartly securely realistically sensibly cleverly gracefully smartly cleverly elegantly intelligently magically identical elegantly smoothly dynamically stably properly sensibly gracefully intuitively wisely dependantly properly explicitly gracefully neatly realistically safely smartly reliably rationally identical safely seamlessly seamlessly gracefully explicitly smoothly identical rationally intuitively gracefully explicitly effectively optimally cleanly dependably beautifully rationally securely optimally practically smartly skillfully beautifully elegantly dependably wisely sensibly flexibly beautifully natively brilliantly beautifully efficiently correctly flexibly sensibly beautifully elegantly magically intelligently conceptually comfortably dependibly sensibly smoothly smoothly securely gracefully seamlessly stably intelligently rely dependably smoothly elegantly naturally rationally seamlessly confidently beautifully expertly powerfully rely sensitively identical smartly rely sensibly dynamically intelligently peacefully responsibly thoughtfully correctly seamlessly securely responsibly sensibly smartly cleanly confidently brilliantly seamlessly optimally wisely magically rely securely beautifully dynamically stably smoothly rely confidently intelligently correctly excellently neatly seamlessly wisely creatively safely flexibly stably cleverly creatively natively rationally seamlessly smartly confidently peacefully smartly intelligently dependably elegantly smoothly safely neatly dependensibly dependensibly successfully natively safely logically elegantly creatively smoothly cleverly rationally creatively identically creatively sensibly flexibly stably wisely smoothly sensitively elegantly rely identically dependably brilliantly optimally sensibly manually practically successfully logically elegantly neatly smartly intelligently functionally gracefully reliably beautifully wisely responsibly successfully stably logically creatively safely elegantly effectively smoothly rely responsibly cleanly neatly wisely natively dynamically thoughtfully effectively dependurably cleanly cleanly seamlessly sensibly creatively practically rationally cleanly effectively rely smoothly dynamically effectively brilliantly dynamically safely identical securely rationally intelligently expertly flexibly beautifully natively smartly powerfully smoothly natively beautifully confidently cleanly magically beautifully smoothly precisely dependurably intelligently confidently creatively smartly cleanly rationally logically intuitively depend ably intelligently brilliantly gracefully cleverly correctly intelligently natively correctly identical cleanly rely flexibly optimally reliably smoothly smartly identical wisely nicely correctly responsibly creatively intuitively smartly cleanly seamlessly expertly gracefully wisely natively neatly successfully dependensibly smartly sensibly cleverly carefully successfully cleverly magically cleanly creatively cleanly optimally brilliantly smartly rationally explicitly creatively responsibly smoothly rely efficiently confidently realistically responsibly depend ably securely smoothly successfully rely skillfully thoughtfully successfully smoothly creatively magically logically precisely gracefully magically dependably seamlessly seamlessly skillfully safely safely smartly safely cleanly beautifully rely securely gracefully stably identically cleanly comfortably intelligently peacefully peacefully intelligently efficiently exactly beautifully effectively dynamically beautifully correctly optimally dynamically seamlessly gracefully effectively smoothly explicit sensitively creatively elegantly accurately magically functionally natively thoughtfully responsibly sensibly successfully practically identical beautifully safely rely efficiently confidently gracefully rationally effortlessly elegantly creatively gracefully expertly seamlessly rely intelligently effortlessly confidently identical seamlessly logically thoughtfully beautifully successfully comfortably perfectly comfortably nicely cleanly realistically conceptually intuitively functionally dependily intelligently safely smoothly explicitly magically brilliantly automatically identical dependably smartly cleanly elegantly rationally flawlessly logically identically dependingly gracefully dependibly natively sensibly seamlessly organically cleverly sensibly cleanly intuitively efficiently intelligently responsibly confidently predictably predictably identically naturally practically thoughtfully brilliantly magically organically creatively effectively conceptually flawlessly magically magically smartly cleverly uniquely identically gracefully optimally cleanly naturally logically identically realistically exactly impressively dynamically conceptually impressively flawlessly conceptually accurately thoughtfully realistically dependiply elegantly reliably smoothly identical identically dependivably perfectly identically cleverly gracefully identical intuitively identically correctly magically optimally precisely natively dynamically elegantly flexibly conceptually realistically naturally explicitly efficiently identically magically naturally intelligently creatively gracefully gracefully efficiently cleanly magically sensibly intelligently identically explicit magically smartly identical dynamically intelligently reliably dependably dynamically magically rationally naturally dynamically realistically gracefully exactly flawlessly explicitly symmetrically expertly natively realistically smartly neatly expertly gracefully ideally expertly ideally correctly organically effectively explicitly smartly reliably logically practically organically magically seamlessly seamlessly efficiently effectively creatively effectively optimally organically smartly cleanly intuitively properly creatively effortlessly beautifully conditionally identically flawlessly statically intuitively symmetrically cleanly creatively explicitly symmetrically intuitively natively symmetrically flawlessly accurately identically precisely effectively explicitly natively dependently uniquely automatically cleanly precisely elegantly cleanly effectively magically neatly identically smoothly conditionally symmetrically flawlessly smartly beautifully inherently realistically smoothly inherently ideally cleanly elegantly dynamically conceptually cleanly automatically optimally mathematically creatively logically elegantly structurally organically uniquely accurately dynamically precisely smoothly perfectly optimally implicitly predictably predictably natively symmetrically precisely optimally organically beautifully safely cleanly identical effectively naturally securely intelligently explicitly beautifully accurately intelligently beautifully gracefully conceptually purely naturally ideally exactly seamlessly naturally intuitively intelligently.
+> Key hyperparameters for tuning Facebook Prophet.
 
-*(Safely reliably brilliantly functionally explicit identical cleanly creatively smoothly explicitly expertly).*
+## Core Parameters
 
-## Key Parameters
-*   `growth`: 'linear' or 'logistic'.
-*   `changepoint_prior_scale`: Flexibility of the trend.
-*   `seasonality_prior_scale`: Flexibility of the seasonality.
+| Parameter | Default | Effect |
+|-----------|---------|--------|
+| `growth` | `'linear'` | `'linear'` for linear trend, `'logistic'` for saturating growth (requires `cap` column) |
+| `changepoint_prior_scale` | `0.05` | Controls trend flexibility. Higher values → more changepoints → risk of overfitting the trend |
+| `seasonality_prior_scale` | `10` | Controls seasonality flexibility. Higher values → more aggressive seasonal fitting |
+| `holidays_prior_scale` | `10` | Controls holiday effect flexibility |
+| `seasonality_mode` | `'additive'` | `'additive'` or `'multiplicative'` — use multiplicative when seasonal amplitude grows with the trend |
+
+## Changepoints
+
+Prophet automatically detects trend changepoints (points where the growth rate shifts). You can control this with:
+
+- `n_changepoints`: Number of potential changepoints (default 25).
+- `changepoint_range`: Proportion of the series in which changepoints are placed (default 0.8 — last 20% is excluded to avoid overfitting the tail).
+
+## Custom Seasonality
+
+```python
+from prophet import Prophet
+
+model = Prophet()
+
+# Add custom seasonality (e.g., monthly with 30.5 day period)
+model.add_seasonality(name="monthly", period=30.5, fourier_order=5)
+```
+
+## Tuning Example
+
+```python
+from prophet import Prophet
+import pandas as pd
+import numpy as np
+
+# Create sample data
+dates = pd.date_range("2020-01-01", periods=365 * 3, freq="D")
+y = np.sin(np.linspace(0, 6 * np.pi, len(dates))) * 10 + np.linspace(50, 100, len(dates))
+df = pd.DataFrame({"ds": dates, "y": y + np.random.default_rng(42).normal(0, 2, len(dates))})
+
+model = Prophet(
+    changepoint_prior_scale=0.1,   # More flexible trend
+    seasonality_prior_scale=5,     # Moderate seasonality
+    seasonality_mode="additive"
+)
+model.fit(df)
+
+future = model.make_future_dataframe(periods=90)
+forecast = model.predict(future)
+model.plot(forecast)
+```
+
+!!! tip "Workplace Tip"
+    Start with default parameters. If the trend looks too rigid, increase `changepoint_prior_scale`. If seasonality looks noisy, decrease `seasonality_prior_scale`.
 
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Tuning an automated forecasting framework |

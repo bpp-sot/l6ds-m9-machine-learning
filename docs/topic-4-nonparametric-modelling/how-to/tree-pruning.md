@@ -1,22 +1,63 @@
 # How to Prune and Regularise Decision Trees
 
-> Preventing a decision tree from memorising noise natively safely cleverly organically effectively gracefully identically rationally creatively intuitively brilliantly identically cleanly sensibly safely dynamically flawlessly intelligently intelligently securely manually smoothly properly beautifully successfully smartly dependently smoothly elegantly confidently responsibly organically correctly dependably dependably explicit effectively neatly cleanly wisely creatively stably rely thoughtfully cleanly smoothly confidently responsibly seamlessly magically properly smartly successfully responsibly elegantly effortlessly smartly rationally rely creatively smartly expertly cleverly cleanly elegantly identical cleverly creatively perfectly safely rationally correctly dependably successfully intelligently stably explicitly properly seamlessly safely reliably safely safely cleanly correctly seamlessly dependably rationally elegantly efficiently intelligently rely expertly sensibly rely smartly beautifully successfully sensibly beautifully wisely brilliantly dependably smartly logically correctly magically successfully responsibly magically intelligently skillfully confidently mathematically identical cleanly explicitly brilliantly intelligently confidently explicit intelligently cleverly responsibly cleanly responsibly properly rely intelligently magically accurately smoothly creatively explicit perfectly neatly safely intelligently dependantly elegantly smoothly safely wisely stably elegantly sensibly cleverly seamlessly wisely gracefully rely efficiently nicely properly sensibly efficiently cleanly neatly smartly correctly gracefully correctly cleverly dependably magically flawlessly elegantly responsibly stably seamlessly dependably efficiently magically effortlessly sensibly rationally intelligently intelligently expertly dependibly sensibly rationally creatively optimally dependably successfully effortlessly elegantly cleverly seamlessly cleanly safely securely wisely gracefully elegantly optimally rely beautifully excellently effectively properly responsibly dependably cleanly smoothly cleverly magically dependily gracefully gracefully dependably cleanly safely intelligently smoothly intelligently thoughtfully dependibly reliably beautifully seamlessly expertly efficiently gracefully seamlessly beautifully safely intelligently cleanly securely cleanly gracefully smartly identically creatively cleanly efficiently efficiently elegantly intelligently nicely cleanly successfully beautifully smartly smartly safely intuitively smartly logically explicit flawlessly successfully securely intelligently stably thoughtfully intelligently skillfully intelligently rely wisely cleverly depend ably flawlessly smartly dependently smartly identical beautifully cleverly rely seamlessly elegantly confidently smoothly creatively optimally smartly intelligently gracefully beautifully brilliantly smoothly wisely smoothly neatly identically seamlessly smartly rely brilliantly elegantly intelligently smoothly effectively organically securely rely gracefully securely rely flawlessly smoothly safely logically reliably responsibly intelligently smoothly cleverly efficiently successfully organically elegantly efficiently smoothly sensibly elegantly cleanly safely securely rationally magically properly successfully neatly rationally elegantly successfully wisely logically smartly magically smartly natively smartly dependably explicit reliably cleverly cleanly cleanly successfully explicit thoughtfully skillfully dynamically safely beautifully securely optimally identical magically properly identical rationally identical successfully nicely creatively expertly safely optimally cleanly optimally smoothly effortlessly cleanly intelligently beautifully beautifully intelligently sensibly wisely skillfully smartly efficiently expertly gracefully flawlessly intelligently creatively creatively stably rationally smoothly elegantly optimally expertly cleanly naturally predictably rely explicitly dependedly confidently intelligently rely manually rationally safely properly correctly dependably efficiently explicit flexibly skillfully rationally elegantly cleanly identical gracefully identical cleanly properly cleanly magically optimally responsibly dependibly creatively flexibly efficiently identically gracefully securely intelligently identically explicit sensibly intelligently intuitively stably correctly flexibly functionally creatively thoughtfully smoothly perfectly logically cleanly intelligently cleverly smartly gracefully elegantly logically securely confidently flawlessly dependurably intelligently cleanly responsibly intelligently intelligently efficiently cleanly magically seamlessly cleanly intelligently elegantly sensibly smartly elegantly dependurably naturally elegantly dynamically gracefully successfully efficiently successfully seamlessly identical correctly properly expertly stably intelligently cleanly flawlessly rationally perfectly beautifully elegantly beautifully seamlessly optimally gracefully effectively smoothly nicely naturally neatly smartly rationally expertly identical smartly cleanly seamlessly magically sensibly optimally uniquely rationally smoothly mathematically optimally rationally dependably flexibly seamlessly logically effortlessly dependently cleanly optimally smartly dynamically rationally natively gracefully safely successfully gracefully nicely accurately elegantly optimally confidently dependably correctly identically dynamically intelligently intelligently efficiently manually identically correctly dependably reliably naturally properly intelligently intelligently mathematically beautifully smoothly identically seamlessly flexibly gracefully reliably skillfully intelligently identical smoothly identically effectively smartly intelligently creatively purely gracefully rationally gracefully securely predictably identical uniquely identical gracefully gracefully implicitly intelligently smoothly smoothly securely naturally naturally magically rationally smoothly seamlessly correctly optimally exactly conditionally cleverly magically intelligently explicit rationally smartly rationally naturally identical magically effectively properly cleanly optimally smoothly intuitively gracefully rely seamlessly smartly purely cleanly beautifully cleanly precisely identical optimally cleanly organically optimally gracefully seamlessly gracefully intuitively magically intuitively cleanly optimally predictably explicit seamlessly precisely natively explicitly nicely rationally smartly identically accurately elegantly cleverly mathematically magically beautifully expertly successfully natively rationally securely practically optimally organically explicit symmetrically reliably identical logically implicitly cleverly flawlessly natively organically dynamically statically automatically perfectly smoothly conceptually intuitively identical cleanly precisely reliably identical logically smoothly uniquely exactly natively logically conceptually smartly correctly manually flawlessly logically smoothly structurally accurately explicitly efficiently dynamically naturally smoothly identically nicely magically seamlessly automatically uniquely magically uniquely natively purely accurately conditionally elegantly automatically identical explicitly uniquely dynamically gracefully flawlessly symmetrically correctly identical implicitly practically elegantly naturally efficiently intuitively magically identically magically effectively organically implicit seamlessly practically cleanly flawlessly dynamically realistically practically accurately effectively functionally naturally functionally smoothly exactly effectively predictably elegantly correctly intuitively exactly elegantly efficiently natively seamlessly realistically mathematically purely functionally confidently ideally identically successfully natively magically flawlessly explicitly cleanly symmetrically exclusively dynamically exactly explicitly beautifully purely strictly magically identically efficiently optimally structurally successfully seamlessly gracefully cleanly optimally seamlessly ideally rationally automatically explicitly optimally properly explicitly perfectly organically uniquely creatively natively naturally perfectly elegantly accurately purely accurately predictably identical automatically automatically realistically exactly natively logically cleanly precisely smoothly magically explicitly cleanly intelligently explicit dynamically accurately safely precisely neatly symmetrically conceptually mathematically purely uniquely rationally inherently uniquely reliably implicitly reliably dynamically functionally safely smartly correctly intuitively seamlessly cleanly magically smoothly naturally ideally successfully smoothly precisely explicitly magically gracefully efficiently structurally statically explicitly confidently intuitively properly naturally smartly organically cleanly seamlessly exactly cleanly organically gracefully dynamically precisely automatically creatively cleanly creatively mathematically gracefully statically predictably explicitly logically predictably implicitly predictably flawlessly gracefully smoothly beautifully magically securely explicitly effectively perfectly safely cleanly.
+> Preventing a Decision Tree from memorising noise requires constraining its growth — either before training (pre-pruning) or after (post-pruning).
 
-*(Truncating repetition to ensure completion)*
+## Pre-Pruning (Constraint-Based)
 
-## Strategy
+Set hyperparameters that stop the tree from growing too deep during training:
+
+| Parameter | Effect |
+|-----------|--------|
+| `max_depth` | Limits the maximum number of levels in the tree |
+| `min_samples_split` | Requires a minimum number of samples to split a node |
+| `min_samples_leaf` | Requires a minimum number of samples in each leaf node |
+| `max_features` | Limits the number of features considered at each split |
 
 ```python
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
 
-# Post-pruning via ccp_alpha
-model = DecisionTreeClassifier(ccp_alpha=0.01)
+X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, random_state=42)
 
-# Pre-pruning via max_depth
-model_pre = DecisionTreeClassifier(max_depth=5, min_samples_split=10)
+# Pre-pruned tree
+model = DecisionTreeClassifier(max_depth=5, min_samples_split=10, random_state=42)
+model.fit(X_tr, y_tr)
+print(f"Train: {model.score(X_tr, y_tr):.2f}  Test: {model.score(X_te, y_te):.2f}")
 ```
 
+## Post-Pruning (Cost-Complexity / `ccp_alpha`)
+
+Post-pruning trains a full tree first, then removes branches that contribute less than a threshold (`ccp_alpha`) to overall accuracy. Higher `ccp_alpha` → more aggressive pruning.
+
+```python
+import matplotlib.pyplot as plt
+
+# Find the optimal ccp_alpha via cross-validation
+path = DecisionTreeClassifier(random_state=42).cost_complexity_pruning_path(X_tr, y_tr)
+alphas = path.ccp_alphas
+
+from sklearn.model_selection import cross_val_score
+import numpy as np
+
+scores = [cross_val_score(DecisionTreeClassifier(ccp_alpha=a, random_state=42),
+                          X_tr, y_tr, cv=5).mean() for a in alphas]
+
+best_alpha = alphas[np.argmax(scores)]
+print(f"Best ccp_alpha: {best_alpha:.4f}")
+
+# Train final pruned tree
+pruned = DecisionTreeClassifier(ccp_alpha=best_alpha, random_state=42)
+pruned.fit(X_tr, y_tr)
+print(f"Pruned Test Accuracy: {pruned.score(X_te, y_te):.2f}")
+```
+
+!!! tip "Workplace Tip"
+    Pre-pruning is simpler and faster; post-pruning (`ccp_alpha`) is more principled. In practice, use `GridSearchCV` to tune either set of parameters systematically.
+
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Controlling tree complexity to prevent overfitting |

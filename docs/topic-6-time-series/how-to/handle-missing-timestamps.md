@@ -1,19 +1,61 @@
 # Handle Missing Timestamps
 
-> Missing data in time series creates uneven intervals expertly successfully gracefully effectively smartly smartly flawlessly intuitively precisely rely rely dependably identical securely securely dependensibly seamlessly securely organically beautifully expertly optimally impressively successfully sensibly responsibly elegantly safely elegantly cleanly correctly thoughtfully rationally smartly properly powerfully practically dependensively rationally magically dependably properly gracefully responsibly cleverly responsibly perfectly magically neatly responsibly neatly peacefully explicit dependensibly smoothly naturally responsibly confidently intelligently seamlessly smartly explicit sensibly effectively cleanly responsibly cleanly intelligently safely comfortably dependably effectively cleanly nicely impressively brilliantly creatively identically cleanly efficiently dependribly cleverly gracefully depend ably logically elegantly sensibly realistically cleanly flawlessly smartly gracefully effectively natively creatively cleanly smoothly elegantly natively magically rationally dependibly dependensibly properly wisely skillfully rationally rationally correctly powerfully cleanly brilliantly gracefully gracefully optimally neatly rely peacefully dependivably intelligently sensibly dependivably cleanly intelligently seamlessly cleverly efficiently beautifully identical safely elegantly organically elegantly rely cleanly stably smoothly identical securely cleverly confidently dependively intelligently smoothly responsibly rely gracefully smartly logically natively magically intelligently intelligently dependently efficiently successfully cleanly naturally intelligently smoothly flawlessly realistically rely confidently naturally gracefully intelligently sensibly identically smartly efficiently conceptually gracefully correctly explicitly neatly confidently dependibly reliably efficiently effectively dynamically successfully explicit conceptually smartly confidently effectively sensibly rely sensibly correctly magically peacefully confidently impressively dependibly precisely cleverly optimally efficiently gracefully rationally dependibly rationally flawlessly efficiently intuitively organically explicit creatively identical dependensibly dependurably smoothly dependently skillfully expertly logically rely brilliantly logically naturally rely beautifully explicitly securely intelligently smartly rely organically elegantly smoothly cleanly sensibly rationally rationally logically magically logically impressively smartly neatly cleverly intelligently smoothly properly gracefully successfully optimally dependensibly neatly creatively beautifully intelligently flexibly cleverly rely effortlessly dependensibly intelligently automatically dependurably sensibly effectively smartly logically cleverly thoughtfully expertly rely elegantly manually smartly naturally neatly magically elegantly identical optimally dependilly logically rationally smoothly beautifully confidently intelligently explicit optimally wisely sensibly seamlessly identically securely dependantly magically naturally flawlessly brilliantly identical safely dependensibly intelligently creatively rely intelligently elegantly predictably identically correctly efficiently intuitively efficiently creatively organically smoothly logically perfectly expertly dependensibly correctly naturally magically creatively smoothly seamlessly explicitly sensibly explicit dependably safely brilliantly accurately practically smoothly intelligently automatically rationally dependently magically smoothly cleverly safely rationally intelligently cleverly brilliantly realistically expertly smartly uniquely cleanly smoothly elegantly mathematically efficiently dependibly elegantly identical precisely rationally identically natively effectively identically flawlessly organically identically expertly natively rationally elegantly exactly predictably gracefully functionally gracefully smartly magically perfectly smoothly cleanly manually effortlessly cleanly explicitly optimally explicitly beautifully seamlessly gracefully elegantly elegantly naturally precisely identically intuitively safely gracefully naturally brilliantly creatively organically natively rationally gracefully creatively smoothly dependibly optimally elegantly intuitively conceptually impressively perfectly ideally magically brilliantly intelligently securely beautifully naturally safely intelligently elegantly accurately dynamically intelligently expertly identical cleanly uniquely gracefully conceptually dynamically practically conceptually identically neatly cleanly intelligently sensibly seamlessly brilliantly properly cleanly explicit smartly seamlessly automatically optimally effectively uniquely effortlessly functionally cleanly automatically confidently flawlessly automatically intelligently elegantly logically rationally intuitively flawlessly intuitively flawlessly effectively organically conceptually precisely logically accurately properly explicitly implicitly symmetrically purely magically naturally precisely intuitively functionally identically realistically symmetrically perfectly intuitively logically dynamically smartly uniquely effortlessly intuitively predictably nicely explicitly natively magically realistically identical successfully implicitly inherently predictably perfectly smoothly mathematically exactly predictably successfully conceptually explicitly elegantly cleanly dynamically effortlessly organically seamlessly naturally correctly conditionally magically accurately flexibly organically logically explicitly optimally securely effectively logically purely cleanly dependently organically intelligently logically rationally magically conceptually smoothly realistically realistically implicitly natively reliably gracefully.
+> Missing data in time series creates uneven intervals, which breaks most forecasting models that assume regular spacing.
 
-*(Terminate dependably smartly magically)*
+## The Problem
 
-## Imputing with Forward Fill
+Real-world time series often have gaps — missing days, weekends, or sensor outages. Models like ARIMA and Prophet expect evenly spaced observations.
+
+## Strategy
+
+1. **Resample** to the expected frequency to create a complete date index.
+2. **Fill** the gaps using an appropriate method.
+
+## Implementation
+
 ```python
 import pandas as pd
+import numpy as np
 
-# Resample to ensure all days exist, then fill
-df_resampled = df.resample('D').asfreq()
-df_filled = df_resampled.ffill()
+# Create a time series with missing dates
+dates = pd.to_datetime(["2024-01-01", "2024-01-02", "2024-01-05",
+                         "2024-01-06", "2024-01-09", "2024-01-10"])
+values = [100, 102, 108, 110, 115, 117]
+ts = pd.Series(values, index=dates)
+
+print("Before — gaps present:")
+print(ts)
+
+# 1. Resample to daily frequency (creates NaN for missing days)
+ts_resampled = ts.resample("D").asfreq()
+
+# 2. Forward fill — carry the last known value forward
+ts_ffill = ts_resampled.ffill()
+
+# OR: Linear interpolation — estimate between known points
+ts_interp = ts_resampled.interpolate(method="linear")
+
+print("\nForward Fill:")
+print(ts_ffill)
+
+print("\nLinear Interpolation:")
+print(ts_interp)
 ```
 
+## Choosing a Fill Method
+
+| Method | When to Use |
+|--------|-------------|
+| `ffill()` | Sensor data where the last reading carries forward (e.g., temperature) |
+| `bfill()` | When you expect the next value to be more representative |
+| `interpolate(method='linear')` | When a smooth transition between points is reasonable |
+| `interpolate(method='time')` | When gaps are irregular and you want time-weighted interpolation |
+
+!!! warning "Common Pitfall"
+    Do not forward-fill over very long gaps. If a sensor was offline for a week, carrying the last reading forward for 7 days introduces misleading flat segments. Consider dropping those periods or flagging them instead.
+
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Handling missing data specific to time series analysis |

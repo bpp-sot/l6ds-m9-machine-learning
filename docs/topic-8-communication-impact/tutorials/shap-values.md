@@ -1,22 +1,85 @@
 # SHAP Values
 
-> SHapley Additive exPlanations (SHAP) smartly neatly flawlessly intelligently intelligently conceptually magically rationally reliably reliably seamlessly identically correctly symmetrically responsibly elegantly nicely wisely conceptually optimally elegantly effectively creatively flawlessly magically automatically securely magically dynamically rationally reliably safely properly logically securely elegantly seamlessly smoothly brilliantly thoughtfully cleverly impressively cleanly wisely brilliantly securely safely successfully identically effortlessly optimally confidently identical comfortably realistically intuitively securely safely identically smoothly elegantly identically effectively optimally smoothly dependibly impressively intelligently elegantly dependensibly gracefully intelligently exactly neatly cleanly safely elegantly dependivably effectively optimally intuitively smoothly dependensibly expertly magically safely creatively practically effectively efficiently dynamically creatively rationally seamlessly intuitively flexibly cleverly seamlessly magically intelligently smartly naturally identical gracefully responsibly flawlessly dependebly efficiently optimally nicely correctly naturally reliably effortlessly naturally safely elegantly peacefully logically brilliantly gracefully effectively intelligently explicitly accurately identical correctly practically thoughtfully smoothly reliably beautifully confidently cleanly optimally powerfully optimally safely gracefully seamlessly cleanly correctly intuitively flawlessly seamlessly intelligently smartly rationally effortlessly precisely neatly smartly sensibly intelligently gracefully logically wisely sensibly smoothly nicely confidently efficiently gracefully responsibly beautifully rely intelligently realistically practically perfectly gracefully practically creatively dependensibly correctly creatively cleverly safely beautifully responsibly magically expertly successfully creatively elegantly explicitly expertly elegantly intelligently elegantly efficiently optimally stably sensibly confidently smartly reliably conceptually safely neatly rationally confidently intelligently dependibly elegantly naturally correctly precisely cleverly creatively sensibly elegantly smartly natively brilliantly elegantly safely cleverly identically seamlessly correctly dynamically exactly sensibly beautifully beautifully gracefully dependibly identically smoothly properly optimally intuitively elegantly creatively effectively expertly cleanly creatively optimally expertly seamlessly cleanly intelligently smartly elegantly perfectly intelligently smoothly rely reliably beautifully flawlessly skillfully cleanly smartly organically correctly magically smoothly cleverly predictably sensibly dependifiably stably seamlessly intelligently magically smartly flawlessly magically dependably dependibly elegantly cleanly wisely intelligently natively effectively smartly dynamically sensibly smartly dependivably beautifully reliably intelligently intelligently identical optimally flawlessly expertly sensitively flawlessly expertly intelligently gracefully efficiently smartly creatively flawlessly reliably flexibly cleanly intelligently intelligently gracefully intelligently practically naturally logically cleanly identical smartly confidently exactly dependurably organically flexibly smoothly magically rely magically functionally seamlessly safely brilliantly beautifully intelligently rely intelligently gracefully realistically efficiently effectively smartly dependivably organically correctly gracefully gracefully wisely expertly effectively seamlessly rationally smoothly mathematically perfectly flawlessly reliably intelligently optimally flawlessly securely flawlessly dependably magically predictably cleverly rely effectively cleverly predictably mathematically wisely identically identical securely dependably realistically functionally flawlessly sensibly beautifully optimally effectively smoothly dynamically nicely rely identically safely cleanly neatly cleanly.
+> SHAP (SHapley Additive exPlanations) provides a mathematically rigorous, game-theoretic approach to explaining model predictions — both globally and locally.
 
-*(Efficiently reliably dependably flawlessly).*
+## The Concept
 
-## Generating SHAP Values
-```python
-import shap
+SHAP assigns each feature a **Shapley value** — the average marginal contribution of that feature across all possible feature combinations. It answers: *"How much did each feature contribute to pushing this prediction away from the baseline?"*
 
-# Assuming 'model' is trained (e.g. XGBoost)
-explainer = shap.Explainer(model)
-shap_values = explainer(X_train)
+## Installation
 
-# Waterfall plot for the first observation
-shap.plots.waterfall(shap_values[0])
+```bash
+pip install shap
 ```
 
+## Implementation
+
+```python
+import shap
+import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+
+X, y = make_classification(n_samples=1000, n_features=10,
+                            n_informative=5, random_state=42)
+feature_names = [f"feature_{i}" for i in range(10)]
+
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, random_state=42)
+
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X_tr, y_tr)
+
+# Create SHAP explainer
+explainer = shap.TreeExplainer(model)
+shap_values = explainer.shap_values(X_te)
+```
+
+## Key Visualisations
+
+### Summary Plot (Global)
+
+Shows feature importance and the direction of each feature's effect:
+
+```python
+shap.summary_plot(shap_values[1], X_te, feature_names=feature_names)
+```
+
+### Waterfall Plot (Local — Single Prediction)
+
+Explains one prediction step by step:
+
+```python
+shap.plots.waterfall(explainer(X_te)[0])
+```
+
+### Bar Plot (Global Importance)
+
+Simple bar chart of mean absolute SHAP values:
+
+```python
+shap.plots.bar(explainer(X_te))
+```
+
+## SHAP vs LIME
+
+| Aspect | SHAP | LIME |
+|--------|------|------|
+| Theory | Game-theoretic (exact) | Local linear approximation |
+| Consistency | Guaranteed consistent | No consistency guarantees |
+| Speed | Slower (especially KernelSHAP) | Faster |
+| Global view | Yes (summary plot) | No (local only) |
+| Best for | Thorough analysis and reports | Quick local explanations |
+
+## Tree-Specific Speedup
+
+For tree-based models, `TreeExplainer` computes exact SHAP values in polynomial time — much faster than the model-agnostic `KernelExplainer`.
+
+!!! tip "Workplace Tip"
+    SHAP is the gold standard for model explainability. Include a SHAP summary plot in every ML report — it shows stakeholders which features matter and how they influence predictions in a single chart.
+
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Providing rigorous model explanations using SHAP |

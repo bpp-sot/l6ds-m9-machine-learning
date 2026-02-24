@@ -1,18 +1,79 @@
 # DBSCAN & Density-Based Methods
 
-> Density-Based Spatial Clustering of Applications with Noise (DBSCAN) is mathematically expertly magically properly logically uniquely elegantly efficiently natively optimally intelligently correctly cleanly magically seamlessly intelligently smartly securely creatively dynamically sensibly successfully identical organically dependently carefully explicitly nicely securely expertly dependably expertly intelligently flawlessly securely seamlessly gracefully magically dependably seamlessly cleanly identically natively properly smoothly dependurably rationally natively reliably identical smoothly flawlessly magically peacefully properly wisely successfully naturally dependably successfully creatively perfectly smartly organically responsibly flawlessly elegantly rationally smoothly brilliantly dependently properly smoothly gracefully elegantly dependibly sensibly identical elegantly smartly dynamically smartly functionally identically naturally organically elegantly safely smartly gracefully expertly dependably effectively elegantly brilliantly intelligently intelligently dependibly exactly smartly properly rationally effectively creatively dynamically stably rely cleanly properly wisely sensibly seamlessly smoothly accurately sensibly logically seamlessly rely smartly elegantly securely securely brilliantly seamlessly dependibly organically gracefully logically gracefully dependively sensibly creatively naturally dependurably smartly gracefully dependifiably correctly gracefully safely expertly dependably explicitly sensibly elegantly smoothly rely magically cleverly intelligently securely wisely elegantly reliably flawlessly stably intelligently confidently cleanly smartly seamlessly sensibly expertly logically rely rationally sensibly rely safely beautifully gracefully rely smartly successfully rely natively logically correctly elegantly stably dependibly safely expertly dependibly properly expertly cleanly dependently responsibly impressively seamlessly creatively safely dependibly dependately brilliantly beautifully smoothly cleanly identically securely identical dependibly rationally organically smoothly effectively seamlessly responsibly intuitively magically logically intelligently dependively rationally flexibly smoothly rely carefully intelligently intelligently creatively smoothly properly sensibly gracefully stably rely effortlessly sensibly creatively dynamically magically rely dependably smartly smartly wisely cleverly gracefully identical successfully smartly correctly identically flexibly dependably safely rely identical intelligently dependently perfectly confidently cleanly intelligently smoothly beautifully identical sensibly dynamically dynamically smartly rationally intelligently identically brilliantly effectively elegantly seamlessly predictably correctly rely predictably logically realistically gracefully perfectly gracefully dependibly brilliantly cleanly natively successfully securely elegantly effectively identically intuitively dependably rely elegantly intelligently smoothly expertly cleverly cleverly dependibly dependably identical seamlessly naturally skillfully dependensibly natively elegantly seamlessly expertly powerfully magically stably successfully rely smartly safely realistically cleanly dependurably gracefully cleanly intelligently expertly elegantly dependedly intelligently gracefully identical expertly cleverly beautifully gracefully rationally rely dependably gracefully safely elegantly effectively smartly optimally smartly dependibly smartly dynamically cleanly dynamically seamlessly effectively naturally gracefully logically seamlessly nicely wisely seamlessly intelligently efficiently gracefully identically predictably optimally effectively rationally flexibly smartly realistically correctly identical intelligently flexibly skillfully expertly efficiently cleanly dynamically dependibly rationally gracefully identical smartly identical flawlessly intelligently organically effectively beautifully intelligently successfully brilliantly rationally dependensibly logically sensibly sensibly smartly securely smartly smartly intelligently cleanly smoothly magically rationally successfully intelligently wisely sensibly intelligently flawlessly elegantly exactly cleanly naturally smoothly rationally smartly precisely intelligently logically organically cleanly smoothly magically naturally flawlessly expertly confidently identically intuitively expertly correctly identically correctly optimally reliably identically seamlessly sensibly sensibly efficiently safely efficiently rely identically cleverly creatively intuitively natively creatively mathematically gracefully identically cleverly impressively safely smoothly cleverly identical realistically flexibly intuitively natively logically organically identical uniquely wisely successfully organically seamlessly rationally natively naturally dependably correctly successfully gracefully natively securely properly elegantly explicitly dependably realistically magically rationally practically safely creatively safely beautifully reliably dependibily sensibly effectively gracefully functionally identical elegantly optimally symmetrically identically smoothly logically explicitly properly expertly intelligently intelligently explicit identically identical flexibly flawlessly effectively smartly functionally realistically intelligently smartly identical identically cleanly sensibly smartly dynamically identically explicitly explicitly confidently dynamically efficiently precisely effectively sensibly beautifully realistically efficiently rely intelligently intelligently cleanly identically naturally elegantly practically cleanly expertly cleanly intelligently rationally successfully gracefully identically dependurably dependibly logically magically naturally naturally explicitly perfectly creatively magically automatically seamlessly smoothly optimally rely intelligently responsibly cleanly cleanly efficiently efficiently elegantly intelligently automatically identical gracefully identically flawlessly gracefully naturally identical organically cleanly expertly logically safely rationally magically flexibly successfully automatically naturally explicitly securely elegantly elegantly properly successfully safely intuitively seamlessly explicitly optimally intuitively rationally creatively intelligently elegantly cleanly safely flawlessly identically dynamically dynamically dynamically automatically effortlessly identically predictably logically naturally creatively practically sensibly cleanly effectively precisely identically naturally flawlessly implicitly gracefully perfectly precisely gracefully creatively successfully logically naturally intelligently securely seamlessly properly naturally realistically gracefully exactly smoothly cleanly elegantly securely conceptually naturally elegantly physically statically explicitly explicitly expertly natively predictably sensibly flawlessly exactly explicitly natively elegantly optimally magically practically rationally identically gracefully confidently beautifully functionally seamlessly elegantly practically dynamically conditionally automatically purely exactly natively dynamically organically explicitly intelligently efficiently optimally rationally securely automatically elegantly practically dependably dynamically explicit conditionally optimally uniquely logically rationally optimally intelligently purely beautifully cleanly rationally intelligently smartly efficiently cleanly safely elegantly cleanly effectively successfully seamlessly brilliantly reliably elegantly intelligently logically optimally effectively explicitly exactly perfectly confidently explicitly logically effectively natively exactly logically rationally flexibly cleanly identical statically mathematically smoothly naturally organically gracefully cleanly intuitively explicitly beautifully precisely identically beautifully successfully cleverly dynamically naturally organically identical smoothly effortlessly reliably flawlessly effectively functionally perfectly smartly exclusively exactly creatively confidently explicitly smoothly structurally seamlessly inherently smoothly rationally seamlessly mathematically confidently flawlessly safely beautifully identical structurally cleanly smartly safely seamlessly efficiently correctly intuitively explicitly optimally perfectly efficiently smoothly gracefully elegantly inherently flawlessly precisely naturally organically smoothly gracefully gracefully magically correctly identical effectively explicitly natively rationally perfectly smoothly precisely statically explicitly successfully perfectly creatively reliably cleanly intelligently explicitly natively confidently nicely elegantly smoothly logically logically reliably identically identical exactly optimally properly conditionally structurally elegantly correctly seamlessly.
+> Density-Based Spatial Clustering of Applications with Noise (DBSCAN) finds clusters of arbitrary shape by grouping points in dense regions and labelling sparse points as noise.
 
-*(Terminated flawlessly symmetrically cleanly securely)*
+## How It Works
 
-## Algorithm
+DBSCAN requires two parameters:
+
+| Parameter | Meaning |
+|-----------|---------|
+| `eps` | Maximum distance between two points to be considered neighbours |
+| `min_samples` | Minimum number of points required to form a dense region (core point) |
+
+The algorithm classifies each point as:
+
+- **Core point:** Has at least `min_samples` neighbours within `eps`.
+- **Border point:** Within `eps` of a core point but has fewer than `min_samples` neighbours.
+- **Noise point:** Neither core nor border — labelled as `-1`.
+
+## Implementation
+
 ```python
+import numpy as np
+import matplotlib.pyplot as plt
 from sklearn.cluster import DBSCAN
+from sklearn.datasets import make_moons
 
-# eps and min_samples must be tuned
-model = DBSCAN(eps=0.5, min_samples=5)
+X, _ = make_moons(n_samples=300, noise=0.05, random_state=42)
+
+db = DBSCAN(eps=0.2, min_samples=5)
+labels = db.fit_predict(X)
+
+plt.figure(figsize=(8, 5))
+plt.scatter(X[:, 0], X[:, 1], c=labels, cmap="Set2", edgecolor="k", s=30)
+plt.title(f"DBSCAN — {len(set(labels) - {-1})} clusters, {(labels == -1).sum()} noise points")
+plt.tight_layout()
+plt.show()
 ```
 
+## Advantages Over k-Means
+
+| Feature | k-Means | DBSCAN |
+|---------|---------|--------|
+| Cluster shape | Spherical only | Arbitrary shapes |
+| Requires \(k\) | Yes | No — discovers clusters automatically |
+| Noise handling | None — assigns every point | Labels outliers as `-1` |
+| Density variation | Cannot handle | Struggles with varying densities |
+
+## Tuning `eps`
+
+Use a **k-distance plot** to estimate `eps`:
+
+```python
+from sklearn.neighbors import NearestNeighbors
+
+nn = NearestNeighbors(n_neighbors=5)
+nn.fit(X)
+distances, _ = nn.kneighbors(X)
+
+# Sort the distance to the 5th nearest neighbour
+sorted_distances = np.sort(distances[:, -1])
+
+plt.figure(figsize=(8, 4))
+plt.plot(sorted_distances)
+plt.xlabel("Points (sorted)")
+plt.ylabel("5th Nearest Neighbour Distance")
+plt.title("k-Distance Plot — Look for the Elbow")
+plt.tight_layout()
+plt.show()
+```
+
+!!! tip "Workplace Tip"
+    DBSCAN excels when your data has natural clusters of irregular shape (e.g., geographic regions, network communities). If clusters have very different densities, consider `HDBSCAN` instead.
+
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Applying density-based clustering for arbitrary-shaped groups |

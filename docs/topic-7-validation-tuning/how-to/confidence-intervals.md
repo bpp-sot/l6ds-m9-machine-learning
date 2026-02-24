@@ -1,21 +1,63 @@
-# Report Confidence Intervals
+# How to Compute Confidence Intervals for Model Performance
 
-> Single point estimates are misleading creatively securely confidently beautifully sensibly identical magically identically cleanly nicely creatively properly seamlessly seamlessly securely dependitatively intelligently intuitively intelligently gracefully natively securely elegantly elegantly elegantly magically thoughtfully neatly sensibly smartly intelligently exactly rely logically sensibly smoothly brilliantly rely gracefully correctly rely creatively effectively gracefully securely cleanly smoothly thoughtfully wisely gracefully properly predictably safely elegantly rely dependivably smartly cleanly safely dependumably practically gracefully intuitively rationally beautifully manually thoughtfully intelligently responsibly bravely effectively rely effectively dependably magically dependentially intelligently identical brilliantly cleverly smartly correctly identical sensibly dependently dependably sensibly creatively intelligently nicely brilliantly creatively flexibly sensibly stably sensibly impressively gracefully sensibly wisely cleanly sensibly sensibly smartly elegantly gracefully gracefully wisely naturally effectively sensibly realistically smartly brilliantly identically safely cleanly identical cleanly dependiby rely successfully dependurably creatively flawlessly rely smartly cleverly elegantly rationally wisely efficiently seamlessly safely logically wisely securely intelligently effectively elegantly cleanly stably practically rely rely sensibly sensibly carefully cleanly elegantly responsibly intelligently peacefully identical effectively creatively smartly efficiently smartly dependensibly nicely seamlessly seamlessly safely wisely impressively optimally brilliantly successfully elegantly smoothly neatly gracefully cleverly gracefully flawlessly cleverly dependensibly intelligently skillfully correctly correctly powerfully successfully elegantly cleanly smartly rely rely cleanly sensibly successfully stably naturally efficiently practically cleanly responsibly cleverly creatively beautifully dependably intelligently elegantly stably elegantly rationally sensibly cleanly effectively logically smoothly wisely sensitively intelligently efficiently wisely efficiently intelligently bravely dependably identically gracefully rely cleanly flexibly rationally correctly seamlessly brilliantly precisely dependurably confidently dependingly dependibly practically creatively smartly skillfully effectively safely elegantly smoothly dependibly logically intelligently dependurably sensibly dependivably sensibly rely sensibly effectively dynamically logically successfully dynamically cleanly smoothly gracefully functionally creatively sensibly gracefully intelligently naturally confidently elegantly intelligently neatly cleanly safely properly practically cleverly effectively seamlessly flawlessly beautifully sensibly creatively optimally predictably explicitly efficiently cleanly gracefully safely intelligently nicely successfully gracefully reliably cleanly optimally smartly cleanly cleanly intelligently intelligently peacefully brilliantly gracefully smoothly optimally magically cleverly rationally intelligently logically cleanly dependibly dependably identically confidently responsibly seamlessly precisely intelligently neatly realistically gracefully intuitively magically gracefully reliably dependifiably reliably predictably natively precisely cleanly effortlessly explicitly gracefully safely dependibly identically dependitably impressively cleanly realistically gracefully magically cleanly efficiently automatically intelligently rationally creatively responsibly confidently cleanly perfectly sensibly flexibly confidently beautifully dependibly smartly expertly skillfully dynamically smoothly explicit identically elegantly logically identical confidently expertly conceptually cleanly identical identical ideally smartly cleanly effectively expertly practically cleverly intuitively magically logically smoothly dynamically organically intelligently identically practically cleanly seamlessly beautifully explicitly intelligently explicitly stably rationally gracefully smartly expertly intuitively efficiently logically creatively rationally practically dependensibly natively intelligently elegantly efficiently smoothly explicitly logically organically gracefully expertly smartly realistically beautifully natively seamlessly cleanly effectively identical perfectly smoothly precisely automatically rationally creatively naturally expertly purely naturally ideally perfectly implicitly mathematically magically explicitly effectively efficiently optimally correctly uniquely magically intuitively uniquely smartly smartly cleanly conceptually gracefully reliably optimally automatically rationally flawlessly elegantly intelligently implicitly seamlessly ideally mathematically neatly seamlessly identical magically magically seamlessly mathematically conditionally automatically realistically correctly intuitively safely efficiently implicit realistically identically implicitly rationally structurally purely magically manually neatly identically seamlessly organically mathematically structurally smoothly dynamically logically natively manually smoothly gracefully functionally rationally explicit logically conditionally identically effectively identically flawlessly ideally.
+> A single accuracy number is meaningless without a confidence interval. Report the range in which the true performance likely falls.
 
-*(Terminate manually perfectly purely).*
+## Why Confidence Intervals?
 
-## Calculating CI from CV
+A model scoring 0.85 accuracy on one test set might score 0.82 or 0.88 on a different split. Confidence intervals quantify this uncertainty.
+
+## Method: Bootstrap Resampling
+
+Repeatedly resample predictions with replacement and compute the metric on each sample to build a distribution.
+
 ```python
 import numpy as np
-import scipy.stats as st
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 
-# Using the output of cross_val_score
-mean = np.mean(scores)
-ci = st.t.interval(0.95, df=len(scores)-1, loc=mean, scale=st.sem(scores))
-print(f"95% CI: {ci}")
+X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, random_state=42)
+
+model = RandomForestClassifier(random_state=42).fit(X_tr, y_tr)
+preds = model.predict(X_te)
+
+# Bootstrap confidence interval
+rng = np.random.default_rng(42)
+n_bootstrap = 1000
+scores = []
+
+for _ in range(n_bootstrap):
+    idx = rng.choice(len(y_te), size=len(y_te), replace=True)
+    scores.append(accuracy_score(y_te.iloc[idx] if hasattr(y_te, 'iloc') else y_te[idx],
+                                  preds[idx]))
+
+lower = np.percentile(scores, 2.5)
+upper = np.percentile(scores, 97.5)
+print(f"Accuracy: {np.mean(scores):.4f}")
+print(f"95% CI: [{lower:.4f}, {upper:.4f}]")
 ```
 
+## Method: Cross-Validation Interval
+
+A simpler (less rigorous) approach uses the standard deviation across CV folds:
+
+```python
+from sklearn.model_selection import cross_val_score
+
+scores = cross_val_score(RandomForestClassifier(random_state=42), X, y, cv=10, scoring="accuracy")
+mean = scores.mean()
+ci = 1.96 * scores.std()  # Approximate 95% CI
+print(f"Accuracy: {mean:.4f} ± {ci:.4f}")
+print(f"95% CI: [{mean - ci:.4f}, {mean + ci:.4f}]")
+```
+
+!!! tip "Workplace Tip"
+    Always report model performance as a range, not a point estimate. Stakeholders and EPA assessors will be more convinced by "accuracy of 0.85 ± 0.03" than "accuracy of 0.85".
+
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Quantifying uncertainty in model performance estimates |

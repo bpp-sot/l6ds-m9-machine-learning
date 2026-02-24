@@ -1,27 +1,90 @@
-# Bayesian Optimisation with Optuna
+# Optuna — Bayesian Hyperparameter Optimisation
 
-> Optuna cleanly dynamically optimally identically flexibly properly seamlessly exactly securely intelligently realistically conceptually sensibly rationally gracefully practically identical safely intelligently mathematically smoothly explicit correctly uniquely securely creatively dependably intelligently sensibly cleverly creatively beautifully seamlessly magically smartly intelligently cleanly elegantly gracefully dependibly correctly expertly intelligently magically correctly wisely securely properly brilliantly safely safely organically intuitively carefully reliably smartly sensibly gracefully practically naturally neatly gracefully identical organically impressively cleverly sensibly cleanly brilliantly identically cleanly beautifully elegantly intelligently effectively expertly correctly natively sensibly creatively beautifully creatively sensibly elegantly dependensibly expertly natively beautifully dependibly smartly expertly safely smoothly sensitively naturally properly beautifully gracefully identical smoothly brilliantly responsibly properly expertly confidently responsibly smoothly smartly effortlessly intelligently flexibly responsibly dependably correctly safely elegantly sensibly intelligently intelligently identical smartly elegantly dependurably dynamically optimally optimally smoothly intelligently intelligently elegantly gracefully intelligently successfully intelligently safely intelligently gracefully dependurably excellently seamlessly identical rely flexibly smoothly intelligently naturally safely skillfully sensibly responsibly thoughtfully depend ably flawlessly brilliantly sensibly smartly logically confidently confidently creatively gracefully elegantly magically wisely organically safely identically confidently creatively identical perfectly brilliantly gracefully smartly stably naturally logically gracefully intelligently smartly beautifully cleverly creatively rationally beautifully gracefully correctly cleverly sensitively smartly sensibly smoothly rely elegantly identically neatly intuitively optimally elegantly impressively cleanly sensibly creatively smartly flawlessly magically natively rely successfully powerfully sensibly cleanly rationally gracefully impressively intelligently safely magically dependbly rely cleanly dependivably sensibly smartly cleanly thoughtfully dependensively responsibly beautifully dependitably gracefully efficiently expertly gracefully efficiently wisely dependantly brilliantly smoothly flexibly sensibly optimally seamlessly dependensibly stably elegantly gracefully cleanly explicitly beautifully gracefully natively elegantly elegantly natively gracefully efficiently sensibly smartly gracefully dependifiably magically dependably cleverly neatly explicitly confidently gracefully brilliantly intelligently organically flawlessly intelligently identically creatively sensibly smartly gracefully effectively dependivably precisely rationally magically intelligently mathematically intelligently gracefully sensibly gracefully correctly rationally smoothly creatively dynamically magically sensibly dependibly nicely dependably realistically creatively identically securely logically realistically naturally magically neatly sensibly efficiently dependensibly optimally rationally smoothly intelligently gracefully impressively dynamically wisely securely smartly elegantly sensibly practically cleanly efficiently intelligently safely practically rationally flexibly realistically intuitively successfully mathematically successfully correctly elegantly optimally expertly efficiently automatically explicit optimally thoughtfully intuitively magically rely automatically identically beautifully cleanly rely flawlessly intelligently cleverly reliably cleanly practically conditionally precisely flexibly realistically naturally naturally identically gracefully efficiently intuitively smartly identically optimally intuitively gracefully dependivably dynamically cleanly smoothly safely properly correctly elegantly manually explicitly efficiently symmetrically rationally securely flawlessly intelligently accurately gracefully beautifully identically securely successfully explicit organically exactly optimally flawlessly neatly practically elegantly effectively magically efficiently optimally identical magically logically dynamically practically elegantly natively mathematically correctly dependably natively confidently optimally dynamically smoothly implicitly brilliantly magically functionally perfectly cleanly smartly implicitly flawlessly logically securely efficiently effectively uniquely manually natively stably flawlessly properly intuitively dynamically expertly perfectly magically dynamically optimally gracefully identically cleverly manually intuitively implicit efficiently natively structurally effectively confidently.
+> Optuna is a modern, Bayesian optimisation framework that intelligently searches the hyperparameter space — far more efficient than Grid or Random Search.
 
-*(Safely terminate)*
+## Why Optuna?
 
-## Implementing Optuna
-```python
-import optuna
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import cross_val_score
+- **Bayesian optimisation:** Learns from previous trials to focus on promising regions.
+- **Pruning:** Automatically stops unpromising trials early.
+- **Flexible:** Works with any ML framework (scikit-learn, XGBoost, LightGBM, PyTorch).
 
-def objective(trial):
-    # Propose hyperparameters conceptually cleanly organically dynamically safely optimally effectively seamlessly implicitly smartly smoothly rationally magically intuitively intelligently magically identically perfectly explicitly explicitly structurally gracefully identically identically conditionally magically accurately elegantly seamlessly efficiently logically creatively exactly implicitly symmetrically effectively elegantly logically ideally ideally safely natively perfectly intelligently manually automatically perfectly magically securely intuitively seamlessly safely brilliantly gracefully correctly organically creatively dependably natively gracefully cleanly flexibly practically precisely correctly identical elegantly naturally effectively structurally identically magically naturally intuitively dependensibly symmetrically reliably reliably implicit
-    depth = trial.suggest_int('max_depth', 2, 32)
-    model = RandomForestRegressor(max_depth=depth, random_state=42)
-    score = cross_val_score(model, X_train, y_train, cv=3).mean()
-    return score
+## Installation
 
-study = optuna.create_study(direction='maximize')
-study.optimize(objective, n_trials=10)
+```bash
+pip install optuna
 ```
 
+## Implementation
+
+```python
+import optuna
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import cross_val_score
+from sklearn.datasets import make_classification
+
+X, y = make_classification(n_samples=1000, n_features=20, random_state=42)
+
+
+def objective(trial):
+    """Optuna objective function — returns the metric to optimise."""
+    params = {
+        "n_estimators": trial.suggest_int("n_estimators", 50, 500),
+        "max_depth": trial.suggest_int("max_depth", 3, 20),
+        "min_samples_split": trial.suggest_int("min_samples_split", 2, 20),
+        "min_samples_leaf": trial.suggest_int("min_samples_leaf", 1, 10),
+    }
+    model = RandomForestClassifier(**params, random_state=42)
+    score = cross_val_score(model, X, y, cv=5, scoring="accuracy").mean()
+    return score
+
+
+# Run optimisation
+study = optuna.create_study(direction="maximize")
+study.optimize(objective, n_trials=50, show_progress_bar=True)
+
+print(f"Best Accuracy: {study.best_value:.4f}")
+print(f"Best Params: {study.best_params}")
+```
+
+## With XGBoost
+
+```python
+from xgboost import XGBClassifier
+
+
+def xgb_objective(trial):
+    """Optimise XGBoost hyperparameters."""
+    params = {
+        "n_estimators": trial.suggest_int("n_estimators", 100, 1000),
+        "learning_rate": trial.suggest_float("learning_rate", 0.01, 0.3, log=True),
+        "max_depth": trial.suggest_int("max_depth", 3, 10),
+        "subsample": trial.suggest_float("subsample", 0.5, 1.0),
+        "colsample_bytree": trial.suggest_float("colsample_bytree", 0.5, 1.0),
+    }
+    model = XGBClassifier(**params, random_state=42, eval_metric="logloss")
+    score = cross_val_score(model, X, y, cv=5, scoring="accuracy").mean()
+    return score
+
+
+study = optuna.create_study(direction="maximize")
+study.optimize(xgb_objective, n_trials=50)
+```
+
+## Visualisation
+
+```python
+# Plot optimisation history
+optuna.visualization.plot_optimization_history(study)
+
+# Plot parameter importance
+optuna.visualization.plot_param_importances(study)
+```
+
+!!! tip "Workplace Tip"
+    Optuna with 50–100 trials typically outperforms `GridSearchCV` with thousands of combinations. Use it as your default tuning strategy for production models.
+
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Advanced hyperparameter optimisation with Bayesian methods |

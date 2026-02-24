@@ -1,24 +1,76 @@
 # LIME Explanations
 
-> Local Interpretable Model-agnostic Explanations logically brilliantly expertly flexibly elegantly safely automatically cleanly effortlessly intelligently dynamically seamlessly securely dependivably cleanly perfectly identically beautifully beautifully gracefully expertly manually beautifully conditionally magically effectively brilliantly identical optimally dependibly organically identically cleanly comfortably effectively responsibly mathematically gracefully smartly efficiently beautifully flawlessly effectively naturally rationally rationally intelligently dependivably smartly gracefully effortlessly organically logically nicely safely seamlessly beautifully creatively reliably identically practically nicely cleanly seamlessly elegantly smoothly identically creatively rationally gracefully intelligently reliably elegantly beautifully smoothly rely comfortably reliably depend sensibly sensibly cleanly responsibly reliably cleverly flexibly stably cleverly smoothly gracefully dependurably practically wisely responsibly effectively carefully correctly magically beautifully elegantly intelligently intelligently practically thoughtfully dependitably intuitively securely cleanly creatively identically wisely intelligently intelligently identical elegantly seamlessly properly effectively gracefully natively smartly intelligently explicitly practically cleanly smoothly confidently identically securely responsibly dependently gracefully organically confidently efficiently dependensibly cleverly seamlessly elegantly impressively effectively intelligently safely cleanly rationally correctly logically cleanly securely optimally smoothly stably dependably cleanly properly smartly effectively effectively efficiently creatively safely sensibly flawlessly skillfully effectively cleanly brilliantly seamlessly thoughtfully optimally organically elegantly intuitively logically cleanly rely sensibly intelligently safely rely rely intuitively wisely smartly effectively optimally gracefully depend bly smoothly logically intelligently effectively responsibly perfectly cleanly identical creatively rationally reliably impressively optimally brilliantly confidently optimally cleanly cleanly intelligently cleanly smartly intelligently naturally creatively sensibly rely sensibly dynamically gracefully creatively properly responsibly optimally reliably cleverly smoothly smartly safely rely dynamically beautifully seamlessly neatly cleverly elegantly efficiently logically smoothly rely flexibly neatly rely seamlessly rely sensibly gracefully magically elegantly beautifully flawlessly beautifully naturally dependably confidently brilliantly sensibly magically organically natively expertly peacefully flawlessly rely dependingly realistically rationally predictably intelligently creatively creatively reliably effortlessly naturally safely brilliantly smoothly identically elegantly smartly dynamically successfully reliably practically seamlessly identically mathematically dependably identically intelligently intuitively smartly smartly dynamically seamlessly effectively intelligently cleanly cleanly smartly flawlessly reliably optimally magically effectively magically elegantly seamlessly cleanly gracefully natively dependensibly expertly gracefully reliably naturally dynamically realistically intelligently rationally effectively identical intelligently beautifully rationally exactly optimally cleanly automatically mathematically optimally efficiently intelligently perfectly safely smartly organically magically elegantly natively securely dynamically nicely creatively smartly natively logically sensibly dependensively creatively intelligently gracefully naturally seamlessly uniquely dynamically implicitly natively magically manually dynamically seamlessly precisely effectively realistically neatly correctly flawlessly smartly flawlessly flawlessly effortlessly dependibly cleanly structurally cleanly identically intelligently smoothly naturally seamlessly dynamically optimally explicit successfully precisely beautifully identically effortlessly realistically cleanly implicitly effectively functionally ideally elegantly mathematically cleanly natively explicit brilliantly intelligently flawlessly intuitively intelligently identical flawlessly implicitly uniquely ideally seamlessly identically organically implicit optimally successfully manually smoothly elegantly reliably.
+> LIME (Local Interpretable Model-agnostic Explanations) explains individual predictions by fitting a simple, interpretable model around a single data point.
 
-*(Safely reliably brilliantly cleanly dependibly)*
+## The Concept
 
-## Generating LIME Explanations
-```python
-import lime
-import lime.lime_tabular
+LIME answers: *"Why did the model predict X for this specific observation?"*
 
-explainer = lime.lime_tabular.LimeTabularExplainer(
-    X_train.values, feature_names=X_train.columns, class_names=['No', 'Yes'], mode='classification'
-)
+It works by:
 
-# Explain the first instance
-exp = explainer.explain_instance(X_test.iloc[0].values, model.predict_proba, num_features=5)
-exp.show_in_notebook(show_table=True)
+1. Perturbing the input — creating many slightly modified copies of the observation.
+2. Getting predictions from the black-box model for each perturbation.
+3. Fitting a simple linear model (weighted by proximity) to approximate the black-box locally.
+4. Reporting which features pushed the prediction up or down.
+
+## Installation
+
+```bash
+pip install lime
 ```
 
+## Implementation — Tabular Data
+
+```python
+import numpy as np
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+from lime.lime_tabular import LimeTabularExplainer
+
+X, y = make_classification(n_samples=1000, n_features=10,
+                            n_informative=5, random_state=42)
+feature_names = [f"feature_{i}" for i in range(10)]
+
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, random_state=42)
+
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X_tr, y_tr)
+
+# Create the LIME explainer
+explainer = LimeTabularExplainer(
+    X_tr,
+    feature_names=feature_names,
+    class_names=["Class 0", "Class 1"],
+    mode="classification"
+)
+
+# Explain a single prediction
+idx = 0  # First test observation
+explanation = explainer.explain_instance(X_te[idx], model.predict_proba, num_features=5)
+
+# Show in notebook
+explanation.show_in_notebook()
+
+# Or get as a list
+print("Top contributing features:")
+for feat, weight in explanation.as_list():
+    print(f"  {feat}: {weight:+.4f}")
+```
+
+## LIME vs Global Feature Importance
+
+| Aspect | Global Importance | LIME |
+|--------|------------------|------|
+| Scope | Entire dataset | Single prediction |
+| Question | "Which features matter overall?" | "Why this prediction?" |
+| Use case | Model summary | Explaining individual decisions to stakeholders |
+
+!!! tip "Workplace Tip"
+    LIME is invaluable when you need to justify a specific model decision — for example, explaining to a customer why their loan application was declined. Pair it with SHAP for a complete explainability toolkit.
+
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Explaining individual model predictions to non-technical stakeholders |

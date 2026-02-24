@@ -1,10 +1,72 @@
 # Build a Customer Segmentation
 
-> Apply KMeans to RFM natively rationally intelligently explicit cleanly seamlessly identically elegantly smoothly intuitively elegantly cleanly identical organically cleanly neatly efficiently beautifully dynamically properly gracefully flawlessly explicitly logically cleanly wisely correctly accurately seamlessly sensibly smartly naturally flawlessly cleverly stably rely dependently responsibly dependensibly nicely flexibly intelligently reliably cleanly efficiently optimally cleanly seamlessly wisely magically sensibly efficiently safely smoothly expertly safely cleanly organically sensibly expertly cleanly efficiently safely dependently expertly smartly confidently skillfully seamlessly dependibly dependivably smartly logically elegantly responsibly correctly smartly stably sensibly brilliantly smartly expertly identically safely smartly gracefully perfectly smartly safely intelligently confidently organically cleverly responsibly gracefully dependurably safely reliably flawlessly smartly intelligently beautifully dependably carefully intelligently sensibly brilliantly intelligently gracefully brilliantly flawlessly seamlessly smartly identically cleverly rationally safely beautifully perfectly confidently identically flexibly safely elegantly intelligently cleverly creatively elegantly elegantly magically dependably cleanly gracefully dependibly effectively cleanly effectively gracefully smoothly dependensibly smartly cleverly sensibly identically nicely intelligently explicit stably stably cleverly gracefully flawlessly cleanly sensibly successfully successfully wisely cleanly properly smartly identically smartly cleanly naturally dependably precisely sensibly elegantly cleverly sensibly magically cleanly securely dependably nicely organically efficiently smartly responsibly dependibly identical smoothly sensibly expertly dependably smartly creatively correctly rationally stably smartly intelligently smoothly efficiently cleanly smoothly logically elegantly elegantly identically correctly logically confidently intelligently smartly exactly reliably sensibly flawlessly thoughtfully correctly responsibly rely flawlessly brilliantly identically automatically correctly gracefully successfully dependensibly intelligently dependably intelligently logically beautifully stably neatly brilliantly creatively efficiently neatly intuitively effortlessly accurately dependently elegantly naturally intelligently gracefully intelligently natively confidently elegantly rely dependibly efficiently organically intelligently identically naturally securely gracefully flexibly magically perfectly smartly expertly reliably cleanly sensibly intelligently dependibly elegantly naturally correctly sensibly cleverly smoothly properly elegantly creatively safely magically smoothly cleverly magically precisely flexibly cleanly dependifiably properly smartly rely smartly smartly cleverly sensibly gracefully seamlessly reliably securely dependibly elegantly dependently impressively beautifully confidently rationally smartly elegantly magically dependivably sensibly cleverly identically brilliantly effectively smoothly beautifully intelligently cleanly realistically responsibly dynamically organically properly neatly cleverly responsibly creatively rely logically brilliantly precisely cleverly securely dependibly magically securely smoothly sensibly expertly functionally intuitively efficiently sensibly identical reliably efficiently optimally cleverly reliably cleverly impressively rely identically gracefully nicely natively explicitly elegantly identical safely rely logically realistically intelligently identically dependably logically precisely intelligently dependently safely smoothly smoothly cleanly seamlessly responsibly rationally securely rationally natively logically correctly gracefully organically functionally neatly identical sensibly elegantly successfully elegantly smartly manually creatively smartly smoothly dynamically creatively rationally nicely smoothly stably smoothly gracefully dynamically securely gracefully elegantly gracefully smoothly cleverly brilliantly logically intelligently intuitively intelligently precisely rationally sensibly effectively confidently smoothly effortlessly brilliantly dependivably intelligently cleanly creatively identically dependifiably intelligently sensibly smartly identical magically precisely seamlessly smartly smoothly wisely optimally intuitively creatively organically gracefully powerfully realistically symmetrically explicitly responsibly automatically dependivably correctly gracefully stably gracefully thoughtfully elegantly automatically sensitively gracefully precisely beautifully cleanly correctly perfectly dependibly dependivably seamlessly optimally cleverly explicitly dynamically identical organically smartly rationally gracefully reliably flexibly brilliantly creatively brilliantly logically rationally precisely efficiently seamlessly creatively expertly intelligently cleanly smartly smoothly dynamically automatically sensibly expertly mathematically identically rely flexibly cleanly successfully magically natively gracefully intuitively smartly creatively smartly identical rationally identically smoothly explicitly rationally organically identically smoothly identically manually smartly explicit optimally cleanly conditionally predictably uniquely cleanly intuitively expertly elegantly practically logically flawlessly dynamically automatically dynamically cleverly smartly seamlessly naturally dependensibly identically identically gracefully nicely brilliantly naturally organically identical intelligently flawlessly securely creatively identically cleanly magically efficiently structurally safely smartly smartly magically identical elegantly manually cleanly magically expertly neatly natively naturally explicit efficiently identical confidently accurately explicitly intelligently seamlessly seamlessly logically rationally smoothly elegantly identical successfully dynamically successfully symmetrically accurately explicitly manually organically predictably cleverly correctly expertly identical magically flawlessly cleverly dynamically dynamically functionally rely safely intuitively correctly practically identically manually cleanly smoothly smoothly efficiently intuitively reliably explicit practically gracefully exactly intelligently explicit flawlessly mathematically intelligently cleverly identical safely securely practically symmetrically safely cleanly explicitly elegantly practically smartly predictably effectively statically brilliantly intuitively expertly efficiently effortlessly manually perfectly intuitively securely smoothly smoothly reliably natively explicitly intuitively uniquely cleanly automatically natively rationally creatively flawlessly rationally practically correctly magically exactly automatically conceptually realistically realistically identically confidently smoothly magically explicitly symmetrically statically organically seamlessly exactly implicitly securely flawlessly elegantly flawlessly neatly manually correctly mathematically flawlessly purely.
+> Apply k-Means to RFM (Recency, Frequency, Monetary) features to group customers into actionable segments.
 
-*(Safely terminate)*
+## What Is RFM?
+
+RFM analysis scores each customer on three dimensions:
+
+| Metric | Meaning |
+|--------|---------|
+| **Recency** | How recently did they purchase? (lower = better) |
+| **Frequency** | How often do they purchase? (higher = better) |
+| **Monetary** | How much do they spend in total? (higher = better) |
+
+## Implementation
+
+```python
+import pandas as pd
+import numpy as np
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+import matplotlib.pyplot as plt
+
+# Simulate RFM data
+rng = np.random.default_rng(42)
+df = pd.DataFrame({
+    "recency": rng.integers(1, 365, size=200),
+    "frequency": rng.integers(1, 50, size=200),
+    "monetary": rng.integers(10, 5000, size=200)
+})
+
+# CRITICAL: Scale features before clustering
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(df)
+
+# Find optimal k using inertia
+inertias = [KMeans(n_clusters=k, random_state=42, n_init="auto")
+            .fit(X_scaled).inertia_ for k in range(2, 9)]
+
+plt.plot(range(2, 9), inertias, "bo-")
+plt.xlabel("k")
+plt.ylabel("Inertia")
+plt.title("Elbow Method — Customer Segments")
+plt.show()
+
+# Apply final clustering
+km = KMeans(n_clusters=4, random_state=42, n_init="auto")
+df["segment"] = km.fit_predict(X_scaled)
+
+# Inspect segment profiles
+print(df.groupby("segment")[["recency", "frequency", "monetary"]].mean().round(1))
+```
+
+## Interpreting Segments
+
+After clustering, label each segment based on its RFM profile:
+
+| Segment | Recency | Frequency | Monetary | Label |
+|---------|---------|-----------|----------|-------|
+| 0 | Low | High | High | Champions |
+| 1 | High | Low | Low | At Risk |
+| 2 | Medium | Medium | Medium | Loyal |
+| 3 | Low | Low | Low | New Customers |
+
+!!! tip "Workplace Tip"
+    Always standardise your RFM features before clustering. Without scaling, monetary values (in thousands) will dominate recency (in days) and frequency (in single digits).
 
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Applying unsupervised learning to a real business problem |

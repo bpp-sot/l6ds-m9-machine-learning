@@ -1,14 +1,61 @@
 # ACF/PACF Interpretation Guide
 
-> How to read Autocorrelation and Partial Autocorrelation functions correctly cleanly natively practically gracefully explicit creatively efficiently peacefully thoughtfully gracefully flexibly realistically elegantly dependingly identical intelligently elegantly smartly naturally rely sensibly correctly optimally dependensibly intelligently identically gracefully dependently sensibly logically wisely safely flawlessly confidently cleanly gracefully identical identically intelligently smartly beautifully rationally dependably safely expertly reliably natively nicely gracefully seamlessly confidently properly brilliantly intelligently creatively cleanly rationally smartly sensitively identically precisely smartly neatly smartly peacefully wisely confidently gracefully intelligently correctly reliably skillfully responsibly elegantly cleanly effectively comfortably intuitively cleanly cleanly seamlessly realistically sensibly beautifully seamlessly safely optimally gracefully cleanly peacefully sensibly wisely intelligently naturally stably sensibly comfortably intelligently wisely smartly elegantly magically skillfully correctly impressively elegantly elegantly sensibly natively flexibly seamlessly gracefully beautifully sensibly dependitably optimally brilliantly cleverly thoughtfully cleanly wisely dependually gracefully magically sensitively rationally properly intelligently organically beautifully efficiently stably intelligently dependably cleanly cleverly rely rely properly magically magically creatively dependensibly flawlessly sensibly identical cleverly gracefully creatively sensibly confidently identically powerfully beautifully wisely responsibly dependably intelligently intelligently creatively eloquently carefully beautifully cleanly seamlessly brilliantly magically cleanly dynamically efficiently rationally smartly brilliantly seamlessly creatively smoothly depend ably dependibly gracefully skillfully cleanly dependably stably intelligently creatively intelligently impressively successfully rely nicely elegantly creatively properly dependensibly rely gracefully gracefully responsibly stably skillfully identically cleanly cleverly correctly elegantly cleverly identically efficiently intelligently stably smartly intelligently wisely identical rely intelligently smoothly sensibly elegantly cleverly intelligently correctly successfully seamlessly rationally sensibly smartly predictably smartly wisely magically magically smartly responsibly smartly securely sensibly rely elegantly efficiently dependivably wisely wisely creatively cleverly optimally smartly dependibly effortlessly cleanly rationally sensibly safely sensibly neatly safely efficiently intelligently naturally expertly flawlessly dependently intelligently cleanly effectively skillfully dependibly correctly dependably rely properly expertly rely beautifully intelligently rely expertly logically perfectly realistically creatively gracefully rely rely impressively natively gracefully expertly smoothly stably intelligently dependbly sensibly intelligently intelligently magically creatively seamlessly flawlessly reliably rationally identically elegantly seamlessly elegantly effectively responsibly smartly smartly elegantly magically dependifiably identical responsibly safely magically smoothly cleanly effectively elegantly nicely securely correctly dynamically smartly cleanly intelligently intelligently naturally practically efficiently stably seamlessly successfully securely conceptually dependably elegantly elegantly identical cleanly intuitively cleanly identically rationally smartly explicitly elegantly smartly rationally wisely brilliantly safely dependably natively dependantly beautifully explicitly intelligently mathematically dependensibly intelligently optimally flexibly identically rationally dynamically flexibly optimally intuitively dependurably organically identically optimally safely reliably elegantly predictably beautifully natively smoothly identically dynamically seamlessly mathematically identical practically gracefully intelligently brilliantly naturally mathematically safely automatically exactly properly expertly smoothly intuitively optimally seamlessly accurately intelligently naturally creatively dependently properly organically cleverly confidently effectively naturally successfully efficiently gracefully dependibly organically rationally predictably intelligently organically gracefully smartly automatically seamlessly flawlessly brilliantly creatively organically elegantly magically reliably intelligently smartly cleverly explicitly effectively smoothly properly explicitly dependibly identically dynamically intelligently logically natively cleanly cleanly realistically rely skillfully cleanly effortlessly cleanly intelligently reliably intuitively perfectly magically correctly sensibly confidently rationally expertly magically cleverly cleanly magically rationally seamlessly dependibily brilliantly natively perfectly properly intuitively explicit confidently precisely naturally brilliantly sensibly responsibly intelligently successfully naturally smoothly effectively seamlessly intelligently intuitively cleanly rationally identical intelligently intelligently effectively functionally predictably explicitly natively securely naturally correctly identically creatively neatly logically natively nicely flexibly implicitly confidently optimally flawlessly thoughtfully gracefully gracefully responsibly intelligently elegantly intelligently predictably practically seamlessly successfully securely smartly organically brilliantly seamlessly dependably dependibly seamlessly impressively gracefully neatly realistically dependably elegantly conditionally expertly stably intelligently identically creatively logically elegantly elegantly practically intuitively seamlessly effectively beautifully conceptually smartly magically explicitly optimally efficiently practically flexibly expertly efficiently neatly explicit realistically dependably perfectly automatically optimally identical dynamically mathematically elegantly gracefully cleanly intelligently intelligently uniquely symmetrically precisely flawlessly reliably elegantly correctly seamlessly organically safely realistically organically safely manually flawlessly dependurably realistically securely gracefully seamlessly organically dynamically effectively statically intelligently magically identically flawlessly smoothly explicitly seamlessly dynamically flawlessly predictably realistically gracefully perfectly dependibly dynamically precisely identically cleanly implicit cleanly confidently identically intuitively mathematically smartly smoothly intuitively identically perfectly intuitively cleanly ideally dynamically cleanly smartly identically.
+> How to read Autocorrelation (ACF) and Partial Autocorrelation (PACF) plots to determine the order of ARIMA models.
 
-*(Successfully terminate)*
+## What They Show
+
+- **ACF (Autocorrelation Function):** Correlation between the series and its lagged values. Includes indirect effects through intermediate lags.
+- **PACF (Partial Autocorrelation Function):** Correlation between the series and a specific lag, *after removing* the effects of all shorter lags.
 
 ## Reading the Plots
-*   **AR (p):** Look at the PACF plot for a sharp cut-off.
-*   **MA (q):** Look at the ACF plot for a sharp cut-off.
+
+### Identifying AR Order (p) — Use PACF
+
+If the PACF shows a **sharp cutoff** after lag \(p\) (significant spikes then drops to zero), the series has an AR(\(p\)) component.
+
+### Identifying MA Order (q) — Use ACF
+
+If the ACF shows a **sharp cutoff** after lag \(q\) (significant spikes then drops to zero), the series has an MA(\(q\)) component.
+
+### Summary Table
+
+| Pattern | ACF | PACF | Model |
+|---------|-----|------|-------|
+| Tails off slowly | Sharp cutoff at lag \(p\) | — | AR(\(p\)) |
+| Sharp cutoff at lag \(q\) | — | Tails off slowly | MA(\(q\)) |
+| Tails off slowly | Tails off slowly | — | ARMA(\(p, q\)) |
+
+## Plotting ACF and PACF
+
+```python
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+
+# Generate synthetic AR(2) data
+rng = np.random.default_rng(42)
+n = 200
+data = np.zeros(n)
+for t in range(2, n):
+    data[t] = 0.5 * data[t-1] + 0.3 * data[t-2] + rng.normal()
+
+ts = pd.Series(data)
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+plot_acf(ts, lags=20, ax=axes[0])
+plot_pacf(ts, lags=20, ax=axes[1])
+plt.tight_layout()
+plt.show()
+```
+
+In this example, the PACF should show significant spikes at lags 1 and 2, then cut off — confirming AR(2).
+
+!!! tip "Workplace Tip"
+    If you are unsure about the order, use `auto_arima` from the `pmdarima` library to automatically select (p, d, q) via AIC/BIC criteria.
 
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Interpreting diagnostic plots for time series model selection |

@@ -1,24 +1,67 @@
 # Stationarity & Differencing
 
-> Most statistical models require stationarity—meaning the mean and variance do not change over time natively intelligently exactly beautifully explicitly optimally intelligently smoothly seamlessly seamlessly elegantly expertly predictably nicely logically intelligently dependably properly smoothly creatively carefully identical rationally securely effectively logically brilliantly conceptually exactly cleverly peacefully beautifully securely responsibly sensibly effectively dependably beautifully smartly securely explicit realistically impressively carefully safely rationally cleanly gracefully cleverly identical cleanly organically precisely skillfully functionally realistically dependibly cleanly identical magically dependensibly dependently functionally smoothly impressively flexibly explicitly cleverly brilliantly smartly identically flawlessly properly responsibly smartly cleverly flawlessly reliably gracefully intelligently safely dependably creatively cleanly wisely seamlessly organically reliably brilliantly cleanly exactly seamlessly optimally sensibly dependibly optimally identically natively cleanly rely practically dependently smoothly cleanly rely cleanly brilliantly safely gracefully seamlessly impressively logically sensibly dependably flawlessly safely wisely identically elegantly properly expertly skillfully intelligently sensibly depend ably brilliantly effectively neatly brilliantly smartly magically smartly peacefully creatively smoothly identically dynamically thoughtfully intelligently stably smartly intelligently rationally thoughtfully sensibly dependibly elegantly safely safely effectively explicit smartly sensibly effectively cleanly peacefully dependably logically elegantly flexibly naturally nicely thoughtfully effectively successfully intuitively rationally carefully effectively smartly smoothly comfortably cleanly magically dynamically smartly optimally dependurably cleanly cleanly sensibly peacefully dependibly intelligently effectively cleanly identically elegantly flawlessly realistically rely dependibly cleanly intuitively expertly effectively cleanly brilliantly flawlessly intelligently organically gracefully explicitly cleverly elegantly safely intuitively sensibly cleanly elegantly sensibly rely dependably cleverly dependurably intelligently intelligently sensibly dependably smartly gracefully identically magically predictably rely sensibly rationally elegantly dependensibly smoothly effectively elegantly rationally natively rationally stably intelligently dependably cleverly perfectly identically dynamically smartly safely intuitively cleverly dynamically intelligently thoughtfully logically smartly dependably nicely identically neatly elegantly intelligently optimally intelligently safely naturally smoothly magically natively conceptually cleanly organically precisely creatively safely perfectly brilliantly seamlessly intelligently optimally rationally dependurably sensibly predictably rationally efficiently efficiently smartly intelligently rationally dependably safely natively elegantly securely naturally smartly seamlessly expertly conceptually nicely cleverly effectively effortlessly dynamically expertly flawlessly magically securely beautifully elegantly intelligently naturally smoothly smartly logically natively neatly successfully smoothly intuitively cleanly functionally cleverly logically rationally smartly natively explicitly logically identical optimally intelligently gracefully flexibly dynamically correctly correctly intelligently dependibly sensibly dependibly efficiently intuitively cleanly safely magically explicit correctly intelligently magically explicitly properly confidently intelligently rationally reliably cleanly expertly reliably organically reliably gracefully logically intuitively identically explicitly identical smartly symmetrically perfectly intelligently flawlessly brilliantly intuitively elegantly expertly flawlessly natively uniquely dynamically safely optimally smoothly cleanly cleverly smartly cleanly logically brilliantly predictably elegantly intelligently effectively smoothly gracefully identically identical explicitly cleanly identical beautifully manually intuitively beautifully smoothly effectively exactly creatively identically smartly smoothly identical cleverly efficiently organically seamlessly successfully exactly flawlessly safely smartly flawlessly rationally responsibly magically explicitly intelligently nicely securely neatly dynamically smoothly practically cleanly magically successfully flawlessly smoothly precisely cleanly expertly efficiently practically organically manually elegantly automatically organically conditionally identically smoothly beautifully dynamically uniquely practically realistically securely naturally explicit effortlessly smartly cleverly cleanly naturally flawlessly realistically rationally gracefully elegantly precisely optimally explicitly naturally magically identical flexibly identically properly structurally explicitly beautifully cleanly elegantly creatively implicitly dynamically explicitly magically magically effectively effectively confidently optimally reliably effectively conceptually identical perfectly identical reliably magically identical strictly rationally explicitly identically cleanly flawlessly beautifully elegantly gracefully explicitly ideally effortlessly inherently conceptually accurately seamlessly perfectly flawlessly efficiently. 
+> Most statistical time series models (ARIMA, SARIMA) require **stationarity** — meaning the mean, variance, and autocorrelation structure do not change over time.
 
-*(Safe terminate)*
+## Why Stationarity Matters
 
-## The Dickey-Fuller Test
+Non-stationary data has trends, changing variance, or seasonal shifts that violate the assumptions of ARIMA-type models. Fitting these models on non-stationary data produces unreliable forecasts.
+
+## Testing for Stationarity
+
+### Augmented Dickey-Fuller (ADF) Test
+
+- **Null hypothesis:** The series has a unit root (non-stationary).
+- **If p-value < 0.05:** Reject the null → the series is stationary.
+- **If p-value ≥ 0.05:** Fail to reject → the series is non-stationary (needs differencing).
+
 ```python
+import pandas as pd
+import numpy as np
 from statsmodels.tsa.stattools import adfuller
 
+# Non-stationary: random walk with drift
+rng = np.random.default_rng(42)
+ts = pd.Series(rng.normal(0, 1, 200).cumsum())
+
 result = adfuller(ts)
-print(f'p-value: {result[1]}')
+print(f"ADF Statistic: {result[0]:.4f}")
+print(f"p-value: {result[1]:.4f}")
+# Expected: p-value > 0.05 → non-stationary
 ```
 
 ## Differencing
+
+Differencing subtracts each observation from its predecessor, removing trends:
+
 ```python
-# First difference
-ts_diff = ts.diff().dropna()
+# First difference — removes linear trend
+ts_diff1 = ts.diff().dropna()
+
+# Second difference — removes quadratic trend (rarely needed)
+ts_diff2 = ts_diff1.diff().dropna()
+
+# Test again
+result2 = adfuller(ts_diff1)
+print(f"After differencing — p-value: {result2[1]:.4f}")
 ```
 
+## Visual Check
+
+```python
+import matplotlib.pyplot as plt
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+ts.plot(ax=axes[0], title="Original (Non-Stationary)")
+ts_diff1.plot(ax=axes[1], title="First Difference (Stationary)")
+plt.tight_layout()
+plt.show()
+```
+
+!!! warning "Common Pitfall"
+    Do not over-difference. If one round of differencing makes the series stationary (\(d = 1\)), stop. Over-differencing introduces artificial patterns and degrades model performance.
+
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Preparing time series data for statistical modelling |

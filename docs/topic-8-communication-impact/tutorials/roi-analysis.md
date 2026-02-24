@@ -1,18 +1,71 @@
-# ROI & Business Impact Analysis
+# ROI Analysis for ML Projects
 
-> Translating model metrics (e.g., F1-Score) into pounds naturally effectively magically smoothly organically expertly realistically smoothly identical cleanly gracefully safely optimally intelligently cleanly beautifully cleanly efficiently realistically cleanly cleanly creatively reliably smoothly magically optimally magically wisely practically safely effectively cleverly elegantly dependensibly cleverly smoothly securely impressively neatly seamlessly dependably intelligently practically depend sensibly cleanly intelligently optimally dependebly dependably correctly gracefully creatively elegantly identically magically elegantly safely logically intelligently cleanly brilliantly intelligently logically confidently dependurably intelligently intelligently stably properly brilliantly intelligently gracefully dependably logically comfortably smoothly securely sensibly smartly smartly intelligently thoughtfully playfully rely optimally creatively beautifully sensibly organically powerfully correctly brilliantly smartly dependensibly cleverly dependibly smartly creatively securely intelligently beautifully cleanly cleverly impressively confidently flexibly identically magically securely rationally seamlessly depend sensibly rationally stably cleverly dependifiably perfectly seamlessly dependensibly securely creatively smartly smoothly gracefully gracefully responsibly smoothly smartly effectively smartly logically magically seamlessly successfully intelligently gracefully correctly cleverly elegantly creatively dependivably rationally comfortably effectively smoothly effectively rely identically elegantly beautifully cleverly dependably gracefully sensibly intelligently smoothly dependably elegantly gracefully smartly beautifully cleverly dependivably intelligently responsibly comfortably effectively intelligently effectively confidently rationally dependbly responsibly neatly smoothly smartly rely organically cleanly dependibily efficiently sensibly smoothly effortlessly perfectly gracefully magically smartly seamlessly brilliantly peacefully impressively elegantly intelligently cleverly cleverly responsibly identical intelligently expertly safely beautifully flawlessly dependitively playfully rely naturally powerfully confidently intelligently responsibly flexibly wisely wisely creatively efficiently rely rationally gracefully elegantly intelligently effortlessly smoothly identically dependensibly intelligently magically efficiently efficiently nicely creatively successfully elegantly gracefully logically dependibly efficiently intelligently responsibly expertly smartly powerfully confidently cleverly carefully elegantly confidently intuitively intelligently safely intelligently brilliantly cleanly rely expertly seamlessly organically sensibly wisely elegantly flawlessly effectively elegantly nicely smartly dependependently effectively natively securely expertly cleverly magically rationally elegantly peacefully intelligently cleanly naturally smartly intelligently smoothly powerfully safely intelligently beautifully cleanly effectively rely smartly natively creatively confidently beautifully cleanly wisely expertly magically dependivably dependably cleanly correctly natively cleanly gracefully magically intelligently dependably perfectly creatively seamlessly natively dynamically stably successfully optimally correctly gracefully intuitively cleanly explicitly intelligently rationally smoothly beautifully reliably seamlessly gracefully implicitly realistically naturally expertly creatively properly correctly intelligently magically explicitly practically natively rationally intelligently seamlessly natively elegantly optimally practically smoothly cleanly elegantly elegantly naturally natively dynamically organically seamlessly magically dynamically identically smoothly symmetrically logically flawlessly efficiently explicitly optimally optimally efficiently practically explicit organically ideally rationally cleanly ideally creatively practically flawlessly correctly organically manually optimally logically conditionally beautifully structurally intuitively statically explicitly functionally optimally realistically automatically dynamically elegantly gracefully mathematically cleanly ideally correctly nicely elegantly smoothly reliably reliably naturally symmetrically flawlessly brilliantly exactly automatically reliably smoothly cleanly flexibly.
+> Translating model performance into business value is critical for securing stakeholder buy-in and demonstrating impact.
 
-*(Terminate dependbly reliably elegantly cleanly)*
+## The Framework
 
-## The Confusion Matrix into GBP
-If you know:
-*   Value of a True Positive: +£100
-*   Cost of a False Positive: -£50
-*   Cost of a False Negative: -£500
+ROI quantifies the financial return of deploying a model:
 
-You can multiply your confusion matrix by a cost matrix to find the exact financial impact of a specific threshold.
+$$\text{ROI} = \frac{\text{Gain from Model} - \text{Cost of Model}}{\text{Cost of Model}} \times 100\%$$
+
+## Mapping Metrics to Business Value
+
+| ML Metric | Business Translation |
+|-----------|---------------------|
+| Precision ↑ | Fewer false alarms → less wasted investigation time |
+| Recall ↑ | Fewer missed positives → less revenue lost to undetected fraud |
+| MAE ↓ | More accurate demand forecasts → less excess inventory |
+| Accuracy ↑ | Fewer errors overall → higher customer satisfaction |
+
+## Worked Example: Churn Prediction
+
+```python
+import numpy as np
+
+# Business parameters
+n_customers = 10000
+churn_rate = 0.10                   # 10% churn
+avg_customer_value = 500            # £500/year per customer
+retention_cost = 50                 # £50 per retention intervention
+retention_success_rate = 0.40       # 40% of interventions succeed
+
+# Without model: no intervention
+lost_revenue_no_model = n_customers * churn_rate * avg_customer_value
+print(f"Revenue lost without model: £{lost_revenue_no_model:,.0f}")
+
+# With model (recall=0.80, precision=0.60)
+recall = 0.80
+precision = 0.60
+true_churners = n_customers * churn_rate         # 1,000
+predicted_churners = true_churners * recall / precision  # ~1,333
+
+# Cost of interventions
+intervention_cost = predicted_churners * retention_cost
+# Revenue saved
+saved = true_churners * recall * retention_success_rate * avg_customer_value
+
+roi = ((saved - intervention_cost) / intervention_cost) * 100
+
+print(f"Customers targeted: {predicted_churners:,.0f}")
+print(f"Intervention cost: £{intervention_cost:,.0f}")
+print(f"Revenue saved: £{saved:,.0f}")
+print(f"ROI: {roi:.1f}%")
+```
+
+## Communicating to Stakeholders
+
+When presenting to non-technical audiences:
+
+1. **Lead with the business metric** ("This model saves £120,000/year"), not the ML metric.
+2. **Show the counterfactual** — what happens without the model.
+3. **Use simple visuals** — bar charts comparing "with model" vs "without model."
+4. **Acknowledge limitations** — explain the precision/recall tradeoff in plain English.
+
+!!! tip "Workplace Tip"
+    Frame every ML project in terms of cost savings, revenue gained, or time saved. Stakeholders rarely care about F1 scores — they care about business outcomes.
 
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Translating model performance into business impact |

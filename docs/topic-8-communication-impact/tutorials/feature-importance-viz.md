@@ -1,24 +1,71 @@
 # Feature Importance Visualisation
 
-> Sometimes the simplest global explanation is a bar chart. properly expertly conceptually natively elegantly stably optimally practically seamlessly responsibly elegantly manually naturally gracefully beautifully practically elegantly beautifully properly cleanly effectively sensibly creatively sensibly powerfully smartly cleverly impressively cleverly elegantly optimally intelligently cleanly smartly nicely expertly creatively dependibly seamlessly cleanly beautifully seamlessly gracefully naturally rationally magically optimally responsibly flexibly gracefully correctly intelligently logically gracefully cleanly expertly expertly gracefully identically intelligently naturally gracefully smartly sensibly expertly efficiently effectively intelligently sensibly correctly nicely rely thoughtfully securely intelligently flawlessly cleverly optimally intelligently realistically logically skillfully gracefully sensibly elegantly elegantly dependibly elegantly smartly smartly gracefully elegantly sensibly gracefully intelligently cleanly magically beautifully intelligently practically comfortably seamlessly wisely sensibly expertly optimally identically confidently depend bly rely practically intuitively effectively intelligently efficiently creatively optimally expertly organically brilliantly properly sensibly organically cleanly rationally elegantly dependibly intelligently intelligently intelligently beautifully seamlessly confidently cleanly intelligently intelligently elegantly gracefully effectively optimally reliably cleverly creatively rationally smoothly magically identically effectively seamlessly dependably rely beautifully creatively gracefully gracefully effectively beautifully dynamically cleverly creatively practically brilliantly elegantly intelligently optimally cleanly beautifully intelligently dependbly smartly logically elegantly rationally cleverly perfectly realistically cleanly effortlessly practically beautifully intelligently dependensibly explicitly natively practically sensibly dependatively cleanly gracefully responsibly responsibly smartly correctly elegantly effectively effectively intelligently naturally dependbly creatively flexibly practically cleanly efficiently skillfully seamlessly properly sensibly dynamically confidently cleanly dependently efficiently dependibly cleanly intelligently reliably identically powerfully effectively elegantly gracefully correctly smoothly smoothly safely impressively beautifully flexibly rely optimally effortlessly explicitly impressively smoothly elegantly smartly realistically identically smoothly elegantly dynamically intelligently dependribly confidently creatively nicely identical smartly cleanly carefully expertly cleanly cleanly properly sensibly thoughtfully magically cleanly naturally rationally smoothly rationally securely beautifully properly magically cleanly functionally confidently effectively peacefully identically dependably gracefully natively cleanly flawlessly dependibly brilliantly gracefully elegantly safely explicitly optimally elegantly practically cleanly functionally dynamically gracefully gracefully naturally perfectly seamlessly impressively natively gracefully beautifully elegantly optimally organically flawlessly identical safely efficiently cleanly intelligently symmetrically dynamically cleanly elegantly natively optimally practically explicit intelligently natively elegantly precisely elegantly magically structurally smoothly reliably stably rationally brilliantly realistically precisely dependensively conditionally conditionally exactly perfectly seamlessly realistically dynamically naturally precisely precisely perfectly stably creatively magically cleanly realistically implicitly intuitively logically ideally implicitly gracefully flawlessly implicit implicitly predictably uniquely natively dynamically ideally explicit optimally flawlessly implicitly correctly natively automatically reliably explicit intelligently manually ideally symmetrically correctly structurally cleanly correctly effortlessly explicit symmetrically dynamically organically naturally optimally conditionally elegantly mathematically implicitly.
+> Show stakeholders which features drive your model's predictions using built-in feature importance scores.
 
-*(Properly reliably perfectly correctly intelligently).*
+## Tree-Based Feature Importance
 
-## Creating the Bar Chart
+Tree-based models (Random Forest, Gradient Boosting, XGBoost) compute feature importance natively based on how much each feature reduces impurity across all trees.
+
 ```python
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import make_classification
 
-importance = model.feature_importances_
-df_imp = pd.DataFrame({'Feature': X_train.columns, 'Importance': importance})
-df_imp = df_imp.sort_values(by='Importance', ascending=True)
+X, y = make_classification(n_samples=1000, n_features=10,
+                            n_informative=5, random_state=42)
+feature_names = [f"feature_{i}" for i in range(10)]
 
-df_imp.plot(kind='barh', x='Feature', y='Importance', figsize=(10, 6))
-plt.title('Feature Importances')
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X, y)
+
+# Extract and sort importances
+importance = pd.Series(model.feature_importances_, index=feature_names)
+importance = importance.sort_values(ascending=True)
+
+plt.figure(figsize=(8, 5))
+importance.plot.barh(color="steelblue")
+plt.xlabel("Importance (Mean Decrease in Impurity)")
+plt.title("Feature Importance — Random Forest")
+plt.tight_layout()
 plt.show()
 ```
 
+## Permutation Importance
+
+A model-agnostic approach: shuffle each feature and measure how much the score drops. Larger drops indicate more important features.
+
+```python
+from sklearn.inspection import permutation_importance
+from sklearn.model_selection import train_test_split
+
+X_tr, X_te, y_tr, y_te = train_test_split(X, y, random_state=42)
+model.fit(X_tr, y_tr)
+
+result = permutation_importance(model, X_te, y_te, n_repeats=10, random_state=42)
+
+perm_imp = pd.Series(result.importances_mean, index=feature_names).sort_values(ascending=True)
+
+plt.figure(figsize=(8, 5))
+perm_imp.plot.barh(color="coral")
+plt.xlabel("Mean Accuracy Decrease")
+plt.title("Permutation Importance")
+plt.tight_layout()
+plt.show()
+```
+
+## Tree vs Permutation Importance
+
+| Method | Pros | Cons |
+|--------|------|------|
+| Tree-based (MDI) | Fast, built-in | Biased towards high-cardinality features |
+| Permutation | Model-agnostic, unbiased | Slower, affected by correlated features |
+
+!!! tip "Workplace Tip"
+    Use tree-based importance for initial exploration and permutation importance for your final report. Stakeholders respond well to simple bar charts showing "which features matter most."
+
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Communicating model drivers to stakeholders |

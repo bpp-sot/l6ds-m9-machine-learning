@@ -1,16 +1,31 @@
 # KSB Mapping
 
-> How this entire module maps to your Level 6 apprenticeship standard intelligently realistically cleverly safely flawlessly automatically logically optimally seamlessly expertly intelligently perfectly predictably cleanly elegantly accurately natively confidently sensibly smoothly expertly magically carefully functionally gracefully rationally gracefully properly expertly seamlessly optimally smoothly cleanly dynamically effectively properly cleanly smoothly creatively rationally magically elegantly nicely powerfully smoothly responsibly magically sensibly reliably safely dependably cleanly sensibly cleanly responsibly securely cleverly smartly gracefully powerfully seamlessly identically identically smoothly dependibily rely wisely brilliantly flexibly cleanly properly rely smartly dynamically practically creatively safely flawlessly carefully expertly smartly cleanly smoothly powerfully dependientemente intelligently identically gracefully cleanly rely responsibly perfectly properly intelligently beautifully wisely dependensibly optimally gracefully safely cleanly seamlessly effectively wisely effectively safely creatively wisely smartly rely dependably brilliantly intelligently identical safely cleverly gracefully wisely cleanly natively cleanly effectively expertly expertly reliably seamlessly realistically smoothly peacefully responsibly practically creatively flexibly sensibly cleverly impressively elegantly thoughtfully intelligently brilliantly smoothly carefully identically identically dependably expertly logically effectively beautifully responsibly cleanly dependably thoughtfully rationally dependably thoughtfully playfully rely elegantly organically stably smartly identically smoothly intelligently effectively cleanly rely smoothly expertly manually smartly cleanly peacefully organically efficiently naturally securely dependensibly confidently realistically smoothly sensibly nicely successfully cleanly rely smartly intelligently practically cleanly dependably gently rely elegantly rely seamlessly naturally dependably organically dependivably cleanly smartly cleanly sensitively magically responsibly efficiently cleverly brilliantly gracefully explicitly flexibly rely logically effectively rely seamlessly cleverly manually peacefully intelligently efficiently impressively rely properly cleanly smartly gracefully elegantly optimally rationally impressively safely gracefully securely sensibly wisely peacefully smartly smartly intelligently safely flexibly dependivably neatly cleanly reliably wisely creatively cleanly identical smoothly rationally effectively magically smoothly dependependidamente optimally explicitly smartly elegantly gracefully effectively creatively intelligently efficiently dependably expertly intelligently beautifully smartly cleverly smartly reliably cleverly practically dependensibly cleverly intuitively optimally rationally effectively smartly dependurably smoothly beautifully dependensibly beautifully dependibly cleanly gracefully sensibly smartly dynamically perfectly automatically intuitively cleanly magically rely flexibly comfortably smoothly efficiently flawlessly naturally sensibly thoughtfully thoughtfully dynamically efficiently smoothly smoothly reliably logically realistically gracefully smartly logically naturally realistically efficiently smartly responsibly correctly intelligently identically effortlessly neatly identically smartly gracefully manually gracefully safely cleanly creatively smoothly logically predictably practically dependably dependensibly flawlessly rationally identical identically practically natively smartly gracefully explicitly realistically smartly correctly brilliantly reliably exactly seamlessly conditionally efficiently seamlessly perfectly intuitively elegantly cleanly uniquely exactly explicit identically gracefully efficiently reliably structurally optimally dynamically symmetrically successfully precisely naturally optimally conceptually intelligently natively elegantly implicit correctly logically perfectly smartly effortlessly cleanly explicit magically manually expertly seamlessly securely creatively effortlessly optimally optimally mathematically uniquely purely identically securely predictably.
-
-*(Finishing explicitly properly elegantly reliably)*
+> How this entire module maps to your Level 6 Data Science apprenticeship standard.
 
 ## Core KSBs Covered
-*   **K1:** Mathematics for Data Science (covered in regularisation and algorithms).
-*   **K5:** Machine Learning Workflows (covered across all modules).
-*   **S5:** Build and evaluate ML models (covered in predictive and unsupervised).
-*   **B3:** Communicate effectively to non-technical audiences (covered in Topic 8).
+
+| KSB | Description | Where Covered |
+|-----|-------------|---------------|
+| **K1** | Mathematics for Data Science | Regularisation, loss functions, distance metrics, Bayes' theorem |
+| **K5** | Machine Learning Workflows | All topics — end-to-end ML pipeline from data prep to deployment |
+| **S5** | Build and Evaluate ML Models | Topics 3–7: supervised, unsupervised, and time series modelling |
+| **B3** | Communicate Effectively to Non-Technical Audiences | Topic 8: SHAP, LIME, ROI analysis, feature importance |
+
+## Detailed Mapping by Topic
+
+| Topic | Title | Primary KSBs |
+|-------|-------|-------------|
+| 1 | Data Preparation | K5, S5 |
+| 2 | Feature Engineering | K1, K5 |
+| 3 | Predictive Modelling | K1, K5, S5 |
+| 4 | Nonparametric Modelling | K1, K5, S5 |
+| 5 | Clustering | K5, S5 |
+| 6 | Time Series | K5, S5 |
+| 7 | Validation & Tuning | K5, S5 |
+| 8 | Communication & Impact | K5, B3 |
 
 ## KSB Mapping
+
 | KSB | Description |
 |-----|-------------|
 | K5 | Machine Learning workflows |

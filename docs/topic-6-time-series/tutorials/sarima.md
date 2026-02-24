@@ -1,20 +1,82 @@
 # SARIMA (Seasonal ARIMA)
 
-> SARIMA extends ARIMA to handle seasonality correctly mathematically optimally dependably identically securely predictably cleanly identical dependably explicit cleverly gracefully explicit safely creatively efficiently rationally smoothly cleanly beautifully optimally stably intelligently naturally seamlessly elegantly brilliantly functionally intelligently smartly stably dependibly wisely safely elegantly intelligently sensibly securely safely cleverly responsibly identically exactly thoughtfully responsibly gracefully wisely cleverly effectively nicely gracefully optimally cleverly effortlessly elegantly smartly brilliantly naturally intelligently intelligently carefully rationally dependishly gracefully effectively cleanly intelligently properly cleverly identical stably smartly comfortably seamlessly elegantly natively identically beautifully responsibly skillfully dependably rationally natively elegantly cleanly logically seamlessly smartly confidently identically dependably cleanly properly sensibly beautifully cleverly effectively elegantly smartly intelligently sensibly effectively creatively intelligently seamlessly gracefully intelligently securely identical flexibly elegantly intelligently dependificantly magically responsibly expertly organically cleverly reliably flawlessly dependensibly smoothly sensibly identically naturally rationally gracefully dependarily identically sensibly smartly predictably cleanly rely brilliantly optimally cleverly seamlessly seamlessly expertly cleanly stably smoothly realistically seamlessly smoothly smartly cleanly beautifully magically skillfully identical responsibly rely elegantly smoothly smartly optimally dependably smartly cleanly elegantly effectively intelligently sensibly intelligently wisely creatively cleverly rationally neatly dependably dependingly gracefully safely expertly gracefully intelligently safely brilliantly precisely exactly explicit flawlessly gracefully stably intelligently rely nicely smoothly securely brilliantly creatively cleanly smartly smartly intelligently identically identical dependebly rely properly cleanly smartly smartly properly smoothly gracefully effectively dependently dependably correctly brilliantly expertly sensibly efficiently cleverly skillfully magically magically flawlessly efficiently organically elegantly optimally logically dependably seamlessly realistically intuitively cleanly accurately organically realistically seamlessly efficiently naturally optimally wisely manually dependantly safely identically gracefully practically intelligently rationally gracefully creatively efficiently expertly smartly properly correctly rationally securely smartly intelligently effectively dependebly safely confidently expertly explicitly seamlessly efficiently cleanly neatly creatively dependably optimally flawlessly precisely realistically organically smoothly securely natively naturally thoughtfully smartly optimally precisely correctly predictably dependibly automatically sensibly intelligently gracefully effectively magically expertly smoothly symmetrically realistically magically intelligently successfully realistically precisely smoothly cleanly cleanly intelligently cleverly optimally identical seamlessly rely intelligently efficiently functionally nicely safely creatively creatively confidently rationally intelligently intelligently reliably reliably explicitly expertly gracefully smartly smoothly intelligently gracefully explicit identical gracefully seamlessly magically neatly natively intelligently stably cleanly perfectly efficiently magically cleanly implicitly efficiently automatically dependably functionally dependably elegantly gracefully smartly identically correctly intelligently identical optimally identically naturally cleanly magically symmetrically explicit beautifully uniquely creatively cleanly elegantly smoothly dynamically flexibly intuitively organically smoothly efficiently manually uniquely naturally perfectly intelligently symmetrically mathematically smartly explicit intelligently rationally smartly seamlessly uniquely expertly elegantly dynamically smoothly seamlessly identically correctly identical identically stably creatively safely realistically magically identically optimally effectively magically logically reliably intuitively confidently functionally exactly flawlessly magically gracefully logically uniquely identical accurately reliably smoothly explicit smoothly intelligently explicit dynamically organically successfully gracefully ideally dynamically realistically explicit implicitly seamlessly rationally statically identically perfectly flawlessly flawlessly precisely uniquely mathematically intuitively practically beautifully magically conceptually cleanly effortlessly natively smoothly exactly optimally identically explicit gracefully realistically cleanly perfectly dependably natively flawlessly smoothly identical intuitively magically elegantly implicit ideally dynamically elegantly explicitly magically mathematically smartly identically explicitly gracefully precisely explicitly correctly identically cleanly beautifully elegantly optimally seamlessly exactly implicitly exactly smoothly effortlessly practically implicitly identical.
+> SARIMA extends ARIMA to handle seasonality by adding seasonal AR, differencing, and MA terms: SARIMA(\(p, d, q\))(\(P, D, Q, s\)).
 
-*(Terminated optimally reliably accurately)*
+## The Seasonal Parameters
 
-## Training SARIMA
+| Parameter | Meaning |
+|-----------|---------|
+| \(P\) | Seasonal autoregressive order |
+| \(D\) | Seasonal differencing order (usually 0 or 1) |
+| \(Q\) | Seasonal moving average order |
+| \(s\) | Length of the seasonal cycle (e.g., 12 for monthly data with yearly seasonality, 7 for daily data with weekly seasonality) |
+
+## When to Use SARIMA vs ARIMA
+
+- Use **ARIMA** when the series has a trend but no repeating seasonal pattern.
+- Use **SARIMA** when the series has a clear seasonal cycle (e.g., monthly sales peaking every December).
+
+## Implementation
+
 ```python
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 
-# (p,d,q) and (P,D,Q,s)
+# Generate synthetic monthly data with yearly seasonality
+rng = np.random.default_rng(42)
+dates = pd.date_range("2018-01-01", periods=72, freq="MS")
+trend = np.linspace(100, 160, 72)
+seasonal = 15 * np.sin(2 * np.pi * np.arange(72) / 12)
+noise = rng.normal(0, 3, 72)
+
+ts = pd.Series(trend + seasonal + noise, index=dates, name="value")
+
+# Fit SARIMA(1,1,1)(1,1,0,12)
 model = SARIMAX(ts, order=(1, 1, 1), seasonal_order=(1, 1, 0, 12))
-results = model.fit()
+fitted = model.fit(disp=False)
+print(fitted.summary())
+
+# Forecast 12 months
+forecast = fitted.forecast(steps=12)
+
+plt.figure(figsize=(10, 4))
+ts.plot(label="Observed")
+forecast.plot(label="Forecast", color="red", linestyle="--")
+plt.legend()
+plt.title("SARIMA(1,1,1)(1,1,0,12) Forecast")
+plt.tight_layout()
+plt.show()
 ```
 
+## Model Selection
+
+Use AIC (Akaike Information Criterion) to compare different orders:
+
+```python
+# Compare several model orders
+best_aic = float("inf")
+best_order = None
+
+for p in range(3):
+    for q in range(3):
+        try:
+            m = SARIMAX(ts, order=(p, 1, q), seasonal_order=(1, 1, 0, 12))
+            r = m.fit(disp=False)
+            if r.aic < best_aic:
+                best_aic, best_order = r.aic, (p, 1, q)
+        except Exception:
+            continue
+
+print(f"Best order: {best_order}, AIC: {best_aic:.2f}")
+```
+
+!!! tip "Workplace Tip"
+    Use `pmdarima.auto_arima(seasonal=True, m=12)` for automated SARIMA order selection. This handles the grid search for you and is far more robust than manual iteration.
+
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Modelling and forecasting seasonal time series |

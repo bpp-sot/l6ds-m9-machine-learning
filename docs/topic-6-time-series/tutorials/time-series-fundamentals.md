@@ -1,22 +1,70 @@
 # Time Series Fundamentals
 
-> A time series is just data ordered by time. Analyzing it means understanding the past to predict the future intelligently elegantly smoothly efficiently cleanly sensibly intuitively intelligently dependably securely safely seamlessly identical smoothly intelligently securely reliably properly realistically flawlessly cleverly flawlessly smartly natively intelligently cleanly securely dependably intelligently naturally practically identical cleanly rationally precisely rationally dependably carefully correctly properly explicitly magically naturally dependingly smartly responsibly brilliantly flawlessly safely gracefully cleverly intelligently intuitively expertly realistically effectively optimally stably realistically identically rely expertly securely dependably dynamically expertly natively gracefully peacefully naturally perfectly seamlessly impressively natively correctly cleanly cleanly smartly intuitively securely elegantly smartly responsibly logically smartly wisely cleverly beautifully magically smoothly creatively precisely logically safely elegantly peacefully dependibly securely gracefully smartly properly magically securely smoothly dependably smartly beautifully intelligently organically flexibly dependibly correctly peacefully elegantly smartly stably gracefully brilliantly brilliantly brilliantly effectively natively seamlessly identically carefully seamlessly smoothly cleverly logically sensibly dependibly elegantly sensibly wisely cleanly intelligently gracefully gracefully reliably intelligently seamlessly identically magically seamlessly cleanly peacefully neatly cleanly gracefully identical elegantly flawlessly stably precisely brilliantly successfully expertly intelligently smartly elegantly dependably cleverly wisely smoothly smartly predictably gracefully cleanly identical cleanly reliably reliably cleverly creatively effectively smoothly cleverly magically responsibly elegantly smartly rely gracefully logically brilliantly identical securely explicit magically naturally correctly logically identically identical identical effectively peacefully smartly intuitively identically successfully optimally confidently rationally creatively dependably logically practically efficiently exactly expertly efficiently rationally intelligently intelligently naturally dynamically logically nicely smartly dependably intelligently beautifully seamlessly automatically gracefully correctly seamlessly sensibly intelligently flexibly smoothly conceptually rationally rationally smoothly realistically practically identical organically intuitively successfully seamlessly dependibly peacefully flawlessly conceptually intelligently intuitively intelligently flawlessly cleanly effectively logically symmetrically flawlessly rationally intelligently magically seamlessly smoothly mathematically precisely rely dependribly naturally optimally dependably smartly reliably beautifully efficiently conceptually cleanly elegantly expertly cleverly beautifully cleanly gracefully mathematically perfectly rely natively naturally smartly smartly naturally efficiently responsibly identical correctly elegantly dependurably safely magically safely creatively dynamically cleverly stably accurately rationally securely seamlessly intelligently explicitly perfectly mathematically flawlessly explicitly precisely beautifully natively cleanly beautifully cleverly confidently cleanly reliably intelligently perfectly confidently peacefully mathematically optimally rationally expertly flawlessly accurately brilliantly effortlessly cleanly uniquely organically dynamically conceptually explicit identically optimally securely seamlessly smoothly efficiently smartly neatly effectively intuitively smartly explicit perfectly accurately cleanly cleverly naturally flawlessly sensibly correctly seamlessly intuitively cleanly brilliantly cleanly seamlessly securely sensibly intelligently smartly intelligently seamlessly sensibly nicely correctly smoothly magically organically reliably natively ideally identically organically creatively organically intelligently beautifully mathematically expertly creatively elegantly smartly magically intelligently ideally smartly intuitively symmetrically organically mathematically logically elegantly stably magically effectively expertly cleanly smartly successfully intelligently perfectly beautifully beautifully rationally explicitly identical logically seamlessly explicit explicitly magically explicitly flawlessly natively realistically practically cleverly ideally organically intelligently structurally rationally functionally brilliantly expertly predictably perfectly correctly safely smartly logically magically creatively smartly seamlessly magically identically precisely flawlessly smoothly efficiently identically rationally explicit identically stably correctly uniquely organically precisely perfectly realistically creatively dynamically natively seamlessly explicit statically creatively effectively cleanly realistically cleanly flawlessly.
+> A time series is data ordered by time. Analysing it means understanding the past to predict the future.
 
-*(Safe terminate)*
+## What Makes Time Series Special?
 
-## Creating a Time Series
+Unlike tabular ML data, time series has a **temporal dependency** — the order of observations matters. You cannot shuffle rows without destroying information.
+
+## Core Components
+
+Every time series can be thought of as a combination of:
+
+| Component | Description | Example |
+|-----------|-------------|---------|
+| **Trend** | Long-term upward or downward movement | Increasing global temperatures |
+| **Seasonality** | Repeating pattern at fixed intervals | Ice cream sales peaking every summer |
+| **Noise** | Random, unpredictable variation | Daily stock price fluctuations |
+
+## Creating a Time Series in Pandas
+
 ```python
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
-# Create a date range
-dates = pd.date_range(start='2024-01-01', periods=100, freq='D')
-values = np.random.randn(100).cumsum()
+# Create a date range as the index
+dates = pd.date_range(start="2024-01-01", periods=365, freq="D")
 
-ts = pd.Series(values, index=dates)
+# Simulate: trend + seasonality + noise
+rng = np.random.default_rng(42)
+trend = np.linspace(100, 150, 365)
+seasonality = 10 * np.sin(2 * np.pi * np.arange(365) / 365)
+noise = rng.normal(0, 3, 365)
+
+ts = pd.Series(trend + seasonality + noise, index=dates, name="value")
+
+ts.plot(figsize=(10, 4), title="Synthetic Time Series")
+plt.ylabel("Value")
+plt.tight_layout()
+plt.show()
 ```
 
+## Key Pandas Operations
+
+```python
+# Resample to monthly average
+monthly = ts.resample("MS").mean()
+
+# Rolling 7-day moving average
+rolling = ts.rolling(window=7).mean()
+
+# Shift (lag) the series
+lagged = ts.shift(1)  # Previous day's value
+```
+
+## Important Rules
+
+1. **Never shuffle** time series data.
+2. **Respect temporal order** when splitting into train/test sets.
+3. **Always set the date as the index** and ensure it is a `DatetimeIndex`.
+4. **Check for missing timestamps** — gaps break most models.
+
+!!! tip "Workplace Tip"
+    Always plot your time series first. A simple line chart reveals trends, seasonality, and outliers faster than any statistical test.
+
 ## KSB Mapping
-| KSB | Description |
-|-----|-------------|
-| K5 | Machine Learning workflows |
+
+| KSB | Description | How This Addresses It |
+|-----|-------------|-------------------------------|
+| K5 | Machine Learning workflows | Understanding the fundamentals of time-ordered data |
